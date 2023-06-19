@@ -27,10 +27,11 @@ const Footer = () => {
         flexDirection: "column",
         width: "100%",
         height: "40vh",
-        background: "#26408B",
+        background: "#0072BB",
         justifyContent: "center",
         alignItems: "center",
         padding: "1vw",
+        boxShadow: '0 -10px 50px 10px rgba(0,0,0, 0.5)',
       }}
     >
       <div
@@ -88,10 +89,10 @@ const Footer = () => {
               padding: "1vw 0",
             }}
           >
-            <HashLink style={LinkStyle}>Home</HashLink>
-            <Link style={LinkStyle}>Product</Link>
-            <Link style={LinkStyle}>Shop</Link>
-            <Link style={LinkStyle}>Checkout</Link>
+            <HashLink to="/#home-hero" style={LinkStyle}>Home</HashLink>
+            <Link to="product" style={LinkStyle}>Product</Link>
+            <Link to="shop" style={LinkStyle}>Shop</Link>
+            <Link to="/shop/checkout" style={LinkStyle}>Checkout</Link>
             <Link to="/shop/guide" style={LinkStyle}>
               Panduan Pemesanan
             </Link>

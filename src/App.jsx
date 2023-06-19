@@ -8,6 +8,7 @@ const Shop = lazy(() => import('./pages/Shop'))
 const Product = lazy(() => import('./pages/Product'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Guide = lazy(() => import('./components/shop/guide/Guide'));
+const Checkout = lazy(() => import('./components/shop/checkout/Checkout'));
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="shop" element={<Shop />}>
+            <Route path="checkout" element={<Checkout />}/>
             <Route path="guide" element={<Guide />}/>
           </Route>
           <Route path="product" element={<Product />}></Route>

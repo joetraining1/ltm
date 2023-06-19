@@ -1,4 +1,5 @@
 import React from "react";
+import Milk from '../assets/hero.jpg';
 
 const Hero = () => {
   return (
@@ -6,11 +7,16 @@ const Hero = () => {
       id="home-hero"
       style={{
         width: "100%",
-        height: "94svh",
+        height: "100svh",
         marginTop: "6svh",
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundImage: `url(${Milk})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        boxShadow: '0 10px 50px 10px rgba(0,0,0, 0.2)',
       }}
     >
     <div style={{
@@ -20,7 +26,6 @@ const Hero = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-        Hero
       </div>
     </section>
   );

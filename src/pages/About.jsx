@@ -1,4 +1,5 @@
 import React from "react";
+import Abouts from '../assets/about.png';
 
 const About = () => {
   return (
@@ -10,6 +11,10 @@ const About = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%), url(${Abouts})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <div

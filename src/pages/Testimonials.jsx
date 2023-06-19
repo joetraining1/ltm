@@ -1,4 +1,5 @@
 import React from "react";
+import Testi from '../assets/testi.jpg'
 
 const Testimonials = () => {
   return (
@@ -10,6 +11,10 @@ const Testimonials = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: `url(${Testi})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <div
