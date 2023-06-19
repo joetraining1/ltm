@@ -2,8 +2,8 @@ import { AppBar, Button, Divider } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import Cart from "../shop/cart/Cart";
+import Handler from "../auth/Handler";
 
 const Navbar = () => {
   return (
@@ -31,7 +31,7 @@ const Navbar = () => {
       >
         <HashLink
           to="/#home-hero"
-          style={{ fontWeight: "700", fontSize: "1.7em", color: "#F72585" }}
+          style={{ fontWeight: "700", fontSize: "1.7em", color: "#FF007F" }}
         >
           Marino's
         </HashLink>
@@ -81,12 +81,8 @@ const Navbar = () => {
           Dashboard
         </Link>
         <Divider orientation="vertical" />
-        <Button variant="text">
-          <AccountCircleRoundedIcon />
-        </Button>
-        <Button variant="text">
-          <ShoppingCartRoundedIcon />
-        </Button>
+        <Handler />
+        <Cart mode="one" />
       </div>
     </AppBar>
   );
