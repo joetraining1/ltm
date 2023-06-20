@@ -27,11 +27,11 @@ const Handler = () => {
       <Popover
         id={id}
         open={open}
-        anchorEl={anchorEL}
         onClose={handleClose}
+        anchorEl={anchorEL}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 40,
+          horizontal: -200,
         }}
         slotProps={{
           paper: {

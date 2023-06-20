@@ -18,6 +18,7 @@ const Shop = () => {
         alignItems: "center",
         flexDirection: "column",
         padding: "1vw 0",
+        gap: '1vw'
       }}
     >
       <Typography
@@ -42,10 +43,12 @@ const Shop = () => {
           display: "flex",
           width: "1280px",
           height: "fit-content",
+          gap: '1vw',
+          justifyContent: 'space-between'
         }}
       >
-      <ShopBar />
-        <div>
+        <ShopBar />
+        <div style={{ width: '100%', height: '100%', minHeight: '54svh'}}>
           <Outlet />
         </div>
       </div>
