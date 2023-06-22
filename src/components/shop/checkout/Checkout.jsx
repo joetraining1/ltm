@@ -1,9 +1,46 @@
-import { Button, Card, Divider, Typography } from "@mui/material";
-import React from "react";
+import {
+  Button,
+  Card,
+  Divider,
+  Pagination,
+  PaginationItem,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { H5style, MetaStyle } from "../../../utils/constants";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
+import CheckoutItem from "./CheckoutItem";
 
 const Checkout = () => {
+  const [pageActive, setPageActive] = useState(0);
+  const [datas, setDatas] = useState([...Array(10)]);
+
+  const handleChangePage = (event, value) => {
+    setPageActive(value - 1);
+  };
+
+  const MultiArray = (arr, rows) => {
+    const ArrSlice = arr.reduce((acc, val, ind) => {
+      const currentRow = Math.floor(ind / rows);
+      if (!acc[currentRow]) {
+        acc[currentRow] = [val];
+      } else {
+        acc[currentRow].push(val);
+      }
+      return acc;
+    }, []);
+    const SortedArr = ArrSlice.map((item, index) => {
+      return {
+        pId: index,
+        dataset: item,
+      };
+    });
+
+    return SortedArr;
+  };
+
+  const Hero = MultiArray(datas, 3);
+
   return (
     <div
       style={{
@@ -12,6 +49,7 @@ const Checkout = () => {
         width: "100%",
         height: "fit-content",
         gap: "1vw",
+        marginBottom: "5%",
       }}
     >
       <Typography variant="h4" sx={H5style}>
@@ -21,7 +59,6 @@ const Checkout = () => {
         style={{
           display: "flex",
           justifyContent: "space-evenly",
-          alignItems: "center",
           gap: "1vw",
           width: "100%",
           height: "fit-content",
@@ -31,12 +68,49 @@ const Checkout = () => {
           style={{
             width: "100%",
             height: "fit-content",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1vw",
+            alignItems: "center",
           }}
-        ></div>
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "65svh",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1vw",
+            }}
+          >
+            {Hero.map((item, index) => {
+              if (pageActive === index) {
+                return item.dataset.map((i, ind) => {
+                  return <CheckoutItem key={ind} ind={ind}/>;
+                });
+              }
+              return null;
+            })}
+          </div>
+          <Pagination
+            count={Hero.length}
+            page={pageActive + 1}
+            onChange={handleChangePage}
+            renderItem={(item) => (
+              <PaginationItem
+                {...item}
+                sx={{
+                  fontFamily: "Signika Negative, sans-serif",
+                  fontWeight: "600",
+                }}
+              />
+            )}
+          />
+        </div>
         <Card
           sx={{
             width: "50%",
-            height: "400px",
+            height: "300px",
             padding: "2vw",
             display: "flex",
             flexDirection: "column",
@@ -45,7 +119,7 @@ const Checkout = () => {
           elevation={3}
         >
           <div style={MetaStyle}>
-            <Typography variant="h6" sx={H5style}>
+            <Typography variant="h5" sx={H5style}>
               Total
             </Typography>
             <Typography variant="h5" sx={H5style}>
@@ -53,6 +127,22 @@ const Checkout = () => {
             </Typography>
           </div>
           <Divider />
+          <div style={MetaStyle}>
+            <Typography variant="h6" sx={H5style}>
+              jumlah variant
+            </Typography>
+            <Typography variant="h6" sx={H5style}>
+              2 variant
+            </Typography>
+          </div>
+          <div style={MetaStyle}>
+            <Typography variant="h6" sx={H5style}>
+              jumlah produk
+            </Typography>
+            <Typography variant="h6" sx={H5style}>
+              5 botol
+            </Typography>
+          </div>
           <Button
             variant="contained"
             sx={{

@@ -16,6 +16,12 @@ const Cart = ({ mode }) => {
           <ShoppingCartRoundedIcon />
         </Button>
       ) : null}
+      {mode === 'two' ? (
+        <Button onClick={() => setIsOpen(!isOpen)} variant="contained" sx={{ height: "104%", width: '15%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Signika Negative, sans-serif', fontWeight: '600', fontSize: '1.1em' }}>
+        <ShoppingCartRoundedIcon />
+        CART
+      </Button>
+      ) : null}
       <Drawer
         open={isOpen}
         onClose={handleClose}

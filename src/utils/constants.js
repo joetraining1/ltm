@@ -118,3 +118,14 @@ export const NoRek = [
         value: 'BCA - 2124696788',
     },
 ]
+
+export const FilterProduk = [
+    {
+        id: 1,
+        value: 'Susu Pasteurisasi',
+    },
+    {
+        id: 2,
+        value: 'Yoghurt',
+    },
+]
