@@ -4,6 +4,14 @@ import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRound
 import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
 import AddCardRoundedIcon from '@mui/icons-material/AddCardRounded';
 import LocalShippingRoundedIcon from '@mui/icons-material/LocalShippingRounded';
+import PeopleOutlineRoundedIcon from '@mui/icons-material/PeopleOutlineRounded';
+import DvrRoundedIcon from "@mui/icons-material/DvrRounded";
+import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
+import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
+import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import AtmOutlinedIcon from '@mui/icons-material/AtmOutlined';
 
 const colorHex = {
     green: '#00ff00'
@@ -157,5 +165,56 @@ export const FilterPesanan = [
     {
         id: 7,
         value: 'SHIPPING',
+    },
+]
+
+export const DashMenu = [
+    {
+        id: 1,
+        title: 'Products',
+        to: 'products',
+        icon: LocalOfferOutlinedIcon
+    },
+    {
+        id: 2,
+        title: 'Orders',
+        to: 'orders',
+        icon: DvrRoundedIcon
+    },
+    {
+        id: 3,
+        title: 'Carts',
+        to:'carts',
+        icon: ShoppingCartOutlinedIcon
+    },
+    {
+        id: 4,
+        title: 'Categories',
+        to: 'categories',
+        icon: MoreRoundedIcon
+    },
+    {
+        id: 5,
+        title: 'Banks',
+        to: 'banks',
+        icon: AccountBalanceRoundedIcon
+    },
+    {
+        id: 6,
+        title: 'Status',
+        to: 'status',
+        icon: HelpOutlineRoundedIcon
+    },
+    {
+        id: 7,
+        title: 'payments',
+        to: 'payments',
+        icon: AtmOutlinedIcon
+    },
+    {
+        id: 8,
+        title: 'Users',
+        to: 'users',
+        icon: PeopleOutlineRoundedIcon
     },
 ]

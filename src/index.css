@@ -7,3 +7,30 @@
   text-decoration: none;
   box-sizing: border-box;
 }
+
+*::-webkit-scrollbar,
+*::-webkit-scrollbar-track{
+  background-color: #fff;
+  width: 0.5vw;
+}
+
+*::-webkit-scrollbar-thumb{
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 1vw;
+}
+
+.horizontalScroll{
+  display: grid;
+  grid-auto-flow: column;
+  width: 980px;
+  height: 400px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  padding: 1vw;
+  gap: 1vw;
+  align-items: center;
+  cursor: pointer;
+}
+.horizontalScroll::-webkit-scrollbar, .horizontalScroll::-webkit-scrollbar-track {
+  height: 7px;
+}
