@@ -129,3 +129,33 @@ export const FilterProduk = [
         value: 'Yoghurt',
     },
 ]
+export const FilterPesanan = [
+    {
+        id: 1,
+        value: 'ON PROSES',
+    },
+    {
+        id: 2,
+        value: 'PENDING',
+    },
+    {
+        id: 3,
+        value: 'UNPAID',
+    },
+    {
+        id: 4,
+        value: 'PAID',
+    },
+    {
+        id: 5,
+        value: 'APPROVAL',
+    },
+    {
+        id: 6,
+        value: 'DELIVERING',
+    },
+    {
+        id: 7,
+        value: 'SHIPPING',
+    },
+]

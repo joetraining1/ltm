@@ -42,7 +42,6 @@ const Completion = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '1vw',
             }}
           >
             <PaymentData />
@@ -55,7 +54,6 @@ const Completion = () => {
               flexDirection: 'column',
               gap: '1vw',
               justifyContent: 'space-evenly',
-
             }}
           >
             <PaymentMeta />

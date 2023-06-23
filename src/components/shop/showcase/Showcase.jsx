@@ -8,10 +8,15 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { FilterProduk, H4style, H5style, MetaStyle } from "../../../utils/constants";
+import {
+  FilterProduk,
+  H4style,
+  H5style,
+  MetaStyle,
+} from "../../../utils/constants";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import Cart from "../cart/Cart";
+import ShowcaseCard from "./ShowcaseCard";
 
 const Showcase = () => {
   return (
@@ -92,10 +97,58 @@ const Showcase = () => {
               <MenuItem key={item.id} value={item.value} sx={H5style}>
                 {item.value}
               </MenuItem>
-            )
+            );
           })}
         </TextField>
-        <Cart mode="two"/>
+        <Cart mode="two" />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "fit-content",
+          gap: "1vw",
+        }}
+      >
+        <Typography variant="h5" sx={H5style}>
+          Susu Pasteurisasi
+        </Typography>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          width: '100%',
+          gap: '1vw'
+        }}>
+          <ShowcaseCard />
+          <ShowcaseCard />
+          <ShowcaseCard />
+          <ShowcaseCard />
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "fit-content",
+          gap: "1vw",
+        }}
+      >
+        <Typography variant="h5" sx={H5style}>
+          Yoghurt
+        </Typography>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          width: '100%',
+          gap: '1vw'
+        }}>
+          <ShowcaseCard />
+          <ShowcaseCard />
+          <ShowcaseCard />
+          <ShowcaseCard />
+        </div>
       </div>
     </div>
   );

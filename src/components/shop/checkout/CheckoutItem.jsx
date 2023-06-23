@@ -17,7 +17,7 @@ import useNotif from "../../../hooks/useNotif";
 import MilkIcon from "../../../assets/milksvg.svg";
 
 const CheckoutItem = ({ ind }) => {
-  const [qty, setQty] = useState("0");
+  const [qty, setQty] = useState("");
 
   const { toastError } = useNotif();
 

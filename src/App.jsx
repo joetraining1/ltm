@@ -14,6 +14,8 @@ const Completion = lazy(() =>
 );
 const Showcase = lazy(() => import("./components/shop/showcase/Showcase"));
 const Orders = lazy(() => import("./components/shop/orders/Orders"));
+const Quick = lazy(() => import("./components/shop/orders/quick/QuickPeek"));
+const Invoice = lazy(() => import("./components/shop/order/Invoices"));
 import NotifProvider from "./contexts/NotifContext";
 
 function App() {
@@ -26,7 +28,10 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="shop" element={<Shop />}>
               <Route index element={<Showcase />} />
-              <Route path="orders" element={<Orders />} />
+              <Route path="orders" element={<Orders />}>
+                <Route path=":id" element={<Quick />} />
+              </Route>
+              <Route path="order/:id" element={<Invoice />}/>
               <Route path="payment" element={<Completion />} />
               <Route path="checkout" element={<Checkout />} />
               <Route path="guide" element={<Guide />} />
