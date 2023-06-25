@@ -21,6 +21,13 @@ export const LabelStyle = {
     fontFamily: 'Signika Negative, sans-serif',
     fontWeight: '600',
 }
+export const SideNoteStyle = {
+    fontFamily: 'Signika Negative, sans-serif',
+    fontWeight: '400',
+    color: 'grey',
+    fontStyle: 'italic',
+    fontSize: '0.8em'
+}
 
 export const H5style = {
     fontFamily: 'Signika Negative, sans-serif',
@@ -46,6 +53,19 @@ export const MetaStyle2 = {
     justifyContent: 'space-between',
     width: '50%',
     alignItems: 'center',
+}
+
+export const MetaStyle3 = {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+}
+export const MetaStyle4 = {
+    display: 'flex',
+    width: '75%',
+    alignItems: 'center',
+    gap: '5px'
 }
 
 export const iconStyle = {
