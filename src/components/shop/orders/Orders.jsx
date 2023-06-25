@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   FilterPesanan,
   FilterProduk,
@@ -18,19 +18,22 @@ import {
 } from "../../../utils/constants";
 import Cart from "../cart/Cart";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import OrderItem from "./OrderItem";
-import UndoRoundedIcon from '@mui/icons-material/UndoRounded';
+import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 
 const Orders = () => {
+  const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([...Array(10)]);
-  const [detailOn, setDetailOn] = useState(false);
+  const [detailOn, setDetailOn] = useState(id ? true : false);
+  const eleRef = useRef();
 
   const navigate = useNavigate();
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
   };
+
 
   const showQuick = (id) => {
     setDetailOn(true);
@@ -175,9 +178,9 @@ const Orders = () => {
               alignContent: "start",
               transition: "width 0.4s ease",
               padding: "1vw",
-              '&::-webkit-scrollbar': {
-                background: '#fff',
-              }
+              "&::-webkit-scrollbar": {
+                background: "#fff",
+              },
             }}
           >
             {Hero.map((item, index) => {
@@ -210,7 +213,7 @@ const Orders = () => {
                   fontWeight: "600",
                   fontSize: "1.3em",
                   color: "#262626",
-                  width: '100px'
+                  width: "100px",
                 }}
                 onClick={() => backButton()}
                 startIcon={<UndoRoundedIcon />}

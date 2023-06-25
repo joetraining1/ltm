@@ -1,5 +1,5 @@
 import { Button, Card, Divider, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   DashMenu,
   H5style,
@@ -7,10 +7,12 @@ import {
   menuItemStyle,
 } from "../../utils/constants";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const DashBar = () => {
   const navigate = useNavigate();
+
   return (
     <Card
       sx={{
@@ -21,10 +23,20 @@ const DashBar = () => {
         display: "flex",
         flexDirection: "column",
         gap: "0.5vw",
+        position: "relative",
       }}
       elevation={3}
+      id="dashBar"
     >
-      <Button size="small" sx={{ display: 'flex', justifyContent: 'flex-start', padding: '0', width: '100%',}}>
+      <Button
+        size="small"
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          padding: "0",
+          width: "100%",
+        }}
+      >
         <MoreVertRoundedIcon sx={{ color: "#262626" }} />
         <Typography
           variant="h6"
@@ -42,22 +54,29 @@ const DashBar = () => {
       <Divider />
       {DashMenu.map((item, index) => {
         return (
-          <Button
-            onClick={() => navigate(item.to)}
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-start",
-              gap: "1vw",
-              alignItems: "center",
-            }}
-            key={item.id}
-          >
-            <item.icon sx={iconStyle} />
-            <Typography variant="h6" sx={menuItemStyle}>
-              {item.title}
-            </Typography>
-          </Button>
+          <NavLink key={item.id} to={item.to} active="active-link" style={({ isActive }) => {
+            return {
+              '& button': {
+                background: isActive ? '#262626' : '#fff' 
+              }
+            }
+          }}>
+            <Button
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-start",
+                gap: "1vw",
+                alignItems: "center",
+              }}
+              className="buttons"
+            >
+              <item.icon sx={iconStyle} />
+              <Typography variant="h6" sx={menuItemStyle}>
+                {item.title}
+              </Typography>
+            </Button>
+          </NavLink>
         );
       })}
     </Card>
