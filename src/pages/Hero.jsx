@@ -1,5 +1,7 @@
 import React from "react";
 import Milk from '../assets/hero.jpg';
+import { Typography } from "@mui/material";
+import { H5style } from "../utils/constants";
 
 const Hero = () => {
   return (
@@ -26,6 +28,7 @@ const Hero = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
+      <Typography sx={H5style}>Penuhi kebutuhan nutrisi kebaikan susu harianmu</Typography>
       </div>
     </section>
   );
