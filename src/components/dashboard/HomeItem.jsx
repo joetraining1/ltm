@@ -57,6 +57,19 @@ const HomeItem = ({ ind }) => {
           noobmaster96
         </Typography>
       </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="body" sx={H5style}>
+          Pembayaran :
+        </Typography>
+        <Typography variant="body" sx={H5style}>
+          Transfer Bank
+        </Typography>
+      </div>
       <div style={{ ...MetaStyle, marginTop: "auto", marginBottom: "5%" }}>
         <Typography variant="h5" sx={H5style}>
           Total

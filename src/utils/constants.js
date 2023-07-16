@@ -12,10 +12,111 @@ import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AtmOutlinedIcon from '@mui/icons-material/AtmOutlined';
+import BCA from '../assets/bca.png'
+import BNI from '../assets/bni.png'
+import CIMB from '../assets/cimb.png'
+import BRI from '../assets/bri.png'
+import Permata from '../assets/permata2.webp'
+import Mandiri from '../assets/mandiri.png'
+import Jateng from '../assets/jateng.png'
 
 const colorHex = {
     green: '#00ff00'
 }
+
+export const StatusPesanan = [
+    {
+        id: 1,
+        title: 'ON PROSES',
+        desc: 'Pesanan telah diproses, pembeli dimohon untuk mengecek berkala status dari pesanan masing-masing.',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 2,
+        title: 'PENDING',
+        desc: 'Pesanan ditunda, pembeli dimohon untuk mengecek berkala status dari pesanan masing-masing.',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 3,
+        title: 'UNPAID',
+        desc: 'Pesanan belum dilunasi. Status ini berlaku bagi metode pembayaran Transfer Bank, pembeli dimohon untuk mengecek berkala status dari pesanan masing-masing.',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 4,
+        title: 'PAID',
+        desc: 'Pesanan telah dilunasi, pembeli dimohon untuk mengecek berkala status dari pesanan masing-masing.',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 5,
+        title: 'APPROVAL',
+        desc: 'Pesanan menunggu konfirmasi dari penjual, pembeli dimohon untuk mengecek berkala status dari pesanan masing-masing.',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 6,
+        title: 'DELIVERING',
+        desc: 'Pesanan dalam pengiriman, pembeli dimohon untuk mengecek berkala status dari pesanan masing-masing.',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 7,
+        title: 'DONE',
+        desc: "Pesanan telah selesai, terima kasih sudah membeli produk Marino's Milk & Yoghurt.",
+        createdAt: '14 Juni 2023'
+    },
+]
+
+export const CategoryItem = [
+    {
+        id: 1,
+        title: 'Susu',
+        desc: "Produk susu pasteurisasi olahan susu sapi perah Marino's Milk & Yoghurt.",
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 2,
+        title: 'Yoghurt',
+        desc: "Produk yoghurt olahan susu sapi perah Marino's Milk & Yoghurt.",
+        createdAt: '14 Juni 2023',
+    },
+]
+
+export const PaymentItem = [
+    {
+        id: 1,
+        title: 'Transfer Bank',
+        desc: "Metode pembayaran dengan menggunakan jasa transfer uang antar bank maupun rekening.",
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 2,
+        title: 'Cash On Delivery',
+        desc: "Metode pembayaran dengan membayarkan biaya setelah produk diantarkan.",
+        createdAt: '14 Juni 2023',
+    },
+]
+
+export const AccountItem = [
+    {
+        id: 1,
+        bank: 'BCA',
+        norek: '3530696790',
+        picurl: BCA,
+        user: 'CV. Langgeng Tani Makmur',
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 2,
+        bank: 'BCA',
+        picurl: BCA,
+        norek: '2124696788',
+        user: 'CV. Langgeng Tani Makmur',
+        createdAt: '14 Juni 2023'
+    }
+]
 
 export const LabelStyle = {
     fontFamily: 'Signika Negative, sans-serif',
@@ -184,7 +285,7 @@ export const FilterPesanan = [
     },
     {
         id: 7,
-        value: 'SHIPPING',
+        value: 'DONE',
     },
 ]
 
@@ -256,3 +357,55 @@ export const AvaSize = {
     badge: 36,
     profile: 96
 }
+
+export const BankItem = [
+    {
+        id: 1,
+        nama: 'Bank Central Asia',
+        acronim: 'BCA',
+        fotourl: BCA,
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 2,
+        nama: 'Bank Negara Indonesia',
+        acronim: 'BNI',
+        fotourl: BNI,
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 3,
+        nama: 'CIMB Niaga',
+        acronim: 'CIMB',
+        fotourl: CIMB,
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 4,
+        nama: 'Bank Rakyat Indonesia',
+        acronim: 'BRI',
+        fotourl: BRI,
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 5,
+        nama: 'Bank Mandiri',
+        acronim: 'Mandiri',
+        fotourl: Mandiri,
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 6,
+        nama: 'Permata Bank',
+        acronim: 'Permata',
+        fotourl: Permata,
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 7,
+        nama: 'Bank Jateng',
+        acronim: 'Jateng',
+        fotourl: Jateng,
+        createdAt: '14 Juni 2023'
+    },
+]

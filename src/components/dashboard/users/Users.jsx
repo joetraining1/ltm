@@ -17,11 +17,11 @@ import UserCard from "./UserCard";
 const Users = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([...Array(13)]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
-  const [activeData, setActiveData] = useState(0);
 
   const navigate = useNavigate();
+  
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
   };
@@ -142,7 +142,7 @@ const Users = () => {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           width: detailOn ? "52%" : "100%",
-          height: activeDataset.length < 4 ? "40svh" : activeDataset.length < 7 ? "80svh" : "120svh",
+          height: activeDataset.length < 4 ? "50svh" : activeDataset.length < 7 ? "98svh" : "143svh",
           gap: "1vw",
           overflow: "auto",
           alignContent: "start",

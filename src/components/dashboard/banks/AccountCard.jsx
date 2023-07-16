@@ -1,11 +1,11 @@
 import { Button, Card, Divider, Grow, Typography } from "@mui/material";
 import React from "react";
-import { H5style, SideNoteStyle } from "../../../utils/constants";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import { H5style, LabelStyle, SideNoteStyle } from "../../../utils/constants";
 
-const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
+const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -14,7 +14,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
           display: "flex",
           flexDirection: "column",
           width: "300px",
-          height: "275px",
+          height: "300px",
           alignItems: "center",
         }}
       >
@@ -40,8 +40,38 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             width: "100%",
             padding: "10px 1vw 0 1vw",
             marginTop: "auto",
+            marginBottom: '5px'
           }}
         >
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-evenly",
+              gap: "5px",
+            }}
+          >
+            <div style={{ display: "flex", width: "70%", alignItems: 'center' }}>
+              <Typography variant="body" sx={H5style}>
+                No. Rekening
+              </Typography>
+              <Typography
+                variant="body"
+                sx={{ ...H5style, marginLeft: "auto" }}
+              >
+                :
+              </Typography>
+            </div>
+            <Typography
+              variant="h6"
+              sx={{
+                ...H5style,
+                width: "100%",
+              }}
+            >
+              {akun}
+            </Typography>
+          </div>
           <div
             style={{
               display: "flex",
@@ -68,7 +98,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
                 width: "100%",
               }}
             >
-              {nama}
+              {bank}
             </Typography>
           </div>
           <div
@@ -81,7 +111,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
           >
             <div style={{ display: "flex", width: "70%" }}>
               <Typography variant="body" sx={H5style}>
-                Acronim
+                Pemilik
               </Typography>
               <Typography
                 variant="body"
@@ -98,7 +128,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
                 width: "100%",
               }}
             >
-              {acronim}
+              {user}
             </Typography>
           </div>
         </div>
@@ -107,14 +137,14 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             width: "100%",
             display: "flex",
             alignItems: "center",
-            padding: "5px 1vw 1vw 1vw",
+            padding: "15px 1vw",
             gap: "10px",
           }}
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle }}>{dibuat}</Typography>
-          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto" }}>
-            <EditRoundedIcon />
+          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto", ...LabelStyle }} endIcon={<EditRoundedIcon />}>
+            Edit
           </Button>
           <Divider orientation="vertical" />
           <Button variant="text" sx={{ minWidth: "20px" }}>
@@ -126,4 +156,4 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
   );
 };
 
-export default BankCard;
+export default AccountCard;

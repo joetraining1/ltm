@@ -9,6 +9,7 @@ import {
 import Pagani from "../../../assets/pagani.jpg";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 const UserCard = ({ ind }) => {
   return (
@@ -20,18 +21,24 @@ const UserCard = ({ ind }) => {
           flexDirection: "column",
           justifyContent: "space-evenly",
           width: "300px",
-          height: "350px",
-          padding: "0.5vw",
+          height: "450px",
+          padding: "1vw",
           alignItems: "center",
         }}
       >
+        <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+          <AccessTimeRoundedIcon sx={SideNoteStyle} />
+          <Typography sx={{ ...SideNoteStyle, marginLeft: "3%" }}>
+            14 juni 2023
+          </Typography>
+        </div>
         <Avatar
           src={Pagani}
           sx={{
             height: AvaSize.profile,
             width: AvaSize.profile,
             margin: "0.5vw 0",
-            boxShadow: '1px 1px 5px 1px rgba(0,0,0,0.4)'
+            boxShadow: "1px 1px 5px 1px rgba(0,0,0,0.4)",
           }}
         />
         <Typography variant="h6" sx={H5style}>
@@ -44,7 +51,8 @@ const UserCard = ({ ind }) => {
           style={{
             display: "flex",
             width: "100%",
-            justifyContent: 'space-evenly'
+            justifyContent: "space-evenly",
+            margin: '10px 0'
           }}
         >
           <div
@@ -70,13 +78,72 @@ const UserCard = ({ ind }) => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h5" sx={H5style}>
+            <Typography variant="h5" sx={{ ...H5style, color: "#00ff00" }}>
               17
             </Typography>
             <Typography variant="body" sx={H5style}>
               pesanan selesai
             </Typography>
           </div>
+        </div>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '10px 1vw',
+          width: '100%'
+        }}>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-evenly",
+            gap: "5px",
+          }}
+        >
+          <div style={{ display: "flex", width: "50%" }}>
+            <Typography variant="body" sx={H5style}>
+              Kontak
+            </Typography>
+            <Typography variant="body" sx={{ ...H5style, marginLeft: "auto" }}>
+              :
+            </Typography>
+          </div>
+          <Typography
+            variant="body"
+            sx={{
+              ...H5style,
+              width: "100%",
+            }}
+          >
+            081234567890
+          </Typography>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-evenly",
+            gap: "5px",
+          }}
+        >
+          <div style={{ display: "flex", width: "50%" }}>
+            <Typography variant="body" sx={H5style}>
+              Alamat
+            </Typography>
+            <Typography variant="body" sx={{ ...H5style, marginLeft: "auto" }}>
+              :
+            </Typography>
+          </div>
+          <Typography
+            variant="body"
+            sx={{
+              ...H5style,
+              width: "100%",
+            }}
+          >
+            jl. Suyudono Selatan no. 51, Jakarta Utara, Jakarta
+          </Typography>
+        </div>
         </div>
         <div
           style={{
