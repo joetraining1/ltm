@@ -186,9 +186,6 @@ const DashOrders = () => {
               alignContent: "start",
               transition: "width 0.4s ease",
               padding: "1vw",
-              "&::-webkit-scrollbar": {
-                background: "#fff",
-              },
             }}
           >
             {Hero.map((item, index) => {

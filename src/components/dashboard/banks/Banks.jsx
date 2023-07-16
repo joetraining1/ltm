@@ -3,6 +3,7 @@ import { H5style } from '../../../utils/constants'
 import { Button, Divider, InputBase, Paper, Typography } from '@mui/material'
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import BankCard from './BankCard';
 
 const Banks = () => {
   return (
@@ -24,7 +25,6 @@ const Banks = () => {
         display: "flex",
         alignItems: "center",
         width: "100%",
-        justifyContent: "space-between",
         gap: "1vw",
         height: "50px",
       }}
@@ -68,11 +68,29 @@ const Banks = () => {
           alignItems: "center",
           display: "flex",
           justifyContent: "space-between",
+          marginLeft: 'auto'
         }}
       >
         <PlusOneRoundedIcon />
         Tambah Akun Bank
       </Button>
+      <Button
+        variant="contained"
+        sx={{
+          width: "17%",
+          height: "50px",
+          fontFamily: "Signika Negative, sans-serif",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <PlusOneRoundedIcon />
+        Tambah Bank
+      </Button>
+    </div>
+    <div>
+    <BankCard />
     </div>
   </div>
   )

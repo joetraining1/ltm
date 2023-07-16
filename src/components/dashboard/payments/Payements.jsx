@@ -62,7 +62,7 @@ const Payements = () => {
         <Button
           variant="contained"
           sx={{
-            width: "20%",
+            width: "18%",
             height: "50px",
             fontFamily: "Signika Negative, sans-serif",
             alignItems: "center",

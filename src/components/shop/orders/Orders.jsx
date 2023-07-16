@@ -34,7 +34,6 @@ const Orders = () => {
     setPageActive(value - 1);
   };
 
-
   const showQuick = (id) => {
     setDetailOn(true);
     navigate(`${id}`);
@@ -150,9 +149,12 @@ const Orders = () => {
           })}
         </TextField>
       </div>
+      {//asdasd this is the mapped data using grid
+      }
       <div
         style={{
           display: "flex",
+          justifyContent: "space-evenly",
           width: "100%",
           height: "fit-content",
           gap: "1vw",
@@ -160,76 +162,63 @@ const Orders = () => {
       >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-evenly",
-            width: "100%",
-            height: "fit-content",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            width: detailOn ? "45%" : "100%",
+            height: "55svh",
             gap: "1vw",
+            overflow: "auto",
+            alignContent: "start",
+            transition: "width 0.4s ease",
+            padding: "1vw",
+            "&::-webkit-scrollbar": {
+              background: "#fff",
+            },
           }}
         >
+          {Hero.map((item, index) => {
+            if (index === pageActive) {
+              return item.dataset.map((i, ind) => {
+                return (
+                  <OrderItem key={ind} ind={ind} spill={() => showQuick(ind)} />
+                );
+              });
+            }
+            return null;
+          })}
+        </div>
+        {detailOn ? (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              width: detailOn ? "45%" : "100%",
-              height: "55svh",
-              gap: "1vw",
-              overflow: "auto",
-              alignContent: "start",
-              transition: "width 0.4s ease",
-              padding: "1vw",
-              "&::-webkit-scrollbar": {
-                background: "#fff",
-              },
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
             }}
           >
-            {Hero.map((item, index) => {
-              if (index === pageActive) {
-                return item.dataset.map((i, ind) => {
-                  return (
-                    <OrderItem
-                      key={ind}
-                      ind={ind}
-                      spill={() => showQuick(ind)}
-                    />
-                  );
-                });
-              }
-              return null;
-            })}
-          </div>
-          {detailOn ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                fontSize: "1.3em",
+                color: "#262626",
+                width: "100px",
               }}
+              onClick={() => backButton()}
+              startIcon={<UndoRoundedIcon />}
             >
-              <Button
-                variant="text"
-                sx={{
-                  fontFamily: "Signika Negative, sans-serif",
-                  fontWeight: "600",
-                  fontSize: "1.3em",
-                  color: "#262626",
-                  width: "100px",
-                }}
-                onClick={() => backButton()}
-                startIcon={<UndoRoundedIcon />}
-              >
-                back
-              </Button>
-              <Outlet />
-            </div>
-          ) : null}
-        </div>
+              back
+            </Button>
+            <Outlet />
+          </div>
+        ) : null}
       </div>
       <Pagination
         count={Hero.length}
         page={pageActive + 1}
         renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
         onChange={handleChangePage}
+        sx={{ margin: "auto" }}
       />
     </div>
   );

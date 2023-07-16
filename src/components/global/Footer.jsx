@@ -124,7 +124,7 @@ const Footer = () => {
               color: "#fff",
             }}
           >
-            Office :
+           Our Office :
           </Typography>
           <Typography
             variant="h6"
@@ -144,7 +144,7 @@ const Footer = () => {
               color: "#fff",
             }}
           >
-            Factory :
+           Our Factory :
           </Typography>
           <Typography
             variant="h6"

@@ -238,3 +238,21 @@ export const DashMenu = [
         icon: PeopleOutlineRoundedIcon
     },
 ]
+
+export const Category = [
+    {
+        id: 1,
+        title: 'Susu',
+        description: "Produk olahan susu pasteurisasi Marino's Milk & Yoghurt",
+    },
+    {
+        id: 2,
+        title: 'Yoghurt',
+        description: "Produk olahan yoghurt Marino's Milk & Yoghurt ",
+    },
+]
+
+export const AvaSize = {
+    badge: 36,
+    profile: 96
+}

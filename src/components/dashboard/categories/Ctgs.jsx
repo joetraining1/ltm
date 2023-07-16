@@ -74,6 +74,10 @@ const Ctgs = () => {
           Tambah kategori
         </Button>
       </div>
+      {
+        // here is the data displayer
+      }
+      
     </div>
   )
 }

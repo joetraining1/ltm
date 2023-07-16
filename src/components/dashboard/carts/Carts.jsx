@@ -1,10 +1,65 @@
-import { Button, Divider, InputBase, Paper, Typography } from '@mui/material'
-import React from 'react'
-import { H5style } from '../../../utils/constants'
+import {
+  Button,
+  Divider,
+  InputBase,
+  Pagination,
+  PaginationItem,
+  Paper,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import { H5style } from "../../../utils/constants";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import CartCard from "./CartCard";
+import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
+
 
 const Carts = () => {
+  const { id } = useParams();
+  const [pageActive, setPageActive] = useState(0);
+  const [datas, setDatas] = useState([...Array(10)]);
+  const [detailOn, setDetailOn] = useState(id ? true : false);
+
+  const navigate = useNavigate();
+  const handleChangePage = (event, value) => {
+    setPageActive(value - 1);
+  };
+
+  const showQuick = (id) => {
+    setDetailOn(true);
+    navigate(`${id}`);
+    return;
+  };
+
+  const backButton = () => {
+    navigate(-1);
+    return setDetailOn(false);
+  };
+
+  const MultiArray = (arr, rows) => {
+    const ArrSlice = arr.reduce((acc, val, ind) => {
+      const currentRow = Math.floor(ind / rows);
+      if (!acc[currentRow]) {
+        acc[currentRow] = [val];
+      } else {
+        acc[currentRow].push(val);
+      }
+      return acc;
+    }, []);
+    const SortedArr = ArrSlice.map((item, index) => {
+      return {
+        pId: index,
+        dataset: item,
+      };
+    });
+
+    return SortedArr;
+  };
+
+  const Hero = MultiArray(datas, 9);
+
   return (
     <div
       style={{
@@ -60,8 +115,74 @@ const Carts = () => {
           </Button>
         </Paper>
       </div>
+      {
+        // this is the section of mapped data, or data displayer
+      }
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          width: "100%",
+          height: "fit-content",
+          gap: "1vw",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            width: detailOn ? "52%" : "100%",
+            height: "70svh",
+            gap: "1vw",
+            overflow: "auto",
+            alignContent: "start",
+            transition: "width 0.4s ease",
+            padding: "1vw",
+          }}
+        >
+          {Hero.map((item, index) => {
+            if (index === pageActive) {
+              return item.dataset.map((i, ind) => {
+                return <CartCard key={ind} ind={ind} spill={() => showQuick(ind)}/>;
+              }); 
+            }
+            return null;
+          })}
+        </div>
+        {detailOn ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
+          >
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                fontSize: "1.3em",
+                color: "#262626",
+                width: "100px",
+              }}
+              onClick={() => backButton()}
+              startIcon={<UndoRoundedIcon />}
+            >
+              back
+            </Button>
+            <Outlet />
+          </div>
+        ) : null}
+      </div>
+      <Pagination
+        count={Hero.length}
+        page={pageActive + 1}
+        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+        onChange={handleChangePage}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Carts
+export default Carts;
