@@ -4,10 +4,10 @@ import {
   AvaSize,
   H5style,
   LabelStyle,
+  LabelStyle2,
   SideNoteStyle,
 } from "../../../utils/constants";
 import Pagani from "../../../assets/pagani.jpg";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
@@ -21,7 +21,7 @@ const UserCard = ({ ind }) => {
           flexDirection: "column",
           justifyContent: "space-evenly",
           width: "300px",
-          height: "450px",
+          height: "425px",
           padding: "1vw",
           alignItems: "center",
         }}
@@ -52,7 +52,7 @@ const UserCard = ({ ind }) => {
             display: "flex",
             width: "100%",
             justifyContent: "space-evenly",
-            margin: '10px 0'
+            margin: "10px 0",
           }}
         >
           <div
@@ -86,64 +86,34 @@ const UserCard = ({ ind }) => {
             </Typography>
           </div>
         </div>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '10px 1vw',
-          width: '100%'
-        }}>
         <div
           style={{
             display: "flex",
+            flexDirection: "column",
+            padding: "10px 1vw",
             width: "100%",
-            justifyContent: "space-evenly",
-            gap: "5px",
           }}
         >
-          <div style={{ display: "flex", width: "50%" }}>
-            <Typography variant="body" sx={H5style}>
-              Kontak
-            </Typography>
-            <Typography variant="body" sx={{ ...H5style, marginLeft: "auto" }}>
-              :
-            </Typography>
-          </div>
           <Typography
             variant="body"
             sx={{
-              ...H5style,
+              ...LabelStyle2,
               width: "100%",
+              textAlign: 'center'
             }}
           >
             081234567890
           </Typography>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-evenly",
-            gap: "5px",
-          }}
-        >
-          <div style={{ display: "flex", width: "50%" }}>
-            <Typography variant="body" sx={H5style}>
-              Alamat
-            </Typography>
-            <Typography variant="body" sx={{ ...H5style, marginLeft: "auto" }}>
-              :
-            </Typography>
-          </div>
           <Typography
             variant="body"
             sx={{
-              ...H5style,
+              ...LabelStyle2,
               width: "100%",
+              textAlign: 'center'
             }}
           >
             jl. Suyudono Selatan no. 51, Jakarta Utara, Jakarta
           </Typography>
-        </div>
         </div>
         <div
           style={{

@@ -31,7 +31,7 @@ const ProductContainer = ({ title, data }) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 220px))",
           width: "100%",
           height: "fit-content",
           gap: "20px",

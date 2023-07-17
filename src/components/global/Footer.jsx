@@ -31,7 +31,7 @@ const Footer = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: "1vw",
-        boxShadow: '0 -1px 10px 1px rgba(0,0,0, 0.6)',
+        boxShadow: "0 -1px 10px 1px rgba(0,0,0, 0.6)",
       }}
     >
       <div
@@ -89,10 +89,18 @@ const Footer = () => {
               padding: "1vw 0",
             }}
           >
-            <HashLink to="/#home-hero" style={LinkStyle}>Home</HashLink>
-            <Link to="product" style={LinkStyle}>Product</Link>
-            <Link to="shop" style={LinkStyle}>Shop</Link>
-            <Link to="/shop/checkout" style={LinkStyle}>Checkout</Link>
+            <HashLink to="/#home-hero" style={LinkStyle}>
+              Home
+            </HashLink>
+            <Link to="product" style={LinkStyle}>
+              Product
+            </Link>
+            <Link to="shop" style={LinkStyle}>
+              Shop
+            </Link>
+            <Link to="/shop/checkout" style={LinkStyle}>
+              Checkout
+            </Link>
             <Link to="/shop/guide" style={LinkStyle}>
               Panduan Pemesanan
             </Link>
@@ -116,46 +124,57 @@ const Footer = () => {
               background: "#F3DE2C",
             }}
           />
-          <Typography
-          variant="h6"
-            sx={{
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              color: "#fff",
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              padding: "1vw 0",
             }}
           >
-           Our Office :
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-            Jl. Taman Belimbing no. 34, <br /> Semarang Tengah, Kota Semarang
-          </Typography>
-          <Typography
-          variant="h6"
-            sx={{
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-           Our Factory :
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-            Jl. Musuk no. 34, <br /> Musuk, Boyolali
-          </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                color: "#fff",
+              }}
+            >
+              Our Office :
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                color: "#fff",
+                fontSize: '1.1em'
+              }}
+            >
+              Jl. Taman Belimbing no. 34, <br /> Semarang Tengah, Kota Semarang
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                color: "#fff",
+              }}
+            >
+              Our Factory :
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                color: "#fff",
+                fontSize: '1.1em'
+              }}
+            >
+              Jl. Musuk no. 34, <br /> Musuk, Boyolali
+            </Typography>
+          </div>
         </div>
         <div
           style={{

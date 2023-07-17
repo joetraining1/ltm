@@ -1,4 +1,12 @@
-import { Button, Divider, InputBase, Paper, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  InputBase,
+  Paper,
+  Typography,
+  Pagination,
+  PaginationItem,
+} from "@mui/material";
 import React, { useState } from "react";
 import { CategoryItem, H5style } from "../../../utils/constants";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
@@ -131,16 +139,31 @@ const Ctgs = () => {
           padding: "1vw",
           height:
             activeDataset.length < 4
-              ? "34svh"
+              ? "24svh"
               : activeDataset.length < 7
-              ? "64svh"
-              : "90svh",
+              ? "54svh"
+              : "68svh",
         }}
       >
         {activeDataset?.map((item, index) => {
-          return <CtgCard title={item.title} key={item.id} />;
+          return (
+            <CtgCard
+              title={item.title}
+              dibuat={item.createdAt}
+              desc={item.desc}
+              ind={index}
+              key={item.id}
+              id={item.id}
+            />
+          );
         })}
       </div>
+      <Pagination
+        count={Hero.length}
+        page={pageActive + 1}
+        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+        onChange={handleChangePage}
+      />
     </div>
   );
 };

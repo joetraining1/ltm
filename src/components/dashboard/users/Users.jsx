@@ -21,7 +21,7 @@ const Users = () => {
   const [detailOn, setDetailOn] = useState(id ? true : false);
 
   const navigate = useNavigate();
-  
+
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
   };
@@ -61,13 +61,13 @@ const Users = () => {
 
   const Hero = MultiArray(datas, 9);
   const HeroItem = Hero.map((item, index) => {
-    if(pageActive === index){
-      return activeDataset = item.dataset
+    if (pageActive === index) {
+      return (activeDataset = item.dataset);
     }
-    return null
+    return null;
   });
 
-  console.log(activeDataset)
+  console.log(activeDataset);
   return (
     <div
       style={{
@@ -142,7 +142,12 @@ const Users = () => {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           width: detailOn ? "52%" : "100%",
-          height: activeDataset.length < 4 ? "50svh" : activeDataset.length < 7 ? "98svh" : "143svh",
+          height:
+            activeDataset.length < 4
+              ? "50svh"
+              : activeDataset.length < 7
+              ? "93svh"
+              : "135svh",
           gap: "1vw",
           overflow: "auto",
           alignContent: "start",
@@ -151,7 +156,7 @@ const Users = () => {
         }}
       >
         {activeDataset.map((i, ind) => {
-          return <UserCard key={ind} ind={ind}/>
+          return <UserCard key={ind} ind={ind} />;
         })}
       </div>
       <Pagination

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { Button, Divider, InputBase, Paper, Typography } from "@mui/material";
+import { Button, Divider, InputBase, Paper, Typography, Pagination, PaginationItem } from "@mui/material";
 import { H5style, StatusPesanan } from "../../../utils/constants";
 import StatusCard from "./StatusCard";
 
@@ -135,10 +135,16 @@ const Statuses = () => {
       >
         {activeDataset?.map((item, index) => {
           return (
-            <StatusCard title={item.title} key={item.id}/>
+            <StatusCard title={item.title} ind={index} desc={item.desc} id={item.id} dibuat={item.createdAt} key={item.id}/>
           );
         })}
       </div>
+      <Pagination
+        count={Hero.length}
+        page={pageActive + 1}
+        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+        onChange={handleChangePage}
+      />
     </div>
   );
 };

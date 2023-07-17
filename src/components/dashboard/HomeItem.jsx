@@ -1,7 +1,13 @@
 import { Button, Card, Divider, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { H5style, MetaStyle, MetaStyle2 } from "../../utils/constants";
+import {
+  H5style,
+  LabelStyle2,
+  MetaStyle,
+  MetaStyle2,
+  MetaStyle3,
+} from "../../utils/constants";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 const HomeItem = ({ ind }) => {
@@ -17,11 +23,19 @@ const HomeItem = ({ ind }) => {
       }}
     >
       <div style={MetaStyle}>
-        <div style={MetaStyle}>
-          <Typography variant="h6" sx={H5style}>
-            Order No:
+        <div style={MetaStyle3}>
+          <Typography variant="h6" sx={{...LabelStyle2, width: '100%'}}>
+            Order no.
           </Typography>
-          <Typography variant="h6" sx={H5style}>
+          <Typography
+            sx={{
+              width: "100%",
+              fontFamily: "Signika Negative, sans-serif",
+              fontWeight: "600",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
             {ind}
           </Typography>
         </div>
@@ -29,44 +43,55 @@ const HomeItem = ({ ind }) => {
           Approval
         </Typography>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "55%",
-        }}
-      >
-        <Typography variant="body" sx={H5style}>
-          Penerima :
-        </Typography>
-        <Typography variant="body" sx={H5style}>
+      <div style={MetaStyle3}>
+        <div style={MetaStyle2}>
+          <Typography sx={LabelStyle2}>Penerima</Typography>
+          <Typography sx={LabelStyle2}>:</Typography>
+        </div>
+        <Typography
+          sx={{
+            width: "100%",
+            fontFamily: "Signika Negative, sans-serif",
+            fontWeight: "600",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
           081234567890
         </Typography>
       </div>
       <Divider sx={{ margin: "2% 0" }} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography variant="body" sx={H5style}>
-          User :
-        </Typography>
-        <Typography variant="body" sx={H5style}>
-          noobmaster96
+      <div style={MetaStyle3}>
+        <div style={MetaStyle2}>
+          <Typography sx={LabelStyle2}>User</Typography>
+          <Typography sx={LabelStyle2}>:</Typography>
+        </div>
+        <Typography
+          sx={{
+            width: "100%",
+            fontFamily: "Signika Negative, sans-serif",
+            fontWeight: "600",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          Noobmaster69
         </Typography>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography variant="body" sx={H5style}>
-          Pembayaran :
-        </Typography>
-        <Typography variant="body" sx={H5style}>
+      <div style={MetaStyle3}>
+        <div style={MetaStyle2}>
+          <Typography sx={LabelStyle2}>Pembayaran</Typography>
+          <Typography sx={LabelStyle2}>:</Typography>
+        </div>
+        <Typography
+          sx={{
+            width: "100%",
+            fontFamily: "Signika Negative, sans-serif",
+            fontWeight: "600",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
           Transfer Bank
         </Typography>
       </div>

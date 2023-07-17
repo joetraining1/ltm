@@ -72,7 +72,7 @@ export const StatusPesanan = [
 export const CategoryItem = [
     {
         id: 1,
-        title: 'Susu',
+        title: 'Susu Pasterurisasi',
         desc: "Produk susu pasteurisasi olahan susu sapi perah Marino's Milk & Yoghurt.",
         createdAt: '14 Juni 2023'
     },
@@ -117,6 +117,12 @@ export const AccountItem = [
         createdAt: '14 Juni 2023'
     }
 ]
+
+export const LabelStyle2 = {
+    color: "#636363",
+    fontFamily: 'Signika Negative, sans-serif',
+    fontWeight: '600',
+}
 
 export const LabelStyle = {
     fontFamily: 'Signika Negative, sans-serif',

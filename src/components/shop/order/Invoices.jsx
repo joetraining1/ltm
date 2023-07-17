@@ -1,7 +1,7 @@
 import { Button, Card } from "@mui/material";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import UndoRoundedIcon from '@mui/icons-material/UndoRounded';
+import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 
 const Invoices = () => {
   const { id } = useParams();
@@ -12,8 +12,8 @@ const Invoices = () => {
         display: "flex",
         width: "100%",
         height: "fit-content",
-        flexDirection: 'column',
-        alignItems: 'start'
+        flexDirection: "column",
+        alignItems: "start",
       }}
     >
       <Button
@@ -21,7 +21,7 @@ const Invoices = () => {
           fontFamily: "Signika Negative, sans-serif",
           fontWeight: "600",
           color: "#262626",
-          fontSize: '1.3em'
+          fontSize: "1.3em",
         }}
         variant="text"
         onClick={() => navigate(-1)}
@@ -29,9 +29,10 @@ const Invoices = () => {
       >
         Back
       </Button>
-      <Card sx={{ display: 'flex', width: '100%', height: '50svh'}} elevation={3}>
-      
-      </Card>
+      <Card
+        sx={{ display: "flex", width: "100%", height: "50svh" }}
+        elevation={3}
+      ></Card>
     </div>
   );
 };

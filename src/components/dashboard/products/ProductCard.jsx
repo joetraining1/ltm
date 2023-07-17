@@ -3,6 +3,7 @@ import React from "react";
 import {
   H5style,
   LabelStyle,
+  LabelStyle2,
   MetaStyle,
   MetaStyle2,
   MetaStyle3,
@@ -42,8 +43,8 @@ const ProductCard = () => {
       >
         <div style={MetaStyle3}>
           <div style={MetaStyle2}>
-            <Typography sx={LabelStyle}>Harga</Typography>
-            <Typography sx={LabelStyle}>:</Typography>
+            <Typography sx={LabelStyle2}>Harga</Typography>
+            <Typography sx={LabelStyle2}>:</Typography>
           </div>
           <Typography
             sx={{
@@ -59,8 +60,8 @@ const ProductCard = () => {
         </div>
         <div style={MetaStyle3}>
           <div style={MetaStyle2}>
-            <Typography sx={LabelStyle}>Stock</Typography>
-            <Typography sx={LabelStyle}>:</Typography>
+            <Typography sx={LabelStyle2}>Stock</Typography>
+            <Typography sx={LabelStyle2}>:</Typography>
           </div>
           <Typography
             sx={{

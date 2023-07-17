@@ -1,4 +1,4 @@
-import { Button, Divider, InputBase, Paper, Typography } from "@mui/material";
+import { Button, Divider, InputBase, Paper, Typography, Pagination, PaginationItem } from "@mui/material";
 import React, { useState } from "react";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -127,16 +127,31 @@ const Payements = () => {
           padding: "1vw",
           height:
             activeDataset.length < 4
-              ? "34svh"
+              ? "24svh"
               : activeDataset.length < 7
-              ? "64svh"
-              : "90svh",
+              ? "54svh"
+              : "68svh",
         }}
       >
         {activeDataset?.map((item, index) => {
-          return <PaymentCard title={item.title} key={item.id} />;
+          return (
+            <PaymentCard
+              title={item.title}
+              key={item.id}
+              desc={item.desc}
+              dibuat={item.createdAt}
+              ind={index}
+              id={item.id}
+            />
+          );
         })}
       </div>
+      <Pagination
+        count={Hero.length}
+        page={pageActive + 1}
+        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+        onChange={handleChangePage}
+      />
     </div>
   );
 };
