@@ -14,8 +14,9 @@ import {
   MetaStyle2,
 } from "../../../utils/constants";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
-import CheckoutItem from "../checkout/CheckoutItem";
 import CartItem from "./CartItem";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
 
 const Cart = ({ mode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +53,7 @@ const Cart = ({ mode }) => {
 
   let activeDataset;
 
-  const Hero = MultiArray(datas, 5);
+  const Hero = MultiArray(datas, 4);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
@@ -64,7 +65,7 @@ const Cart = ({ mode }) => {
     <React.Fragment>
       {mode === "one" ? (
         <Button variant="text" onClick={() => setIsOpen(!isOpen)}>
-          <ShoppingCartRoundedIcon />
+          <ShoppingCartOutlinedIcon />
         </Button>
       ) : null}
       {mode === "two" ? (
@@ -112,7 +113,8 @@ const Cart = ({ mode }) => {
           display: 'flex',
           flexDirection: 'column',
           gap: '10px',
-          alignItems: 'center'
+          alignItems: 'center',
+          marginTop: '1vw'
         }}>
           {activeDataset.map((item, index) => {
             return (<CartItem ind={index} key={index}/>)
@@ -126,11 +128,11 @@ const Cart = ({ mode }) => {
           sx={{ margin: 'auto auto 0 auto'}}
         />
         <div style={{ display: "flex", width: "100%" }}>
-          <div style={MetaStyle2}>
-            <Typography variant="h6" sx={LabelStyle2}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '20%', alignItems: 'center'}}>
+            <Typography variant="h6" sx={LabelStyle}>
               Total
             </Typography>
-            <Typography variant="h6" sx={LabelStyle2}>
+            <Typography variant="h6" sx={LabelStyle}>
               :
             </Typography>
           </div>
@@ -146,7 +148,7 @@ const Cart = ({ mode }) => {
             Rp. 53,000
           </Typography>
         </div>
-        <Button variant="contained" sx={{ ...LabelStyle, margin: "1vw 0" }}>
+        <Button variant="contained" sx={{ ...LabelStyle, margin: "1vw 0" }} startIcon={<ShoppingCartCheckoutRoundedIcon />}>
           Checkout
         </Button>
       </Drawer>

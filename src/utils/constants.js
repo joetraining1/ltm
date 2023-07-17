@@ -12,6 +12,7 @@ import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AtmOutlinedIcon from '@mui/icons-material/AtmOutlined';
+import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 import BCA from '../assets/bca.png'
 import BNI from '../assets/bni.png'
 import CIMB from '../assets/cimb.png'
@@ -67,6 +68,12 @@ export const StatusPesanan = [
         desc: "Pesanan telah selesai, terima kasih sudah membeli produk Marino's Milk & Yoghurt.",
         createdAt: '14 Juni 2023'
     },
+    {
+        id: 8,
+        title: 'CANCELED',
+        desc: "Pesanan telah dibatalkan, pembatalan memiliki alasan tertentu dari penjual maupun pembeli.",
+        createdAt: '14 Juni 2023'
+    },
 ]
 
 export const CategoryItem = [
@@ -80,6 +87,27 @@ export const CategoryItem = [
         id: 2,
         title: 'Yoghurt',
         desc: "Produk yoghurt olahan susu sapi perah Marino's Milk & Yoghurt.",
+        createdAt: '14 Juni 2023',
+    },
+]
+
+export const TypeItem = [
+    {
+        id: 1,
+        title: 'Superadmin',
+        desc: "Akun dengan otoritas ke seluruh aplikasi.",
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 2,
+        title: 'Admin',
+        desc: "Akun dengan otoritas untuk mengelola aplikasi kecuali memberikan otoritas superadmin kepada akun lain.",
+        createdAt: '14 Juni 2023'
+    },
+    {
+        id: 3,
+        title: 'User',
+        desc: "Akun user, akun umum pada aplikasi yang dapat digunakan untuk menyimpan informasi transaksi pembeli.",
         createdAt: '14 Juni 2023',
     },
 ]
@@ -340,6 +368,12 @@ export const DashMenu = [
     },
     {
         id: 8,
+        title: 'Account Type',
+        to: 'types',
+        icon: ManageAccountsRoundedIcon
+    },
+    {
+        id: 9,
         title: 'Users',
         to: 'users',
         icon: PeopleOutlineRoundedIcon

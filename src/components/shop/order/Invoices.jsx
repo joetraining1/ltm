@@ -1,7 +1,12 @@
-import { Button, Card } from "@mui/material";
+import { Button, Card, Divider } from "@mui/material";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
+import InvoicesMeta from "./invoices/InvoicesMeta";
+import InvoicesItem from "./invoices/InvoicesItem";
+import InvoicesDetail from "./invoices/InvoicesDetail";
+import InvoicesHead from "./invoices/InvoicesHead";
+import InvoicesFooter from "./invoices/InvoicesFooter";
 
 const Invoices = () => {
   const { id } = useParams();
@@ -30,9 +35,19 @@ const Invoices = () => {
         Back
       </Button>
       <Card
-        sx={{ display: "flex", width: "100%", height: "50svh" }}
+        sx={{ display: "flex", width: "100%", height: "100svh", flexDirection: 'column', padding: '2vw', alignItems: 'center', gap: '1vw' }}
         elevation={3}
-      ></Card>
+      >
+        <InvoicesHead />
+        <Divider style={{ width: '100%'}}/>
+        <InvoicesMeta />
+        <Divider style={{ width: '100%'}}/>
+        <InvoicesItem />
+        <Divider style={{ width: '100%'}}/>
+        <InvoicesDetail />
+        <Divider style={{ width: '100%'}}/>
+        <InvoicesFooter />
+      </Card>
     </div>
   );
 };

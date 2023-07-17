@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import DashImage from "../../assets/dashb.jpg";
 import { Button, Card, Typography } from "@mui/material";
 import SideScroll from './mediascroll/SideScroll';
+import HomeItem from "./HomeItem";
+import UserCard from "./users/UserCard";
 
 const DashHome = () => {
 
@@ -51,8 +53,8 @@ const DashHome = () => {
           Kelola pesanan, user, keranjang, maupun data administrative.
         </Typography>
       </div>
-      <SideScroll title='Pesanan Baru' to='/dashboard/orders'/>
-      <SideScroll title='User Baru' to='/dashboard/users'/>
+      <SideScroll title='Pesanan Baru' to='/dashboard/orders' ItemCard={HomeItem}/>
+      <SideScroll title='User Baru' to='/dashboard/users' ItemCard={UserCard}/>
     </div>
   );
 };

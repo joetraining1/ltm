@@ -20,6 +20,7 @@ const Products = lazy(() => import("./components/dashboard/products/Products"));
 const DashboardOrder = lazy(() =>
   import("./components/dashboard/orders/DashOrders")
 );
+const QuickLook = lazy(() => import("./components/dashboard/orders/QuickLook"))
 const Carts = lazy(() => import("./components/dashboard/carts/Carts"));
 const Ctgs = lazy(() => import("./components/dashboard/categories/Ctgs"));
 const Banks = lazy(() => import("./components/dashboard/banks/Banks"));
@@ -28,6 +29,7 @@ const Payments = lazy(() =>
   import("./components/dashboard/payments/Payements")
 );
 const Users = lazy(() => import("./components/dashboard/users/Users"));
+const UserType = lazy(() => import('./components/dashboard/type/UserType'));
 const DashHome = lazy(() => import("./components/dashboard/DashHome"));
 const Sneakpeek = lazy(() => import("./components/dashboard/carts/Sneakpeek"));
 import NotifProvider from "./contexts/NotifContext";
@@ -53,8 +55,12 @@ function App() {
             <Route path="product" element={<Product />}></Route>
             <Route path="dashboard" element={<Dashboard />}>
               <Route index element={<DashHome />} />
+              <Route path="types" element={<UserType />} />
               <Route path="products" element={<Products />} />
-              <Route path="orders" element={<DashboardOrder />}></Route>
+              <Route path="orders" element={<DashboardOrder />}>
+                <Route path=":id" element={<QuickLook />} />
+              </Route>
+              <Route path="order/:id" element={<Invoice />} />
               <Route path="carts" element={<Carts />}>
                 <Route path=":id" element={<Sneakpeek />} />
               </Route>

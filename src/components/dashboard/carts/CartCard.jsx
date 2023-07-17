@@ -3,7 +3,15 @@ import React from "react";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import { H4style, H5style, SideNoteStyle } from "../../../utils/constants";
+import {
+  H4style,
+  H5style,
+  LabelStyle,
+  LabelStyle2,
+  MetaStyle2,
+  MetaStyle3,
+  SideNoteStyle,
+} from "../../../utils/constants";
 import profi from "../../../assets/pagani.jpg";
 
 const CartCard = ({ ind, spill }) => {
@@ -52,21 +60,41 @@ const CartCard = ({ ind, spill }) => {
           style={{
             width: "100%",
             height: "100%",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '0 5px'
+            display: "flex",
+            flexDirection: "column",
+            padding: "0 5px",
+            marginTop: '2%'
           }}
         >
-          <Typography sx={H5style}>info</Typography>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              marginTop: "auto",
-            }}
-          >
-          <Typography variant="body" sx={H5style}>total :</Typography>
-            <Typography variant="body" sx={{ ...H5style, marginLeft: "auto" }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%'
+          }}>
+            <Typography variant="body" sx={LabelStyle2}>jumlah produk</Typography>
+            <Typography variant="body" sx={LabelStyle}>9 produk</Typography>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%'
+          }}>
+            <Typography variant="body" sx={LabelStyle2}>jumlah unit</Typography>
+            <Typography variant="body" sx={LabelStyle}>53 unit</Typography>
+          </div>
+          <div style={{...MetaStyle3, marginTop: 'auto'}}>
+            <div style={MetaStyle2}>
+              <Typography sx={LabelStyle2}>Total</Typography>
+            </div>
+            <Typography
+              sx={{
+                width: "100%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
               Rp. 53,000
             </Typography>
           </div>
@@ -87,6 +115,7 @@ const CartCard = ({ ind, spill }) => {
           <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto" }}>
             <EditRoundedIcon />
           </Button>
+          <Divider orientation="vertical" sx={{ height: "25px" }} />
           <Button variant="text" sx={{ minWidth: "20px" }}>
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>

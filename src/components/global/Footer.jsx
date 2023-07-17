@@ -198,7 +198,7 @@ const Footer = () => {
         </div>
       </div>
       <Typography variant="body" sx={{ color: "#fff", fontWeight: "600" }}>
-        Copyright 2023, CV. Langgeng Tani Makmur
+      © Copyright 2023, CV. Langgeng Tani Makmur
       </Typography>
     </div>
   );

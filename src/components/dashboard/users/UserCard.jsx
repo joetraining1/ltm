@@ -13,7 +13,7 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 const UserCard = ({ ind }) => {
   return (
-    <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
+    <Grow in={true} unmountOnExit mountOnEnter timeout={ind ? ind * 100 : 100}>
       <Card
         elevation={3}
         sx={{
@@ -86,6 +86,7 @@ const UserCard = ({ ind }) => {
             </Typography>
           </div>
         </div>
+        <Divider sx={{ width: '90%', margin: '3% 0'}}/>
         <div
           style={{
             display: "flex",

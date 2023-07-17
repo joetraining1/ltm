@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import React from "react";
 import {
   H5style,
@@ -93,6 +93,7 @@ const ProductCard = () => {
             >
               <EditRoundedIcon />
             </Button>
+            <Divider orientation="vertical" sx={{ height: '30px'}}/>
             <Button
               variant="text"
               sx={{

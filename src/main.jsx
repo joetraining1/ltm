@@ -10,9 +10,9 @@ import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <ToastContainer newestOnTop />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+    <ToastContainer newestOnTop />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );

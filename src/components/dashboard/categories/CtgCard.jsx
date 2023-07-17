@@ -23,16 +23,16 @@ const CtgCard = ({ title, ind, desc, dibuat, id }) => {
         <Typography variant="h5" style={H5style}>
           {title}
         </Typography>
+        <Divider sx={{ width: '100%', margin: '6% 0 0 0'}}/>
         <div
           style={{
             width: "100%",
             display: "flex",
-            flexWrap: "wrap",
             height: "60%",
             alignItems: "center",
           }}
         >
-          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "left" }}>
+          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "center" }}>
             {desc}
           </Typography>
         </div>

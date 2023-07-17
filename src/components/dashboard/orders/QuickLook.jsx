@@ -2,7 +2,7 @@ import { Button, Card, Grow } from "@mui/material";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const QuickPeek = () => {
+const QuickLook = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -24,8 +24,6 @@ const QuickPeek = () => {
         kebutuhan :
         <br /> 
         - lihat status
-        <br /> 
-        - batalkan pesanan 
         <br />
         - lihat jumlah item 
         <br />
@@ -33,11 +31,11 @@ const QuickPeek = () => {
         <br />
         - lihat produk
         <br />
-        - lihat biaya pengiriman
+        - lihat + edit biaya pengiriman
         <br />
         - lihat + edit/input pembayaran
         <br />
-        - lihat resi kurir
+        - lihat + edit/input resi kurir
         <Button
           variant="contained"
           sx={{
@@ -47,7 +45,7 @@ const QuickPeek = () => {
             marginTop: "auto",
             marginLeft: "auto",
           }}
-          onClick={() => navigate(`/shop/order/${id}`)}
+          onClick={() => navigate(`/dashboard/order/${id}`)}
         >
           Lihat invoice
         </Button>
@@ -56,4 +54,4 @@ const QuickPeek = () => {
   );
 };
 
-export default QuickPeek;
+export default QuickLook;

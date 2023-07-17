@@ -23,6 +23,8 @@ const StatusCard = ({ title, ind, desc, dibuat, id }) => {
         <Typography variant="h6" style={{...H5style, margin: '10px 0'}}>
           {title}
         </Typography>
+        <Divider sx={{ width: '100%', margin: '3% 0 5% 0'}}/>
+
         <div
           style={{
             width: "100%",
@@ -32,7 +34,7 @@ const StatusCard = ({ title, ind, desc, dibuat, id }) => {
             alignItems: "start",
           }}
         >
-          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "left" }}>
+          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "center" }}>
             {desc}
           </Typography>
         </div>

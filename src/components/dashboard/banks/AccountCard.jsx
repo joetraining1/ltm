@@ -3,7 +3,7 @@ import React from "react";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-import { H5style, LabelStyle, SideNoteStyle } from "../../../utils/constants";
+import { H5style, LabelStyle, LabelStyle2, SideNoteStyle } from "../../../utils/constants";
 
 const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
   return (
@@ -16,12 +16,13 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
           width: "300px",
           height: "300px",
           alignItems: "center",
+          paddingTop: '10px'
         }}
       >
         <div
           style={{
-            width: "175px",
-            height: "175px",
+            width: "150px",
+            height: "150px",
             display: "grid",
             placeItems: "center",
           }}
@@ -34,6 +35,8 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             }}
           />
         </div>
+        <Divider sx={{ width: '90%'}}/>
+
         <div
           style={{
             height: "100px",
@@ -52,12 +55,12 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             }}
           >
             <div style={{ display: "flex", width: "70%", alignItems: 'center' }}>
-              <Typography variant="body" sx={H5style}>
+              <Typography variant="body" sx={LabelStyle2}>
                 No. Rekening
               </Typography>
               <Typography
                 variant="body"
-                sx={{ ...H5style, marginLeft: "auto" }}
+                sx={{ ...LabelStyle2, marginLeft: "auto" }}
               >
                 :
               </Typography>
@@ -81,12 +84,12 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             }}
           >
             <div style={{ display: "flex", width: "70%" }}>
-              <Typography variant="body" sx={H5style}>
+              <Typography variant="body" sx={LabelStyle2}>
                 Nama Bank
               </Typography>
               <Typography
                 variant="body"
-                sx={{ ...H5style, marginLeft: "auto" }}
+                sx={{ ...LabelStyle2, marginLeft: "auto" }}
               >
                 :
               </Typography>
@@ -110,12 +113,12 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             }}
           >
             <div style={{ display: "flex", width: "70%" }}>
-              <Typography variant="body" sx={H5style}>
+              <Typography variant="body" sx={LabelStyle2}>
                 Pemilik
               </Typography>
               <Typography
                 variant="body"
-                sx={{ ...H5style, marginLeft: "auto" }}
+                sx={{ ...LabelStyle2, marginLeft: "auto" }}
               >
                 :
               </Typography>

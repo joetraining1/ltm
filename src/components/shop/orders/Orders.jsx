@@ -15,6 +15,7 @@ import {
   FilterProduk,
   H4style,
   H5style,
+  StatusPesanan,
 } from "../../../utils/constants";
 import Cart from "../cart/Cart";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -25,7 +26,7 @@ import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 const Orders = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([...Array(13)]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
   const eleRef = useRef();
 
@@ -65,7 +66,15 @@ const Orders = () => {
     return SortedArr;
   };
 
+  let activeDataset;
+
   const Hero = MultiArray(datas, 9);
+  const HeroItem = Hero.map((item, index) => {
+    if (pageActive === index) {
+      return (activeDataset = item.dataset);
+    }
+    return null;
+  });
 
   return (
     <div
@@ -140,16 +149,17 @@ const Orders = () => {
           }}
           defaultValue="DELIVERING"
         >
-          {FilterPesanan.map((item, index) => {
+          {StatusPesanan.map((item, index) => {
             return (
-              <MenuItem key={item.id} value={item.value} sx={H5style}>
-                {item.value}
+              <MenuItem key={item.id} value={item.title} sx={H5style}>
+                {item.title}
               </MenuItem>
             );
           })}
         </TextField>
       </div>
-      {//asdasd this is the mapped data using grid
+      {
+        //asdasd this is the mapped data using grid
       }
       <div
         style={{
@@ -164,27 +174,31 @@ const Orders = () => {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            width: detailOn ? "45%" : "100%",
-            height: "55svh",
+            width: detailOn ? "55%" : "100%",
+            height:
+              activeDataset.length < 4
+                ? "24svh"
+                : activeDataset.length < 7
+                ? "47svh"
+                : "70svh",
             gap: "1vw",
             overflow: "auto",
             alignContent: "start",
-            transition: "width 0.4s ease",
+            transition: "width 0.4s ease, height 0.4s ease",
             padding: "1vw",
             "&::-webkit-scrollbar": {
               background: "#fff",
             },
           }}
         >
-          {Hero.map((item, index) => {
-            if (index === pageActive) {
-              return item.dataset.map((i, ind) => {
-                return (
-                  <OrderItem key={ind} ind={ind} spill={() => showQuick(ind)} />
-                );
-              });
-            }
-            return null;
+          {activeDataset.map((item, index) => {
+            return (
+              <OrderItem
+                key={index}
+                ind={index}
+                spill={() => showQuick(index)}
+              />
+            );
           })}
         </div>
         {detailOn ? (

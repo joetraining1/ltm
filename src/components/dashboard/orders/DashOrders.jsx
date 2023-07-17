@@ -62,6 +62,15 @@ const DashOrders = () => {
   };
 
   const Hero = MultiArray(datas, 9);
+
+  let activeDataset;
+
+  const HeroItem = Hero.map((item, index) => {
+    if (pageActive === index) {
+      return (activeDataset = item.dataset);
+    }
+    return null;
+  });
   return (
     <div
       style={{
@@ -178,29 +187,32 @@ const DashOrders = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              width: detailOn ? "45%" : "100%",
-              height: "55svh",
+              gridTemplateColumns:
+                activeDataset.length < 3
+                  ? "repeat(auto-fit, minmax(250px, 300px))"
+                  : "repeat(auto-fit, minmax(250px, 1fr))",
+              width: detailOn ? "55%" : "100%",
+              height: activeDataset.length < 4
+              ? "24svh"
+              : activeDataset.length < 7
+              ? "46svh"
+              : "70svh",
               gap: "1vw",
               overflow: "auto",
               alignContent: "start",
-              transition: "width 0.4s ease",
+              transition: "width 0.4s ease, height 0.4s ease",
               padding: "1vw",
             }}
           >
-            {Hero.map((item, index) => {
-              if (index === pageActive) {
-                return item.dataset.map((i, ind) => {
-                  return (
-                    <DashOrderItem
-                      key={ind}
-                      id={ind}
-                      // spill={() => showQuick(ind)}
-                    />
-                  );
-                });
-              }
-              return null;
+            {activeDataset.map((item, index) => {
+              return (
+                <DashOrderItem
+                  key={index}
+                  id={index}
+                  ind={index}
+                  spill={() => showQuick(index)}
+                />
+              );
             })}
           </div>
           {detailOn ? (

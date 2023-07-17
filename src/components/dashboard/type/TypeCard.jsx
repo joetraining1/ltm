@@ -5,7 +5,7 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
-const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
+const TypeCard = ({ title, dibuat, ind, desc, id }) => {
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -14,7 +14,7 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
           display: "flex",
           flexDirection: "column",
           width: "300px",
-          height: "200px",
+          height: "225px",
           alignItems: "center",
           padding: "1vw",
         }}
@@ -22,17 +22,17 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
         <Typography variant="h5" style={H5style}>
           {title}
         </Typography>
-        <Divider sx={{ width: '100%', margin: '4% 0 0 0'}}/>
+        <Divider sx={{ width: '100%', margin: '3% 0'}}/>
         <div
           style={{
             width: "100%",
             display: "flex",
             flexWrap: "wrap",
             height: "60%",
-            alignItems: "center",
+            alignItems: "start",
           }}
         >
-          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "center" }}>
+          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: 'center' }}>
             {desc}
           </Typography>
         </div>
@@ -60,4 +60,4 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
   );
 };
 
-export default PaymentCard;
+export default TypeCard;

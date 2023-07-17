@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Grow, Typography } from "@mui/material";
 import React from "react";
-import { H5style, SideNoteStyle } from "../../../utils/constants";
+import { H5style, LabelStyle2, SideNoteStyle } from "../../../utils/constants";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
@@ -16,12 +16,13 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
           width: "300px",
           height: "275px",
           alignItems: "center",
+          paddingTop: '25px'
         }}
       >
         <div
           style={{
-            width: "175px",
-            height: "175px",
+            width: "150px",
+            height: "150px",
             display: "grid",
             placeItems: "center",
           }}
@@ -34,6 +35,8 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             }}
           />
         </div>
+        <Divider sx={{ width: "90%", margin: "3% 0" }} />
+
         <div
           style={{
             height: "100px",
@@ -51,12 +54,12 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             }}
           >
             <div style={{ display: "flex", width: "70%" }}>
-              <Typography variant="body" sx={H5style}>
+              <Typography variant="body" sx={LabelStyle2}>
                 Nama Bank
               </Typography>
               <Typography
                 variant="body"
-                sx={{ ...H5style, marginLeft: "auto" }}
+                sx={{ ...LabelStyle2, marginLeft: "auto" }}
               >
                 :
               </Typography>
@@ -80,12 +83,12 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             }}
           >
             <div style={{ display: "flex", width: "70%" }}>
-              <Typography variant="body" sx={H5style}>
+              <Typography variant="body" sx={LabelStyle2}>
                 Acronim
               </Typography>
               <Typography
                 variant="body"
-                sx={{ ...H5style, marginLeft: "auto" }}
+                sx={{ ...LabelStyle2, marginLeft: "auto" }}
               >
                 :
               </Typography>

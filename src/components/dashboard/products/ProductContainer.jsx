@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Typography } from "@mui/material";
 import React from "react";
-import { H5style, MetaStyle } from "../../../utils/constants";
+import { H5style, LabelStyle, MetaStyle } from "../../../utils/constants";
 import ProductCard from "./ProductCard";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 
@@ -23,8 +23,8 @@ const ProductContainer = ({ title, data }) => {
         <Typography variant="h5" sx={H5style}>
           Category produk : {title}
         </Typography>
-        <Button variant="contained">
-            <PlusOneRoundedIcon />
+        <Button variant="contained" startIcon={<PlusOneRoundedIcon />} sx={LabelStyle}>
+            Tambah Produk
         </Button>
       </div>
       <Divider />
