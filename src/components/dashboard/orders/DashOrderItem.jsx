@@ -9,7 +9,7 @@ import {
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import profi from "../../../assets/pagani.jpg";
 
-const DashOrderItem = ({ id, ind, spill }) => {
+const DashOrderItem = ({ id, ind, spill, actionEdit }) => {
   return (
     <Grow timeout={ind * 100} in={true} unmountOnExit mountOnEnter>
       <Card
@@ -89,7 +89,7 @@ const DashOrderItem = ({ id, ind, spill }) => {
           <Typography sx={{ ...SideNoteStyle, marginLeft: "3%" }}>
             14 juni 2023
           </Typography>
-          <Button variant="text" sx={{ marginLeft: "auto", ...LabelStyle }}>
+          <Button variant="text" sx={{ marginLeft: "auto", ...LabelStyle }} onClick={() => actionEdit()}>
             Edit
           </Button>
           <Divider orientation="vertical" sx={{ height: '25px'}}/> 

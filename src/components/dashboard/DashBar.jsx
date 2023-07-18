@@ -54,29 +54,22 @@ const DashBar = () => {
       <Divider />
       {DashMenu.map((item, index) => {
         return (
-          <NavLink key={item.id} to={item.to} active="active-link" style={({ isActive }) => {
-            return {
-              '& button': {
-                background: isActive ? '#262626' : '#fff' 
-              }
-            }
-          }}>
-            <Button
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-start",
-                gap: "1vw",
-                alignItems: "center",
-              }}
-              className="buttons"
-            >
-              <item.icon sx={iconStyle} />
-              <Typography variant="h6" sx={menuItemStyle}>
-                {item.title}
-              </Typography>
-            </Button>
-          </NavLink>
+          <Button
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: "1vw",
+              alignItems: "center",
+            }}
+            onClick={() => navigate(item.to)}
+            key={item.id}
+          >
+            <item.icon sx={iconStyle} />
+            <Typography variant="h6" sx={menuItemStyle}>
+              {item.title}
+            </Typography>
+          </Button>
         );
       })}
     </Card>

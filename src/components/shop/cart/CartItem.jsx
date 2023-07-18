@@ -67,7 +67,13 @@ const CartItem = ({ ind, price }) => {
   };
 
   const minusOne = () => {
-    const IntQty = parseInt(qty);
+    let IntQty;
+    if (qty === "") {
+      IntQty = 0;
+      setQty(IntQty.toString());
+      return null;
+    }
+    IntQty = parseInt(qty);
     if (IntQty <= 0) {
       return null;
     }

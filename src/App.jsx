@@ -20,7 +20,9 @@ const Products = lazy(() => import("./components/dashboard/products/Products"));
 const DashboardOrder = lazy(() =>
   import("./components/dashboard/orders/DashOrders")
 );
+const Profile = lazy(() => import('./pages/Profile'));
 const QuickLook = lazy(() => import("./components/dashboard/orders/QuickLook"))
+const QuickEdit = lazy(() => import("./components/dashboard/orders/QuickEdit"))
 const Carts = lazy(() => import("./components/dashboard/carts/Carts"));
 const Ctgs = lazy(() => import("./components/dashboard/categories/Ctgs"));
 const Banks = lazy(() => import("./components/dashboard/banks/Banks"));
@@ -50,15 +52,17 @@ function App() {
               <Route path="order/:id" element={<Invoice />} />
               <Route path="payment" element={<Completion />} />
               <Route path="checkout" element={<Checkout />} />
+              <Route path="profile" element={<Profile />} />
               <Route path="guide" element={<Guide />} />
             </Route>
-            <Route path="product" element={<Product />}></Route>
+            <Route path="product" element={<Product />} />
             <Route path="dashboard" element={<Dashboard />}>
               <Route index element={<DashHome />} />
               <Route path="types" element={<UserType />} />
               <Route path="products" element={<Products />} />
               <Route path="orders" element={<DashboardOrder />}>
                 <Route path=":id" element={<QuickLook />} />
+                <Route path="edit/:id" element={<QuickEdit />} />
               </Route>
               <Route path="order/:id" element={<Invoice />} />
               <Route path="carts" element={<Carts />}>

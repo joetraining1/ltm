@@ -13,6 +13,8 @@ import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AtmOutlinedIcon from '@mui/icons-material/AtmOutlined';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
+import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+
 import BCA from '../assets/bca.png'
 import BNI from '../assets/bni.png'
 import CIMB from '../assets/cimb.png'
@@ -177,6 +179,21 @@ export const H4style = {
     margin: '1vw 0'
 }
 
+export const MetaValue = {
+    fontFamily: 'Signika Negative, sans-serif',
+    fontWeight: '600',
+    color: '#262626',
+    width: '60%',
+    textAlign: 'right'
+}
+export const MetaValue2 = {
+    fontFamily: 'Signika Negative, sans-serif',
+    fontWeight: '600',
+    color: '#262626',
+    width: '100%',
+    textAlign: 'left'
+}
+
 export const MetaStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -201,6 +218,13 @@ export const MetaStyle4 = {
     width: '75%',
     alignItems: 'center',
     gap: '5px'
+}
+export const MetaStyle5 = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
 }
 
 export const iconStyle = {
@@ -394,7 +418,10 @@ export const Category = [
 ]
 
 export const AvaSize = {
+    navPic: 30,
     badge: 36,
+    profPic: 48,
+    profile2: 84,
     profile: 96
 }
 

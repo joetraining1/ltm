@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { FilterPesanan, H4style, H5style } from "../../../utils/constants";
+import { FilterPesanan, H4style, H5style, StatusPesanan } from "../../../utils/constants";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import DashOrderItem from "./DashOrderItem";
@@ -22,7 +22,6 @@ const DashOrders = () => {
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([...Array(10)]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
-  const eleRef = useRef();
 
   const navigate = useNavigate();
 
@@ -35,6 +34,12 @@ const DashOrders = () => {
     navigate(`${id}`);
     return;
   };
+
+  const editMode = (id) => {
+    setDetailOn(true);
+    navigate(`edit/${id}`)
+    return
+  }
 
   const backButton = () => {
     navigate(-1);
@@ -144,10 +149,10 @@ const DashOrders = () => {
           }}
           defaultValue="DELIVERING"
         >
-          {FilterPesanan.map((item, index) => {
+          {StatusPesanan.map((item, index) => {
             return (
-              <MenuItem key={item.id} value={item.value} sx={H5style}>
-                {item.value}
+              <MenuItem key={item.id} value={item.title} sx={H5style}>
+                {item.title}
               </MenuItem>
             );
           })}
@@ -192,7 +197,7 @@ const DashOrders = () => {
                   ? "repeat(auto-fit, minmax(250px, 300px))"
                   : "repeat(auto-fit, minmax(250px, 1fr))",
               width: detailOn ? "55%" : "100%",
-              height: activeDataset.length < 4
+              height: detailOn ? "85svh" : activeDataset.length < 4
               ? "24svh"
               : activeDataset.length < 7
               ? "46svh"
@@ -211,6 +216,7 @@ const DashOrders = () => {
                   id={index}
                   ind={index}
                   spill={() => showQuick(index)}
+                  actionEdit={() => editMode(index)}
                 />
               );
             })}

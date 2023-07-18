@@ -7,6 +7,7 @@ import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutl
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined";
 import { Link, useNavigate } from "react-router-dom";
+import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
 
 const ShopBar = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const ShopBar = () => {
     <Card
       sx={{
         width: "350px",
-        height: "320px",
+        height: "370px",
         transition: "height 0.2s ease",
         padding: "1vw",
         display: "flex",
@@ -85,6 +86,21 @@ const ShopBar = () => {
         <ShoppingCartCheckoutRoundedIcon sx={iconStyle} />
         <Typography variant="h6" sx={menuItemStyle}>
           Checkout
+        </Typography>
+      </Button>
+      <Button
+        onClick={() => navigate('profile')}
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "flex-start",
+          gap: "1vw",
+          alignItems: "center",
+        }}
+      >
+        <PermIdentityRoundedIcon sx={iconStyle} />
+        <Typography variant="h6" sx={menuItemStyle}>
+          Profile
         </Typography>
       </Button>
       <Button
