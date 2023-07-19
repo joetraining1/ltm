@@ -2,6 +2,7 @@ import {
   Button,
   Divider,
   InputBase,
+  Modal,
   Pagination,
   PaginationItem,
   Paper,
@@ -19,6 +20,10 @@ const Users = () => {
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([...Array(13)]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
 
   const navigate = useNavigate();
 
@@ -132,6 +137,7 @@ const Users = () => {
             display: "flex",
             justifyContent: "space-between",
           }}
+          onClick={() => handleOpen()}
         >
           <PlusOneRoundedIcon />
           Tambah user
@@ -165,6 +171,25 @@ const Users = () => {
         renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
         onChange={handleChangePage}
       />
+      <Modal
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "450px",
+            height: "500px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+          }}
+        ></Paper>
+      </Modal>
     </div>
   );
 };

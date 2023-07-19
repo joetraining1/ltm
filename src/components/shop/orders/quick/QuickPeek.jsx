@@ -26,6 +26,8 @@ import {
 } from "../../../../utils/constants";
 import Paganini from "../../../../assets/pagani.jpg";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
+
 import QuickItems from "../../../dashboard/orders/quick/QuickItems";
 import proof1 from "../../../../assets/proof1.png";
 import resi1 from "../../../../assets/resi1.png";
@@ -35,8 +37,31 @@ const QuickPeek = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([...Array(10)]);
+  const [proofing, setProofing] = useState("");
 
   const navigate = useNavigate();
+
+  const FileImageHandler = (submits) => {
+    setProofing(URL.createObjectURL(submits));
+    return
+  }
+
+  const FileExtractor = (submitted) => {
+    if (submitted) {
+      if (submitted.size > 2000000) {
+        return toastError("Ukuran file melebihi batas.");
+      }
+      if (submitted.name.length > 11) {
+        const name = submitted?.name;
+        const lastExt = name.lastIndexOf(".");
+        const fileName = name.substring(0, 10).concat("...");
+        const ext = name.substring(lastExt + 1);
+        return setProofing(fileName.concat(ext));
+      }
+      return setProofing(submitted?.name);
+    }
+    return null;
+  };
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -78,7 +103,7 @@ const QuickPeek = () => {
       <Card
         sx={{
           width: "100%",
-          height: "85svh",
+          height: "90svh",
           padding: "2vw",
           display: "flex",
           flexDirection: "column",
@@ -141,11 +166,11 @@ const QuickPeek = () => {
           }}
         >
           <div style={MetaStyle5}>
-            <div style={{display: 'flex', width: '100%'}}>
+            <div style={{ display: "flex", width: "100%" }}>
               <Typography variant="body" sx={LabelStyle2}>
                 Order No.
               </Typography>
-              <Typography variant="body" sx={{ marginLeft: 'auto'}}>
+              <Typography variant="body" sx={{ marginLeft: "auto" }}>
                 00{id}
               </Typography>
             </div>
@@ -259,9 +284,73 @@ const QuickPeek = () => {
           />
         </div>
         <Divider />
-        <div style={MetaStyle3}>
-          <PhotoViewer picurl={proof1} title="Bukti Pembayaran"/>
-          <PhotoViewer picurl={resi1} title="Resi"/>
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', alignItems: 'start', height: '32%'}}>
+          {proofing !== "" ? (
+            <div style={{
+              display: 'flex',
+              width: '100%',
+              flexDirection: 'column',
+              gap: '10px'
+            }}>
+              <PhotoViewer picurl={proofing} title="Bukti Pembayaran" />
+              <Button
+              component="label"
+              variant="contained"
+              sx={{
+                background: "#fff",
+                color: "#00ff00",
+                width: "95%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "700",
+                display: "flex",
+                alignItems: "center",
+                "&:hover": {
+                  background: "#00ff00",
+                  color: "#fff",
+                },
+              }}
+              startIcon={<CloudUploadRoundedIcon />}
+            >
+              Ubah foto
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={(e) => FileImageHandler(e.target.files[0])}
+              />
+            </Button>
+            </div>
+            
+          ) : (
+            <Button
+              component="label"
+              variant="contained"
+              sx={{
+                background: "#fff",
+                color: "#00ff00",
+                width: "95%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "700",
+                display: "flex",
+                margin: 'auto 0',
+                alignItems: "center",
+                "&:hover": {
+                  background: "#00ff00",
+                  color: "#fff",
+                },
+              }}
+              startIcon={<CloudUploadRoundedIcon />}
+            >
+              Bukti Pembayaran
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={(e) => FileImageHandler(e.target.files[0])}
+              />
+            </Button>
+          )}
+          <PhotoViewer picurl={resi1} title="Resi" />
         </div>
         <div
           style={{

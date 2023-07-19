@@ -4,8 +4,13 @@ import { LabelStyle2 } from "../../utils/constants";
 
 const PhotoViewer = ({ picurl, title }) => {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [proofing, setProofing] = useState(picurl ? picurl : "");
+  const [picFile, setPicFile] = useState("");
+  
   const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+
+
   return (
     <div
       style={{

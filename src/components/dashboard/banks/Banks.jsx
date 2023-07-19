@@ -4,6 +4,7 @@ import {
   Button,
   Divider,
   InputBase,
+  Modal,
   Pagination,
   PaginationItem,
   Paper,
@@ -15,6 +16,10 @@ import BankCard from "./BankCard";
 import BankGridDisplayer from "./BankGridDisplayer";
 
 const Banks = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
 
   return (
     <div
@@ -80,6 +85,7 @@ const Banks = () => {
             justifyContent: "space-between",
             marginLeft: "auto",
           }}
+          onClick={() => handleOpen()}
         >
           <PlusOneRoundedIcon />
           Tambah Akun Bank
@@ -94,13 +100,33 @@ const Banks = () => {
             display: "flex",
             justifyContent: "space-between",
           }}
+          onClick={() => handleOpen()}
         >
           <PlusOneRoundedIcon />
           Tambah Bank
         </Button>
-        </div>
-        <BankGridDisplayer judul="Daftar Akun Bank" accounts={AccountItem}/>
-        <BankGridDisplayer judul="Daftar Bank" datasets={BankItem}/>
+      </div>
+      <BankGridDisplayer judul="Daftar Akun Bank" accounts={AccountItem} />
+      <BankGridDisplayer judul="Daftar Bank" datasets={BankItem} />
+      <Modal
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "450px",
+            height: "500px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+          }}
+        ></Paper>
+      </Modal>
     </div>
   );
 };

@@ -176,6 +176,7 @@ const Orders = () => {
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
             width: detailOn ? "55%" : "100%",
             height:
+            detailOn ? "90svh" :
               activeDataset.length < 4
                 ? "24svh"
                 : activeDataset.length < 7
