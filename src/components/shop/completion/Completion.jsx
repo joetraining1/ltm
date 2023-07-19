@@ -1,6 +1,6 @@
 import { Card, Typography } from "@mui/material";
 import React from "react";
-import { H4style, H5style } from "../../../utils/constants";
+import { H4style, H5style, LabelStyle2 } from "../../../utils/constants";
 import PaymentMeta from "./PaymentMeta";
 import PaymentForm from "./PaymentForm";
 import PaymentData from "./PaymentData";
@@ -16,14 +16,14 @@ const Completion = () => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          height: 'fit-content',
+          height: "fit-content",
           minHeight: "75svh",
           margin: "1vw 0",
           padding: "1vw",
           gap: "1vw",
         }}
       >
-        <Typography variant="h5" sx={H5style}>
+        <Typography variant="h5" sx={LabelStyle2}>
           Detail Pesanan
         </Typography>
         <div
@@ -39,9 +39,8 @@ const Completion = () => {
             style={{
               width: "100%",
               height: "100%",
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <PaymentData />
@@ -50,10 +49,10 @@ const Completion = () => {
             style={{
               width: "50%",
               height: "100%",
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1vw',
-              justifyContent: 'space-evenly',
+              display: "flex",
+              flexDirection: "column",
+              gap: "1vw",
+              justifyContent: "space-evenly",
             }}
           >
             <PaymentMeta />

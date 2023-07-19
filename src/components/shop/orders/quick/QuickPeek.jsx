@@ -365,12 +365,24 @@ const QuickPeek = () => {
             14 juni 2023
           </Typography>
           <Button
+            variant="text"
+            sx={{
+              fontFamily: "Signika Negative, sans-serif",
+              fontWeight: "600",
+              minWidth: "10px",
+              color: '#FF0000',
+              marginLeft: "auto",
+            }}
+          >
+            cancel
+          </Button>
+          <Button
             variant="contained"
             sx={{
               fontFamily: "Signika Negative, sans-serif",
               fontWeight: "600",
               width: "150px",
-              marginLeft: "auto",
+              marginLeft: '3%'
             }}
             onClick={() => navigate(`/shop/order/${id}`)}
           >

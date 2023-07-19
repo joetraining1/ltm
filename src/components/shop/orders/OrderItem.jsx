@@ -9,6 +9,7 @@ import {
 } from "../../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
@@ -63,7 +64,6 @@ const OrderItem = ({ ind, spill }) => {
             width: "100%",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
             marginTop: "auto",
           }}
         >
@@ -71,6 +71,7 @@ const OrderItem = ({ ind, spill }) => {
           <Typography sx={{ ...SideNoteStyle }}>14 Juni 2023</Typography>
           <Button
             variant="text"
+            size="small"
             sx={{
               minWidth: "20px",
               ...LabelStyle,
@@ -78,11 +79,10 @@ const OrderItem = ({ ind, spill }) => {
               marginLeft: "auto",
             }}
           >
-            Delete
+            delete
           </Button>
-          <Divider orientation="vertical" />
           <Button
-            size="medium"
+            size="small"
             variant="text"
             sx={{
               fontFamily: "Signika Negative, sans-serif",

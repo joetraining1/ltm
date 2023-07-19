@@ -15,7 +15,6 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import CartCard from "./CartCard";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 
-
 const Carts = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
@@ -58,7 +57,15 @@ const Carts = () => {
     return SortedArr;
   };
 
+  let activeDataset;
+
   const Hero = MultiArray(datas, 9);
+  const HeroItem = Hero.map((item, index) => {
+    if (pageActive === index) {
+      return (activeDataset = item.dataset);
+    }
+    return null;
+  });
 
   return (
     <div
@@ -66,7 +73,6 @@ const Carts = () => {
         display: "flex",
         flexDirection: "column",
         minHeight: "50svh",
-        background: "#fff",
         width: "100%",
         gap: "1vw",
       }}
@@ -123,8 +129,15 @@ const Carts = () => {
           display: "flex",
           justifyContent: "space-evenly",
           width: "100%",
-          height: "fit-content",
+          height:  detailOn
+          ? "60svh"
+          : activeDataset.length < 4
+          ? "24svh"
+          : activeDataset.length < 7
+          ? "54svh"
+          : "68svh",
           gap: "1vw",
+          transition: "height 0.4s ease-in-out",
         }}
       >
         <div
@@ -132,21 +145,28 @@ const Carts = () => {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
             width: detailOn ? "52%" : "100%",
-            height: "70svh",
+            height: detailOn
+              ? "60svh"
+              : activeDataset.length < 4
+              ? "24svh"
+              : activeDataset.length < 7
+              ? "54svh"
+              : "68svh",
             gap: "1vw",
             overflow: "auto",
             alignContent: "start",
-            transition: "width 0.4s ease",
+            transition: "width 0.4s ease, height 0.4s ease-in-out",
             padding: "1vw",
           }}
         >
-          {Hero.map((item, index) => {
-            if (index === pageActive) {
-              return item.dataset.map((i, ind) => {
-                return <CartCard key={ind} ind={ind} spill={() => showQuick(ind)}/>;
-              }); 
-            }
-            return null;
+          {activeDataset.map((item, index) => {
+            return (
+              <CartCard
+                key={index}
+                ind={index}
+                spill={() => showQuick(index)}
+              />
+            );
           })}
         </div>
         {detailOn ? (

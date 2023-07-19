@@ -14,12 +14,23 @@ import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import BankCard from "./BankCard";
 import BankGridDisplayer from "./BankGridDisplayer";
+import AccountForm from './form/AccountForm'
+import BankForm from './form/BankForm'
 
 const Banks = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [mode, setMode] = useState("");
 
-  const handleClose = () => setModalOpen(false);
-  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => {
+    setMode("")
+    setModalOpen(false)
+    return
+  };
+  const handleOpen = (edit) => {
+    setMode(edit)
+    setModalOpen(true)
+    return
+  };
 
   return (
     <div
@@ -85,7 +96,7 @@ const Banks = () => {
             justifyContent: "space-between",
             marginLeft: "auto",
           }}
-          onClick={() => handleOpen()}
+          onClick={() => handleOpen("account")}
         >
           <PlusOneRoundedIcon />
           Tambah Akun Bank
@@ -100,7 +111,7 @@ const Banks = () => {
             display: "flex",
             justifyContent: "space-between",
           }}
-          onClick={() => handleOpen()}
+          onClick={() => handleOpen("bank")}
         >
           <PlusOneRoundedIcon />
           Tambah Bank
@@ -117,15 +128,25 @@ const Banks = () => {
         <Paper
           sx={{
             width: "450px",
-            height: "500px",
+            minHeight: "350px",
+            height: 'fit-content',
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
           }}
-        ></Paper>
+        >
+          {mode === "account" ? <AccountForm onClose={() => handleClose()}/> : null}
+          {mode === "bank" ? <BankForm onClose={() => handleClose()} /> : null}
+        </Paper>
       </Modal>
     </div>
   );

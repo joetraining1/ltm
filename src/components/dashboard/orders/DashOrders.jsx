@@ -12,7 +12,12 @@ import {
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { FilterPesanan, H4style, H5style, StatusPesanan } from "../../../utils/constants";
+import {
+  FilterPesanan,
+  H4style,
+  H5style,
+  StatusPesanan,
+} from "../../../utils/constants";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import DashOrderItem from "./DashOrderItem";
@@ -29,7 +34,6 @@ const DashOrders = () => {
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
 
-
   const navigate = useNavigate();
 
   const handleChangePage = (event, value) => {
@@ -44,9 +48,9 @@ const DashOrders = () => {
 
   const editMode = (id) => {
     setDetailOn(true);
-    navigate(`edit/${id}`)
-    return
-  }
+    navigate(`edit/${id}`);
+    return;
+  };
 
   const backButton = () => {
     navigate(-1);
@@ -136,34 +140,49 @@ const DashOrders = () => {
             <SearchRoundedIcon />
           </Button>
         </Paper>
-        <TextField
-          label="filter"
-          select
-          sx={{ width: "40%" }}
-          InputProps={{
-            sx: {
-              height: "53px",
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              minHeight: "10px",
-            },
+        <Paper
+          sx={{
+            width: "40%",
+            height: "53px",
+            display: "flex",
+            alignItems: "center",
           }}
-          InputLabelProps={{
-            sx: {
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-            },
-          }}
-          defaultValue="DELIVERING"
         >
-          {StatusPesanan.map((item, index) => {
-            return (
-              <MenuItem key={item.id} value={item.title} sx={H5style}>
-                {item.title}
-              </MenuItem>
-            );
-          })}
-        </TextField>
+          <TextField
+            label="filter"
+            select
+            sx={{ width: "100%" }}
+            InputProps={{
+              sx: {
+                height: "100%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                minHeight: "10px",
+                "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                  outline: "none",
+                },
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                top: '18%',
+                fontSize: '1.1em'
+              },
+            }}
+            defaultValue="DELIVERING"
+          >
+            {StatusPesanan.map((item, index) => {
+              return (
+                <MenuItem key={item.id} value={item.title} sx={H5style}>
+                  {item.title}
+                </MenuItem>
+              );
+            })}
+          </TextField>
+        </Paper>
         <Button
           variant="contained"
           sx={{
@@ -205,11 +224,13 @@ const DashOrders = () => {
                   ? "repeat(auto-fit, minmax(250px, 300px))"
                   : "repeat(auto-fit, minmax(250px, 1fr))",
               width: detailOn ? "55%" : "100%",
-              height: detailOn ? "85svh" : activeDataset.length < 4
-              ? "24svh"
-              : activeDataset.length < 7
-              ? "46svh"
-              : "70svh",
+              height: detailOn
+                ? "85svh"
+                : activeDataset.length < 4
+                ? "24svh"
+                : activeDataset.length < 7
+                ? "46svh"
+                : "70svh",
               gap: "1vw",
               overflow: "auto",
               alignContent: "start",

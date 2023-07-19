@@ -31,7 +31,16 @@ const PaymentData = () => {
     return SortedArr;
   };
 
+  let activeDataset;
+
   const Hero = MultiArray(datas, 3);
+  const HeroItem = Hero.map((item, index) => {
+    if (pageActive === index) {
+      return (activeDataset = item.dataset);
+    }
+    return null;
+  });
+
 
   return (
     <React.Fragment>
@@ -44,14 +53,10 @@ const PaymentData = () => {
           gap: "1vw",
         }}
       >
-        {Hero.map((item, index) => {
-          if (pageActive === index) {
-            return item.dataset.map((i, ind) => {
-              return <PaymentItem key={ind} ind={ind}/>;
-            });
+        {activeDataset.map((item, index) => {
+              return <PaymentItem key={index} ind={index}/>;
           }
-          return null;
-        })}
+        )}
       </div>
       <Pagination
         count={Hero.length}

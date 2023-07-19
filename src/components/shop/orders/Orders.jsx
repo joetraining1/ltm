@@ -129,34 +129,49 @@ const Orders = () => {
             <SearchRoundedIcon />
           </Button>
         </Paper>
-        <TextField
-          label="filter"
-          select
-          sx={{ width: "40%" }}
-          InputProps={{
-            sx: {
-              height: "53px",
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              minHeight: "10px",
-            },
+        <Paper
+          sx={{
+            width: "40%",
+            height: "53px",
+            display: "flex",
+            alignItems: "center",
           }}
-          InputLabelProps={{
-            sx: {
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-            },
-          }}
-          defaultValue="DELIVERING"
         >
-          {StatusPesanan.map((item, index) => {
-            return (
-              <MenuItem key={item.id} value={item.title} sx={H5style}>
-                {item.title}
-              </MenuItem>
-            );
-          })}
-        </TextField>
+          <TextField
+            label="filter"
+            select
+            sx={{ width: "100%" }}
+            InputProps={{
+              sx: {
+                height: "100%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                minHeight: "10px",
+                "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                  outline: "none",
+                },
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                top: "18%",
+                fontSize: "1.1em",
+              },
+            }}
+            defaultValue="DELIVERING"
+          >
+            {StatusPesanan.map((item, index) => {
+              return (
+                <MenuItem key={item.id} value={item.title} sx={H5style}>
+                  {item.title}
+                </MenuItem>
+              );
+            })}
+          </TextField>
+        </Paper>
       </div>
       {
         //asdasd this is the mapped data using grid
@@ -166,7 +181,13 @@ const Orders = () => {
           display: "flex",
           justifyContent: "space-evenly",
           width: "100%",
-          height: "fit-content",
+          height: detailOn
+            ? "95svh"
+            : activeDataset.length < 4
+            ? "24svh"
+            : activeDataset.length < 7
+            ? "47svh"
+            : "70svh",
           gap: "1vw",
         }}
       >
@@ -175,13 +196,13 @@ const Orders = () => {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
             width: detailOn ? "55%" : "100%",
-            height:
-            detailOn ? "90svh" :
-              activeDataset.length < 4
-                ? "24svh"
-                : activeDataset.length < 7
-                ? "47svh"
-                : "70svh",
+            height: detailOn
+              ? "95svh"
+              : activeDataset.length < 4
+              ? "24svh"
+              : activeDataset.length < 7
+              ? "47svh"
+              : "70svh",
             gap: "1vw",
             overflow: "auto",
             alignContent: "start",
@@ -233,7 +254,6 @@ const Orders = () => {
         page={pageActive + 1}
         renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
         onChange={handleChangePage}
-        sx={{ margin: "auto" }}
       />
     </div>
   );

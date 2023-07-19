@@ -5,8 +5,11 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import 'swiper/css';
 import { store } from "./redux/store.jsx";
 import { Provider } from "react-redux";
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

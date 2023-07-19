@@ -64,7 +64,6 @@ const Ctgs = () => {
         display: "flex",
         flexDirection: "column",
         minHeight: "50svh",
-        background: "#fff",
         width: "100%",
         gap: "1vw",
       }}

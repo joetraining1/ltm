@@ -16,7 +16,7 @@ const DashBar = () => {
   return (
     <Card
       sx={{
-        width: "350px",
+        width: "18%",
         height: "fit-content",
         transition: "height 0.2s ease",
         padding: "1vw",
@@ -45,6 +45,7 @@ const DashBar = () => {
             fontWeight: "600",
             color: "#262626",
             cursor: "pointer",
+            fontSize: '1.4em'
           }}
           onClick={() => navigate("/dashboard")}
         >

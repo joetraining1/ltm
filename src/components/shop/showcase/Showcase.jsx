@@ -72,34 +72,49 @@ const Showcase = () => {
             <SearchRoundedIcon />
           </Button>
         </Paper>
-        <TextField
-          label="filter"
-          select
-          sx={{ width: "30%" }}
-          InputProps={{
-            sx: {
-              height: "53px",
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              minHeight: "10px",
-            },
+        <Paper
+          sx={{
+            width: "30%",
+            height: "53px",
+            display: "flex",
+            alignItems: "center",
           }}
-          InputLabelProps={{
-            sx: {
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-            },
-          }}
-          defaultValue="Susu Pasteurisasi"
         >
-          {FilterProduk.map((item, index) => {
-            return (
-              <MenuItem key={item.id} value={item.value} sx={H5style}>
-                {item.value}
-              </MenuItem>
-            );
-          })}
-        </TextField>
+          <TextField
+            label="filter"
+            select
+            sx={{ width: "100%" }}
+            InputProps={{
+              sx: {
+                height: "100%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                minHeight: "10px",
+                "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                  outline: "none",
+                },
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                top: '18%',
+                fontSize: '1.1em'
+              },
+            }}
+            defaultValue="Susu Pasteurisasi"
+          >
+            {FilterProduk.map((item, index) => {
+              return (
+                <MenuItem key={item.id} value={item.value} sx={H5style}>
+                  {item.value}
+                </MenuItem>
+              );
+            })}
+          </TextField>
+        </Paper>
         <Cart mode="two" />
       </div>
       <div
@@ -114,12 +129,14 @@ const Showcase = () => {
         <Typography variant="h5" sx={H5style}>
           Susu Pasteurisasi
         </Typography>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          width: '100%',
-          gap: '1vw'
-        }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            width: "100%",
+            gap: "1vw",
+          }}
+        >
           <ShowcaseCard />
           <ShowcaseCard />
           <ShowcaseCard />
@@ -138,12 +155,14 @@ const Showcase = () => {
         <Typography variant="h5" sx={H5style}>
           Yoghurt
         </Typography>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          width: '100%',
-          gap: '1vw'
-        }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            width: "100%",
+            gap: "1vw",
+          }}
+        >
           <ShowcaseCard />
           <ShowcaseCard />
           <ShowcaseCard />
