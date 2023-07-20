@@ -169,8 +169,8 @@ const DashOrders = () => {
               sx: {
                 fontFamily: "Signika Negative, sans-serif",
                 fontWeight: "600",
-                top: '18%',
-                fontSize: '1.1em'
+                top: "18%",
+                fontSize: "1.1em",
               },
             }}
             defaultValue="DELIVERING"
@@ -226,7 +226,7 @@ const DashOrders = () => {
                   : "repeat(auto-fit, minmax(250px, 1fr))",
               width: detailOn ? "55%" : "100%",
               height: detailOn
-                ? "85svh"
+                ? "100svh"
                 : activeDataset.length < 4
                 ? "24svh"
                 : activeDataset.length < 7
@@ -292,24 +292,24 @@ const DashOrders = () => {
       >
         <Paper
           sx={{
-            width: "450px",
+            width: "1100px",
             minHeight: "350px",
-            height: 'fit-content',
+            height: "63svh",
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '2vw',
-            alignItems: 'center',
-            borderRadius: '5px',
-            gap: '0.5vw'
+            display: "flex",
+            flexDirection: "column",
+            padding: "2vw",
+            alignItems: "center",
+            borderRadius: "5px",
+            gap: "0.5vw",
           }}
         >
-          <OrderForm onClose={() => handleClose()}/>
+          <OrderForm onClose={() => handleClose()} />
         </Paper>
       </Modal>
     </div>

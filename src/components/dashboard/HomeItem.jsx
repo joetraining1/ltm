@@ -126,7 +126,7 @@ const HomeItem = ({ ind }) => {
             fontFamily: "Signika Negative, sans-serif",
             fontWeight: "600",
           }}
-          onClick={() => navigate("/dashboard/orders")}
+          onClick={() => navigate(`/dashboard/orders/${ind}`)}
         >
           Lihat
         </Button>

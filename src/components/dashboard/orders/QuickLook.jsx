@@ -78,7 +78,7 @@ const QuickLook = () => {
       <Card
         sx={{
           width: "100%",
-          height: "85svh",
+          height: "95svh",
           padding: "2vw",
           display: "flex",
           flexDirection: "column",
@@ -263,6 +263,10 @@ const QuickLook = () => {
           <PhotoViewer picurl={proof1} title="Bukti Pembayaran"/>
           <PhotoViewer picurl={resi1} title="Resi"/>
         </div>
+        <Divider />
+        <Typography variant="body" sx={{...LabelStyle2, height: '10%', width: '100%', textAlign: 'center'}}>
+          Terima kasih telah memesan produk olahan susu sapi Marino's Milk & Yoghurt. Dimohon untuk mengecek berkala status dari pesanan anda masing-masing.
+        </Typography>
         <div
           style={{
             display: "flex",
