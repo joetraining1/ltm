@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import {
   FilterPesanan,
@@ -34,6 +34,13 @@ const DashOrders = () => {
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
+
+  useEffect(() => {
+    if(!id){
+      return setDetailOn(false);
+    } 
+    return
+  }, [id])
 
   const navigate = useNavigate();
 

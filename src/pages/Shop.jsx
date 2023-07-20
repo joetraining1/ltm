@@ -20,7 +20,7 @@ const Shop = () => {
           justifyContent: "space-evenly",
           alignItems: "center",
           flexDirection: "column",
-          padding: "1vw 0",
+          padding: "4% 0 1vw 0",
           gap: "1vw",
         }}
       >

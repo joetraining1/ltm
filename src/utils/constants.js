@@ -14,6 +14,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AtmOutlinedIcon from '@mui/icons-material/AtmOutlined';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+import Marino from '../assets/Marino.png';
 
 import BCA from '../assets/bca.png'
 import BNI from '../assets/bni.png'
@@ -22,6 +23,8 @@ import BRI from '../assets/bri.png'
 import Permata from '../assets/permata2.webp'
 import Mandiri from '../assets/mandiri.png'
 import Jateng from '../assets/jateng.png'
+
+export const Logo = Marino;
 
 export const colorHex = {
     green: '#00ff00',

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import Cart from "../shop/cart/Cart";
 import Handler from "../auth/Handler";
+import { Logo } from "../../utils/constants";
 
 const Navbar = () => {
   return (
@@ -27,11 +28,12 @@ const Navbar = () => {
           justifyContent: "space-evenly",
           alignItems: "center",
           padding: "10px 0",
+          gap: "10px",
         }}
       >
         <HashLink
           to="/#home-hero"
-          style={{ fontWeight: "700", fontSize: "1.7em", color: "#FF007F" }}
+          style={{ fontWeight: "700", fontSize: "1.7em", color: "#FF007F", }}
         >
           Marino's
         </HashLink>
@@ -54,14 +56,28 @@ const Navbar = () => {
         >
           Find Us
         </HashLink>
-        <Divider orientation="vertical" />
+        <Divider
+          orientation="vertical"
+          sx={{ marginLeft: "auto", marginRight: "1%" }}
+        />
         <HashLink
           to="/#home-hero"
           style={{ fontWeight: "700", fontSize: "1.7em", color: "#F72585" }}
         >
-          <Avatar sx={{ width: 64, height: 64, marginTop: '35px'}}/>
+          <img
+            src={Logo}
+            style={{
+              width: "75px",
+              height: "auto",
+              margin: "75px 2% 0 2%",
+              filter: "drop-shadow(2px 2px 5px rgba(0,0,0,1))",
+            }}
+          />
         </HashLink>
-        <Divider orientation="vertical" />
+        <Divider
+          orientation="vertical"
+          sx={{ marginRight: "auto", marginLeft: "1%" }}
+        />
         <Link
           to="product"
           style={{ fontWeight: "600", fontSize: "1.3em", color: "#226CE0" }}

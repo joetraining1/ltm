@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import BGmilk from "../../assets/cows4.png";
+import { Logo } from "../../utils/constants";
 
 const Footer = () => {
   const HeadingStyle = {
@@ -52,6 +53,7 @@ const Footer = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              gap: '1vw'
             }}
           >
             <Typography
@@ -60,10 +62,15 @@ const Footer = () => {
                 fontFamily: "Signika Negative, sans-serif",
                 color: "#fff",
                 fontWeight: "700",
+                textShadow: '1px 2px 3px #000000'
               }}
             >
               Marino's <br /> Milk & Yoghurt
             </Typography>
+            <img src={Logo} style={{
+              width: '40%',
+              filter: 'drop-shadow(5px 5px 10px rgba(0,0,0,1))'
+            }}/>
           </div>
           <div
             style={{
@@ -73,7 +80,7 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h5" sx={HeadingStyle}>
+            <Typography variant="h5" sx={{...HeadingStyle, textShadow: '1px 2px 3px #000000'}}>
               Useful Links
             </Typography>
             <div
