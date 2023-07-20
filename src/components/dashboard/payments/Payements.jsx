@@ -194,7 +194,7 @@ const Payements = () => {
             gap: '0.5vw'
           }}
         >
-          <PaymentForm onClose={() => handleClose()}/>
+          <PaymentForm title="Tambah Metode Bayar" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

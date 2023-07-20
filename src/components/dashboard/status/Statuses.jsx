@@ -195,7 +195,7 @@ const Statuses = () => {
             gap: '0.5vw'
           }}
         >
-          <StatusForm onClose={() => handleClose()}/>
+          <StatusForm title="Tambah Status Pesanan" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

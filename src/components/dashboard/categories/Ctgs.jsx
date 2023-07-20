@@ -198,7 +198,7 @@ const Ctgs = () => {
             gap: '0.5vw'
           }}
         >
-          <CtgForm onClose={() => handleClose()}/>
+          <CtgForm title="Tambah Kategori" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

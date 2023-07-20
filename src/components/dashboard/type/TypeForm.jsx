@@ -18,7 +18,7 @@ import {
   import LoupeRoundedIcon from '@mui/icons-material/LoupeRounded';
   
   
-  const TypeForm = ({ onClose }) => {
+  const TypeForm = ({ onClose, title, nama, desc, id }) => {
     const [errorMsg, setErrorMsg] = useState({
     });
     const [proofing, setProofing] = useState("");
@@ -48,7 +48,7 @@ import {
     return (
       <React.Fragment>
         <Typography variant="h6" sx={H5style}>
-          Tambah Tipe Akun
+          {title}
         </Typography>
         <div
           style={{
@@ -80,6 +80,7 @@ import {
               justifyContent: "center",
             }}
             size="small"
+            value={nama ? nama : null}
             InputLabelProps={{
               sx: {
                 ...LabelStyle,
@@ -135,6 +136,7 @@ import {
             minRows={5}
             maxRows={5}
             label="deskripsi.."
+            value={desc ? desc : null}
             sx={{
               width: "100%",
               minHeight: "5px",

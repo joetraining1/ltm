@@ -19,7 +19,7 @@ import {
 
   
   
-  const StatusForm = ({ onClose }) => {
+  const StatusForm = ({ onClose, title, nama, desc }) => {
     const [errorMsg, setErrorMsg] = useState({
     });
     const [proofing, setProofing] = useState("");
@@ -49,7 +49,7 @@ import {
     return (
       <React.Fragment>
         <Typography variant="h6" sx={H5style}>
-          Tambah Status Pesanan
+          {title}
         </Typography>
         <div
           style={{
@@ -74,6 +74,7 @@ import {
             }}/>
           <TextField
             label="nama status.."
+            value={nama ? nama : null}
             sx={{
               width: "100%",
               minHeight: "5px",
@@ -136,6 +137,7 @@ import {
             minRows={5}
             maxRows={5}
             label="deskripsi.."
+            value={desc ? desc : null}
             sx={{
               width: "100%",
               minHeight: "5px",

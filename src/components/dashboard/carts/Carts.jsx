@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { H5style } from "../../../utils/constants";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -32,6 +32,13 @@ const Carts = () => {
     return;
   };
 
+  useEffect(() => {
+    if(!id){
+      return setDetailOn(false);
+    } 
+    return
+  }, [id])
+  
   const backButton = () => {
     navigate(-1);
     return setDetailOn(false);
@@ -130,7 +137,7 @@ const Carts = () => {
           justifyContent: "space-evenly",
           width: "100%",
           height:  detailOn
-          ? "60svh"
+          ? "100svh"
           : activeDataset.length < 4
           ? "24svh"
           : activeDataset.length < 7
@@ -146,7 +153,7 @@ const Carts = () => {
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
             width: detailOn ? "52%" : "100%",
             height: detailOn
-              ? "60svh"
+              ? "95svh"
               : activeDataset.length < 4
               ? "24svh"
               : activeDataset.length < 7

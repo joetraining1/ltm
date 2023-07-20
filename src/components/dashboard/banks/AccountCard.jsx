@@ -1,11 +1,36 @@
-import { Button, Card, Divider, Grow, Typography } from "@mui/material";
-import React from "react";
+import {
+  Button,
+  Card,
+  Divider,
+  Grow,
+  Modal,
+  Paper,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-import { H5style, LabelStyle, LabelStyle2, SideNoteStyle } from "../../../utils/constants";
+import {
+  H5style,
+  LabelStyle,
+  LabelStyle2,
+  SideNoteStyle,
+} from "../../../utils/constants";
+import AccountForm from "./form/AccountForm";
 
 const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => {
+    setModalOpen(false);
+    return;
+  };
+  const handleOpen = () => {
+    setModalOpen(true);
+    return;
+  };
+
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -16,7 +41,7 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
           width: "300px",
           height: "300px",
           alignItems: "center",
-          paddingTop: '10px'
+          paddingTop: "10px",
         }}
       >
         <div
@@ -35,7 +60,7 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             }}
           />
         </div>
-        <Divider sx={{ width: '90%'}}/>
+        <Divider sx={{ width: "90%" }} />
 
         <div
           style={{
@@ -43,7 +68,7 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             width: "100%",
             padding: "10px 1vw 0 1vw",
             marginTop: "auto",
-            marginBottom: '5px'
+            marginBottom: "5px",
           }}
         >
           <div
@@ -54,7 +79,9 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
               gap: "5px",
             }}
           >
-            <div style={{ display: "flex", width: "70%", alignItems: 'center' }}>
+            <div
+              style={{ display: "flex", width: "70%", alignItems: "center" }}
+            >
               <Typography variant="body" sx={LabelStyle2}>
                 No. Rekening
               </Typography>
@@ -146,7 +173,12 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle }}>{dibuat}</Typography>
-          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto", ...LabelStyle }} endIcon={<EditRoundedIcon />}>
+          <Button
+            variant="text"
+            sx={{ minWidth: "20px", marginLeft: "auto", ...LabelStyle }}
+            endIcon={<EditRoundedIcon />}
+            onClick={() => handleOpen()}
+          >
             Edit
           </Button>
           <Divider orientation="vertical" />
@@ -154,6 +186,34 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
+        <Modal
+          open={modalOpen}
+          onClose={() => handleClose()}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Paper
+            sx={{
+              width: "450px",
+              minHeight: "350px",
+              height: "fit-content",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              backgroundColor: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              padding: "2vw",
+              alignItems: "center",
+              borderRadius: "5px",
+              gap: "0.5vw",
+            }}
+          >
+            <AccountForm title="Edit Akun Bank" noRek={akun} bank={bank} onClose={() => handleClose()} />
+          </Paper>
+        </Modal>
       </Card>
     </Grow>
   );

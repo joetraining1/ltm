@@ -1,5 +1,5 @@
-import { Avatar, Button, Card, Divider, Grow, Typography } from "@mui/material";
-import React from "react";
+import { Avatar, Button, Card, Divider, Grow, Modal, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
 import {
   AvaSize,
   H5style,
@@ -10,8 +10,13 @@ import {
 import Pagani from "../../../assets/pagani.jpg";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import UserForm from "./UserForm";
 
 const UserCard = ({ ind }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind ? ind * 100 : 100}>
       <Card
@@ -86,7 +91,7 @@ const UserCard = ({ ind }) => {
             </Typography>
           </div>
         </div>
-        <Divider sx={{ width: '90%', margin: '3% 0'}}/>
+        <Divider sx={{ width: "90%", margin: "3% 0" }} />
         <div
           style={{
             display: "flex",
@@ -100,7 +105,7 @@ const UserCard = ({ ind }) => {
             sx={{
               ...LabelStyle2,
               width: "100%",
-              textAlign: 'center'
+              textAlign: "center",
             }}
           >
             081234567890
@@ -110,7 +115,7 @@ const UserCard = ({ ind }) => {
             sx={{
               ...LabelStyle2,
               width: "100%",
-              textAlign: 'center'
+              textAlign: "center",
             }}
           >
             jl. Suyudono Selatan no. 51, Jakarta Utara, Jakarta
@@ -129,12 +134,41 @@ const UserCard = ({ ind }) => {
           <Button
             sx={LabelStyle}
             startIcon={<BorderColorRoundedIcon sx={{ scale: "0.8" }} />}
+            onClick={() => handleOpen()}
           >
             Edit
           </Button>
           <Divider orientation="vertical" />
           <Button sx={{ ...LabelStyle, color: "#ff0000" }}>Delete</Button>
         </div>
+        <Modal
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "750px",
+            minHeight: "350px",
+            height: 'fit-content',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
+          }}
+        >
+          <UserForm title="Edit Data User" onClose={() => handleClose()}/>
+        </Paper>
+      </Modal>
       </Card>
     </Grow>
   );

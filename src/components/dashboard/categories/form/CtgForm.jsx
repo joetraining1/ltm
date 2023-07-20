@@ -18,7 +18,7 @@ import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
 import LoupeRoundedIcon from '@mui/icons-material/LoupeRounded';
 
 
-const CtgForm = ({ onClose }) => {
+const CtgForm = ({ onClose, title, nama, desc, id }) => {
   const [errorMsg, setErrorMsg] = useState({
   });
   const [proofing, setProofing] = useState("");
@@ -48,7 +48,7 @@ const CtgForm = ({ onClose }) => {
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        Tambah Category Produk
+        {title}
       </Typography>
       <div
         style={{
@@ -73,6 +73,7 @@ const CtgForm = ({ onClose }) => {
           }}/>
         <TextField
           label="nama kategori.."
+          value={nama ? nama : null}
           sx={{
             width: "100%",
             minHeight: "5px",
@@ -135,6 +136,7 @@ const CtgForm = ({ onClose }) => {
           minRows={5}
           maxRows={5}
           label="deskripsi.."
+          value={desc ? desc : null}
           sx={{
             width: "100%",
             minHeight: "5px",

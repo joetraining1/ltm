@@ -144,8 +144,8 @@ const Banks = () => {
             gap: '0.5vw'
           }}
         >
-          {mode === "account" ? <AccountForm onClose={() => handleClose()}/> : null}
-          {mode === "bank" ? <BankForm onClose={() => handleClose()} /> : null}
+          {mode === "account" ? <AccountForm title="Tambah Akun Bank" onClose={() => handleClose()}/> : null}
+          {mode === "bank" ? <BankForm title="Tambah Data Bank" onClose={() => handleClose()} /> : null}
         </Paper>
       </Modal>
     </div>

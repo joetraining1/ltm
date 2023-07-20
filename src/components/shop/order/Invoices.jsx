@@ -1,4 +1,4 @@
-import { Button, Card, Divider } from "@mui/material";
+import { Avatar, Button, Card, Divider, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
@@ -7,6 +7,7 @@ import InvoicesItem from "./invoices/InvoicesItem";
 import InvoicesDetail from "./invoices/InvoicesDetail";
 import InvoicesHead from "./invoices/InvoicesHead";
 import InvoicesFooter from "./invoices/InvoicesFooter";
+import { H5style, LabelStyle2 } from "../../../utils/constants";
 
 const Invoices = () => {
   const { id } = useParams();
@@ -35,17 +36,29 @@ const Invoices = () => {
         Back
       </Button>
       <Card
-        sx={{ display: "flex", width: "100%", height: "100svh", flexDirection: 'column', padding: '2vw', alignItems: 'center', gap: '1vw' }}
+        sx={{
+          display: "flex",
+          width: "100%",
+          height: "180svh",
+          flexDirection: "column",
+          padding: "2vw",
+          alignItems: "center",
+          gap: "1vw",
+        }}
         elevation={3}
       >
+        <Avatar sx={{ width: 120, height: 120 }} />
+        <Typography variant="h4" sx={H5style}>Marino's Milk & Yohurt</Typography>
+        <Typography variant="h6" sx={LabelStyle2}>Kepada :</Typography>
+        <Divider style={{ width: "100%" }} />
         <InvoicesHead />
-        <Divider style={{ width: '100%'}}/>
+        <Divider style={{ width: "100%" }} />
         <InvoicesMeta />
-        <Divider style={{ width: '100%'}}/>
+        <Divider style={{ width: "100%" }} />
         <InvoicesItem />
-        <Divider style={{ width: '100%'}}/>
+        <Divider style={{ width: "100%", marginTop: "auto" }} />
         <InvoicesDetail />
-        <Divider style={{ width: '100%'}}/>
+        <Divider style={{ width: "100%" }} />
         <InvoicesFooter />
       </Card>
     </div>

@@ -19,7 +19,7 @@ import {
 
   
   
-  const PaymentForm = ({ onClose }) => {
+  const PaymentForm = ({ onClose, title, nama, desc, id }) => {
     const [errorMsg, setErrorMsg] = useState({
     });
     const [proofing, setProofing] = useState("");
@@ -49,7 +49,7 @@ import {
     return (
       <React.Fragment>
         <Typography variant="h6" sx={H5style}>
-          Tambah Metode Bayar
+          {title}
         </Typography>
         <div
           style={{
@@ -74,6 +74,7 @@ import {
             }}/>
           <TextField
             label="nama metode.."
+            value={nama ? nama : null}
             sx={{
               width: "100%",
               minHeight: "5px",
@@ -135,6 +136,7 @@ import {
             multiline
             minRows={5}
             maxRows={5}
+            value={desc ? desc : null}
             label="deskripsi.."
             sx={{
               width: "100%",

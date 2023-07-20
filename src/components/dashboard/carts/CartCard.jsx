@@ -19,9 +19,9 @@ const CartCard = ({ ind, spill }) => {
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
         sx={{
-          width: "300px",
+          width: "310px",
           height: "200px",
-          padding: "10px 1vw",
+          padding: "1vw",
           gap: "5px",
           display: "flex",
           flexDirection: "column",
@@ -105,20 +105,14 @@ const CartCard = ({ ind, spill }) => {
             width: "100%",
             display: "flex",
             alignItems: "center",
-            padding: "0 0 0 5px",
+            justifyContent: 'flex-end',
+            paddingRight: '5px'
           }}
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
-          <Typography sx={{ ...SideNoteStyle, marginLeft: "3%" }}>
+          <Typography sx={{ ...SideNoteStyle}}>
             14 juni 2023
           </Typography>
-          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto" }}>
-            <EditRoundedIcon />
-          </Button>
-          <Divider orientation="vertical" sx={{ height: "25px" }} />
-          <Button variant="text" sx={{ minWidth: "20px" }}>
-            <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
-          </Button>
         </div>
       </Card>
     </Grow>

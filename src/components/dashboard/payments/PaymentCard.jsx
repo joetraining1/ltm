@@ -1,11 +1,16 @@
-import { Button, Card, Divider, Grow, Typography } from "@mui/material";
-import React from "react";
+import { Button, Card, Divider, Grow, Modal, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { H5style, LabelStyle2, SideNoteStyle } from "../../../utils/constants";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import PaymentForm from "./PaymentForm";
 
 const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -22,7 +27,7 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
         <Typography variant="h5" style={H5style}>
           {title}
         </Typography>
-        <Divider sx={{ width: '100%', margin: '4% 0 0 0'}}/>
+        <Divider sx={{ width: "100%", margin: "4% 0 0 0" }} />
         <div
           style={{
             width: "100%",
@@ -32,7 +37,10 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "center" }}>
+          <Typography
+            variant="body"
+            sx={{ ...LabelStyle2, textAlign: "center" }}
+          >
             {desc}
           </Typography>
         </div>
@@ -47,7 +55,11 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle }}>{dibuat}</Typography>
-          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto" }}>
+          <Button
+            variant="text"
+            sx={{ minWidth: "20px", marginLeft: "auto" }}
+            onClick={() => handleOpen()}
+          >
             <EditRoundedIcon />
           </Button>
           <Divider orientation="vertical" />
@@ -55,6 +67,34 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
+        <Modal
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "450px",
+            minHeight: "350px",
+            height: 'fit-content',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
+          }}
+        >
+          <PaymentForm title="Edit Metode Bayar" nama={title} desc={desc} id={id} onClose={() => handleClose()}/>
+        </Paper>
+      </Modal>
       </Card>
     </Grow>
   );

@@ -18,7 +18,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CommentBankRoundedIcon from "@mui/icons-material/CommentBankRounded";
 
-const BankForm = ({ onClose }) => {
+const BankForm = ({ onClose, title, bank, acro, picurl }) => {
   const [errorMsg, setErrorMsg] = useState({});
   const [proofing, setProofing] = useState("");
 
@@ -47,7 +47,7 @@ const BankForm = ({ onClose }) => {
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        Tambah Bank
+        {title}
       </Typography>
       <div
         style={{
@@ -71,6 +71,7 @@ const BankForm = ({ onClose }) => {
         <Divider orientation="vertical" />
         <TextField
           label="nama bank.."
+          value={bank ? bank : null}
           sx={{
             width: "100%",
             minHeight: "5px",
@@ -132,6 +133,7 @@ const BankForm = ({ onClose }) => {
             display: "flex",
             justifyContent: "center",
           }}
+          value={acro ? acro : null}
           size="small"
           InputLabelProps={{
             sx: {
@@ -188,7 +190,7 @@ const BankForm = ({ onClose }) => {
             variant="body"
             style={{ ...LabelStyle2, marginLeft: "15px" }}
           >
-            nama file..
+            {picurl ? picurl : "nama file.."}
           </Typography>
         )}
         <Button

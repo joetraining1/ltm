@@ -20,7 +20,7 @@ import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
-const ProductForm = ({ onClose }) => {
+const ProductForm = ({ onClose, title }) => {
   const [errorMsg, setErrorMsg] = useState({
   });
   const [proofing, setProofing] = useState("");
@@ -50,7 +50,7 @@ const ProductForm = ({ onClose }) => {
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        Tambah Produk
+        {title}
       </Typography>
       <div
         style={{

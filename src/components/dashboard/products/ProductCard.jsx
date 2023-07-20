@@ -1,5 +1,5 @@
-import { Button, Divider, Grow, Typography } from "@mui/material";
-import React from "react";
+import { Button, Divider, Grow, Modal, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
 import {
   H5style,
   LabelStyle,
@@ -14,8 +14,15 @@ import Bottle from "../../../assets/milk2.png";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import ProductForm from "./ProductForm";
 
 const ProductCard = ({ ind }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
+
+
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <div
@@ -108,6 +115,7 @@ const ProductCard = ({ ind }) => {
                   minWidth: "40px",
                   width: "auto",
                 }}
+                onClick={() => handleOpen()}
               >
                 <EditRoundedIcon />
               </Button>
@@ -126,6 +134,34 @@ const ProductCard = ({ ind }) => {
             </div>
           </div>
         </div>
+        <Modal
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "450px",
+            minHeight: "350px",
+            height: 'fit-content',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
+          }}
+        >
+          <ProductForm title="Edit Product" onClose={() => handleClose()}/>
+        </Paper>
+      </Modal>
       </div>
     </Grow>
   );

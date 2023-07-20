@@ -1,11 +1,23 @@
-import { Button, Card, Divider, Grow, Typography } from "@mui/material";
-import React from "react";
+import { Button, Card, Divider, Grow, Modal, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { H5style, LabelStyle2, SideNoteStyle } from "../../../utils/constants";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import BankForm from "./form/BankForm";
 
 const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClose = () => {
+    setModalOpen(false)
+    return
+  };
+  const handleOpen = () => {
+    setModalOpen(true)
+    return
+  };
+
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -116,7 +128,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle }}>{dibuat}</Typography>
-          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto" }}>
+          <Button variant="text" sx={{ minWidth: "20px", marginLeft: "auto" }} onClick={() => handleOpen()}>
             <EditRoundedIcon />
           </Button>
           <Divider orientation="vertical" />
@@ -124,6 +136,34 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
+        <Modal
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "450px",
+            minHeight: "350px",
+            height: 'fit-content',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
+          }}
+        >
+          <BankForm bank={nama} acro={acronim} picurl={pic} title="Edit Bank" onClose={() => handleClose()} />
+        </Paper>
+      </Modal>
       </Card>
     </Grow>
   );

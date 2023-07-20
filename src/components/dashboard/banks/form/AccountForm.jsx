@@ -16,13 +16,13 @@ import {
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 
-const AccountForm = ({ onClose }) => {
+const AccountForm = ({ onClose, title, bank, noRek }) => {
   const [errorMsg, setErrorMsg] = useState({});
 
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        Tambah Akun Bank
+        {title}
       </Typography>
       <div
         style={{
@@ -72,6 +72,7 @@ const AccountForm = ({ onClose }) => {
               ...LabelStyle,
             },
           }}
+          value={bank ? bank : null}
           defaultValue="BCA"
           SelectProps={{
             MenuProps: {
@@ -127,6 +128,7 @@ const AccountForm = ({ onClose }) => {
             justifyContent: "center",
           }}
           size="small"
+          value={noRek ? noRek : null}
           InputLabelProps={{
             sx: {
               ...LabelStyle,

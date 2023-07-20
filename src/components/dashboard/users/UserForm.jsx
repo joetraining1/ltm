@@ -27,7 +27,7 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import PhoneRoundedIcon from '@mui/icons-material/PhoneRounded';
 
-const UserForm = ({ onClose }) => {
+const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => {
   const [errorMsg, setErrorMsg] = useState({});
   const [userLogin, setUserLogin] = useState({
     type: "admin",
@@ -66,7 +66,7 @@ const UserForm = ({ onClose }) => {
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        Tambah User
+        {title}
       </Typography>
       <div
         style={{
@@ -196,7 +196,8 @@ const UserForm = ({ onClose }) => {
               }}
             />
           </Paper>
-          <Paper
+          {mode === "add" ? (
+            <Paper
             sx={{
               width: "100%",
               height: "6svh",
@@ -256,6 +257,7 @@ const UserForm = ({ onClose }) => {
               }}
             />
           </Paper>
+          ) : null}
         </div>
         <div
           style={{

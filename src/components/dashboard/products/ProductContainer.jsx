@@ -133,7 +133,7 @@ const ProductContainer = ({ title, data }) => {
             gap: '0.5vw'
           }}
         >
-          <ProductForm onClose={() => handleClose()}/>
+          <ProductForm title="Tambah Produk" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </Card>

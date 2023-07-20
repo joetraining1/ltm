@@ -196,7 +196,7 @@ const Users = () => {
             gap: '0.5vw'
           }}
         >
-          <UserForm onClose={() => handleClose()}/>
+          <UserForm title="Tambah Data User" mode="add" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

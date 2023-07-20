@@ -194,7 +194,7 @@ const UserType = () => {
             gap: '0.5vw'
           }}
         >
-          <TypeForm onClose={() => handleClose()}/>
+          <TypeForm title="Tambah Tipe Akun" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

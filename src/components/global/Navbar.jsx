@@ -1,4 +1,4 @@
-import { AppBar, Button, Divider } from "@mui/material";
+import { AppBar, Avatar, Button, Divider } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
@@ -59,7 +59,7 @@ const Navbar = () => {
           to="/#home-hero"
           style={{ fontWeight: "700", fontSize: "1.7em", color: "#F72585" }}
         >
-          <img src="" />
+          <Avatar sx={{ width: 64, height: 64, marginTop: '35px'}}/>
         </HashLink>
         <Divider orientation="vertical" />
         <Link
