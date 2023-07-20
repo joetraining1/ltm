@@ -9,17 +9,20 @@ import {
 import React, { useState } from "react";
 import {
   BankItem,
+  CategoryItem,
   H5style,
   LabelStyle,
   LabelStyle2,
   colorHex,
-} from "../../../../utils/constants";
+} from "../../../utils/constants";
+import LoupeRoundedIcon from '@mui/icons-material/LoupeRounded';
+import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
+import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
-import CommentBankRoundedIcon from "@mui/icons-material/CommentBankRounded";
 
-const BankForm = ({ onClose }) => {
-  const [errorMsg, setErrorMsg] = useState({});
+const ProductForm = ({ onClose }) => {
+  const [errorMsg, setErrorMsg] = useState({
+  });
   const [proofing, setProofing] = useState("");
 
   const FileImageHandler = (submits) => {
@@ -47,7 +50,7 @@ const BankForm = ({ onClose }) => {
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        Tambah Bank
+        Tambah Produk
       </Typography>
       <div
         style={{
@@ -63,14 +66,90 @@ const BankForm = ({ onClose }) => {
           height: "6svh",
           display: "flex",
           alignItems: "center",
-          gap: "1vw",
           padding: "0.75em 1vw",
         }}
       >
-        <AccountBalanceRoundedIcon sx={{ color: colorHex.iconColor }} />
-        <Divider orientation="vertical" />
+        <MoreRoundedIcon sx={{ color: colorHex.iconColor }} />
+        <Divider orientation="vertical" sx={{
+          margin: '0 0.3vw 0 1vw'
+        }}/>
         <TextField
-          label="nama bank.."
+          label="Pilih kategori"
+          sx={{
+            width: "100%",
+            minHeight: "5px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          size="small"
+          select
+          InputLabelProps={{
+            sx: {
+              ...LabelStyle,
+              top: "10%",
+              fontSize: "0.95em",
+            },
+          }}
+          helperText={errorMsg?.msg}
+          FormHelperTextProps={{
+            sx: {
+              color: "#ff0000",
+              opacity: "0.8",
+              fontSize: "0.7em",
+              lineHeight: 0,
+              marginTop: "1%",
+              ...LabelStyle,
+            },
+          }}
+          defaultValue="Susu Pasteurisasi"
+          SelectProps={{
+            MenuProps: {
+              sx: {
+                "& .css-6hp17o-MuiList-root-MuiMenu-list": {
+                  height: CategoryItem.length < 4 ? 'auto' : "150px",
+                },
+              },
+            },
+          }}
+          InputProps={{
+            sx: {
+              "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                border: "none",
+                outline: "none",
+              },
+            },
+          }}
+          inputProps={{
+            sx: {
+              ...H5style,
+              paddingBottom: 0,
+            },
+          }}
+        >
+          {CategoryItem.map((item, index) => {
+            return (
+              <MenuItem key={item.id} value={item.title} sx={H5style}>
+                {item.title}
+              </MenuItem>
+            );
+          })}
+        </TextField>
+      </Paper>
+      <Paper
+        sx={{
+          width: "100%",
+          height: "6svh",
+          display: "flex",
+          alignItems: "center",
+          padding: "0.75em 1vw",
+        }}
+      >
+        <LocalOfferOutlinedIcon sx={{ color: colorHex.iconColor }} />
+        <Divider orientation="vertical" sx={{
+            margin: '0 0.3vw 0 1vw'
+          }}/>
+        <TextField
+          label="nama produk.."
           sx={{
             width: "100%",
             minHeight: "5px",
@@ -96,7 +175,7 @@ const BankForm = ({ onClose }) => {
           inputProps={{
             sx: {
               ...H5style,
-              paddingBottom: "1%",
+              padding: "1% auto",
             },
           }}
           helperText={errorMsg?.msg}
@@ -115,29 +194,39 @@ const BankForm = ({ onClose }) => {
       <Paper
         sx={{
           width: "100%",
-          height: "6svh",
+          height: "15svh",
           display: "flex",
-          alignItems: "center",
-          gap: "1vw",
-          padding: "0.75em 1vw",
+          alignItems: "start",
+          padding: "1vw",
         }}
       >
-        <CommentBankRoundedIcon sx={{ color: colorHex.iconColor }} />
-        <Divider orientation="vertical" />
+        <LoupeRoundedIcon sx={{ color: colorHex.iconColor }} />
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: '0 0.3vw 0 1vw'
+          }}
+        />
         <TextField
-          label="acronim bank.."
+          multiline
+          minRows={5}
+          maxRows={5}
+          label="deskripsi.."
           sx={{
             width: "100%",
             minHeight: "5px",
-            display: "flex",
-            justifyContent: "center",
+            "& .css-1r6xk0x-MuiInputBase-root-MuiOutlinedInput-root": {
+                padding: '0 0.9em'
+            },
           }}
           size="small"
           InputLabelProps={{
             sx: {
               ...LabelStyle,
-              top: "10%",
+              top: '-8%',
               fontSize: "0.95em",
+              display: "flex",
+              justifyContent: "center",
             },
           }}
           InputProps={{
@@ -145,13 +234,14 @@ const BankForm = ({ onClose }) => {
               "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                 border: "none",
                 outline: "none",
+                padding: "0 auto",
               },
             },
           }}
           inputProps={{
             sx: {
               ...H5style,
-              paddingBottom: "1%",
+              padding: "0 auto",
             },
           }}
           helperText={errorMsg?.msg}
@@ -160,7 +250,7 @@ const BankForm = ({ onClose }) => {
               color: "#ff0000",
               opacity: "0.8",
               fontSize: "0.7em",
-              marginTop: 0,
+              marginTop: '1%',
               lineHeight: 0,
               ...LabelStyle,
             },
@@ -174,11 +264,12 @@ const BankForm = ({ onClose }) => {
           display: "flex",
           alignItems: "center",
           padding: "0.75em 1vw",
-          gap: "1vw",
         }}
       >
         <AddPhotoAlternateIcon sx={{ color: "#1976d2" }} />
-        <Divider orientation="vertical" />
+        <Divider orientation="vertical" sx={{
+          margin: '0 0.3vw 0 1vw'
+        }}/>
         {proofing !== "" ? (
           <Typography variant="body" style={{ ...H5style, marginLeft: "15px" }}>
             {proofing}
@@ -214,7 +305,6 @@ const BankForm = ({ onClose }) => {
           />
         </Button>
       </Paper>
-
       <div
         style={{
           display: "flex",
@@ -239,4 +329,4 @@ const BankForm = ({ onClose }) => {
   );
 };
 
-export default BankForm;
+export default ProductForm;

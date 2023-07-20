@@ -374,7 +374,7 @@ const QuickPeek = () => {
               marginLeft: "auto",
             }}
           >
-            cancel
+            cancel order
           </Button>
           <Button
             variant="contained"

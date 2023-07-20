@@ -23,8 +23,9 @@ import Permata from '../assets/permata2.webp'
 import Mandiri from '../assets/mandiri.png'
 import Jateng from '../assets/jateng.png'
 
-const colorHex = {
-    green: '#00ff00'
+export const colorHex = {
+    green: '#00ff00',
+    iconColor: "#1976d2"
 }
 
 export const StatusPesanan = [
@@ -81,7 +82,7 @@ export const StatusPesanan = [
 export const CategoryItem = [
     {
         id: 1,
-        title: 'Susu Pasterurisasi',
+        title: 'Susu Pasteurisasi',
         desc: "Produk susu pasteurisasi olahan susu sapi perah Marino's Milk & Yoghurt.",
         createdAt: '14 Juni 2023'
     },

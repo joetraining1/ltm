@@ -65,6 +65,7 @@ const OrderItem = ({ ind, spill }) => {
             display: "flex",
             alignItems: "center",
             marginTop: "auto",
+            gap: '5px'
           }}
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
@@ -81,6 +82,7 @@ const OrderItem = ({ ind, spill }) => {
           >
             delete
           </Button>
+          <Divider orientation="vertical" />
           <Button
             size="small"
             variant="text"

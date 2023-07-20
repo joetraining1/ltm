@@ -14,6 +14,7 @@ import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { useNavigate, useParams } from "react-router-dom";
 import UserCard from "./UserCard";
+import UserForm from "./UserForm";
 
 const Users = () => {
   const { id } = useParams();
@@ -72,7 +73,6 @@ const Users = () => {
     return null;
   });
 
-  console.log(activeDataset);
   return (
     <div
       style={{
@@ -179,16 +179,25 @@ const Users = () => {
       >
         <Paper
           sx={{
-            width: "450px",
-            height: "500px",
+            width: "750px",
+            minHeight: "350px",
+            height: 'fit-content',
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
           }}
-        ></Paper>
+        >
+          <UserForm onClose={() => handleClose()}/>
+        </Paper>
       </Modal>
     </div>
   );

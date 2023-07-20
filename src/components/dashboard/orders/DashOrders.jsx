@@ -22,6 +22,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import DashOrderItem from "./DashOrderItem";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
+import OrderForm from "./OrderForm";
 
 const DashOrders = () => {
   const { id } = useParams();
@@ -292,15 +293,24 @@ const DashOrders = () => {
         <Paper
           sx={{
             width: "450px",
-            height: "500px",
+            minHeight: "350px",
+            height: 'fit-content',
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
           }}
-        ></Paper>
+        >
+          <OrderForm onClose={() => handleClose()}/>
+        </Paper>
       </Modal>
     </div>
   );

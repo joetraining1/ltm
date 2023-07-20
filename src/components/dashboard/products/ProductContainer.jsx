@@ -12,10 +12,11 @@ import React, { useState } from "react";
 import { H5style, LabelStyle, MetaStyle } from "../../../utils/constants";
 import ProductCard from "./ProductCard";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
+import ProductForm from "./ProductForm";
 
 const ProductContainer = ({ title, data }) => {
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(14)]);
+  const [datas, setDatas] = useState([...Array(6)]);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -98,7 +99,7 @@ const ProductContainer = ({ title, data }) => {
           return <ProductCard key={index} ind={index} />;
         })}
       </div>
-      {datas?.length > 8 ? (
+      {datas?.length > 4 ? (
         <Pagination
           count={Hero.length}
           sx={{ marginTop: "2%", margin: "0 auto" }}
@@ -116,15 +117,24 @@ const ProductContainer = ({ title, data }) => {
         <Paper
           sx={{
             width: "450px",
-            height: "500px",
+            minHeight: "350px",
+            height: 'fit-content',
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
           }}
-        ></Paper>
+        >
+          <ProductForm onClose={() => handleClose()}/>
+        </Paper>
       </Modal>
     </Card>
   );

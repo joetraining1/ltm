@@ -13,6 +13,7 @@ import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { H5style, TypeItem } from "../../../utils/constants";
 import TypeCard from "./TypeCard";
+import TypeForm from "./TypeForm";
 
 const UserType = () => {
   const [pageActive, setPageActive] = useState(0);
@@ -21,8 +22,6 @@ const UserType = () => {
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
-
-
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -162,31 +161,42 @@ const UserType = () => {
           );
         })}
       </div>
-      <Pagination
-        count={Hero.length}
-        page={pageActive + 1}
-        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-        onChange={handleChangePage}
-      />
+      {TypeItem.length < 10 ? null : (
+        <Pagination
+          count={Hero.length}
+          page={pageActive + 1}
+          renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+          onChange={handleChangePage}
+        />
+      )}
       <Modal
-      open={modalOpen}
-      onClose={() => handleClose()}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
-      <Paper
-        sx={{
-          width: "450px",
-          height: "500px",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 1000,
-          backgroundColor: "#fff",
-        }}
-      ></Paper>
-    </Modal>
+        open={modalOpen}
+        onClose={() => handleClose()}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Paper
+          sx={{
+            width: "450px",
+            minHeight: "350px",
+            height: 'fit-content',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
+          }}
+        >
+          <TypeForm onClose={() => handleClose()}/>
+        </Paper>
+      </Modal>
     </div>
   );
 };

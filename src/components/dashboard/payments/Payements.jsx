@@ -1,9 +1,19 @@
-import { Button, Divider, InputBase, Paper, Typography, Pagination, PaginationItem, Modal } from "@mui/material";
+import {
+  Button,
+  Divider,
+  InputBase,
+  Paper,
+  Typography,
+  Pagination,
+  PaginationItem,
+  Modal,
+} from "@mui/material";
 import React, { useState } from "react";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { H5style, PaymentItem } from "../../../utils/constants";
 import PaymentCard from "./PaymentCard";
+import PaymentForm from "./PaymentForm";
 
 const Payements = () => {
   const [pageActive, setPageActive] = useState(0);
@@ -12,7 +22,6 @@ const Payements = () => {
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
-
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -113,7 +122,6 @@ const Payements = () => {
             justifyContent: "space-between",
           }}
           onClick={() => handleOpen()}
-
         >
           <PlusOneRoundedIcon />
           Tambah Metode
@@ -153,12 +161,14 @@ const Payements = () => {
           );
         })}
       </div>
-      <Pagination
-        count={Hero.length}
-        page={pageActive + 1}
-        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-        onChange={handleChangePage}
-      />
+      {PaymentItem.length < 10 ? null : (
+        <Pagination
+          count={Hero.length}
+          page={pageActive + 1}
+          renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+          onChange={handleChangePage}
+        />
+      )}
       <Modal
         open={modalOpen}
         onClose={() => handleClose()}
@@ -168,15 +178,24 @@ const Payements = () => {
         <Paper
           sx={{
             width: "450px",
-            height: "500px",
+            minHeight: "350px",
+            height: 'fit-content',
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '2vw',
+            alignItems: 'center',
+            borderRadius: '5px',
+            gap: '0.5vw'
           }}
-        ></Paper>
+        >
+          <PaymentForm onClose={() => handleClose()}/>
+        </Paper>
       </Modal>
     </div>
   );
