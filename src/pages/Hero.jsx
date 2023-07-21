@@ -2,8 +2,10 @@ import React from "react";
 import Milk from "../assets/hero.jpg";
 import { Button, Typography } from "@mui/material";
 import { H5style, LabelStyle } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate()
   return (
     <section
       id="home-hero"
@@ -67,6 +69,7 @@ const Hero = () => {
               color: '#fff'
             }
           }}
+          onClick={() => navigate('shop')}
         >
           Pesan Sekarang
         </Button>

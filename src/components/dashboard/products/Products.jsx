@@ -4,26 +4,6 @@ import { Category, H5style, LabelStyle } from "../../../utils/constants";
 import ProductContainer from "./ProductContainer";
 import Slider from "react-slick";
 
-const NextButton = (props) => {
-  const { className, onClick } = props;
-  const slickRef = useRef();
-
-  return (
-    <Button sx={{ ...LabelStyle, width: "50px" }} onClick={() => onClick()}>
-      Next
-    </Button>
-  );
-};
-
-const PrevButton = (props) => {
-  const { className, onClick } = props;
-  return (
-    <Button sx={{ ...LabelStyle, width: "50px" }} onClick={() => onClick()}>
-      Prev
-    </Button>
-  );
-};
-
 const Products = () => {
   const [slickRef, setSliderRef] = useState();
   const settings = {
@@ -38,7 +18,7 @@ const Products = () => {
         display: "flex",
         flexDirection: "column",
         minHeight: "40svh",
-        height: 'auto',
+        height: "auto",
         background: "#fff",
         width: "100%",
         gap: "1vw",
@@ -52,18 +32,18 @@ const Products = () => {
           style={{
             display: "flex",
             marginLeft: "auto",
-            gap: '1vw'
+            gap: "1vw",
           }}
         >
           <Button
-          variant="contained"
+            variant="contained"
             sx={{ ...LabelStyle, width: "50px" }}
             onClick={slickRef?.slickPrev}
           >
             Prev
           </Button>
           <Button
-          variant="contained"
+            variant="contained"
             sx={{ ...LabelStyle, width: "50px" }}
             onClick={slickRef?.slickNext}
           >

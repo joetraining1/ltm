@@ -20,6 +20,7 @@ const Footer = () => {
     "&:hover": {
       color: "#F3DE2C",
     },
+    textShadow: "1px 2px 3px #000000"
   };
 
   return (
@@ -53,24 +54,28 @@ const Footer = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: '1vw'
+              gap: "1vw",
             }}
           >
             <Typography
-              variant="h4"
+              variant="h3"
               sx={{
                 fontFamily: "Signika Negative, sans-serif",
                 color: "#fff",
                 fontWeight: "700",
-                textShadow: '1px 2px 3px #000000'
+                textShadow: "1px 2px 3px #000000",
+                fontSize: '2.5em'
               }}
             >
               Marino's <br /> Milk & Yoghurt
             </Typography>
-            <img src={Logo} style={{
-              width: '40%',
-              filter: 'drop-shadow(5px 5px 10px rgba(0,0,0,1))'
-            }}/>
+            <img
+              src={Logo}
+              style={{
+                width: "35%",
+                filter: "drop-shadow(5px 5px 10px rgba(0,0,0,1))",
+              }}
+            />
           </div>
           <div
             style={{
@@ -80,7 +85,10 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h5" sx={{...HeadingStyle, textShadow: '1px 2px 3px #000000'}}>
+            <Typography
+              variant="h4"
+              sx={{ ...HeadingStyle, textShadow: "1px 2px 3px #000000" }}
+            >
               Useful Links
             </Typography>
             <div
@@ -123,7 +131,7 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h5" sx={HeadingStyle}>
+            <Typography variant="h4" sx={{...HeadingStyle, textShadow: "1px 2px 3px #000000"}}>
               Locations
             </Typography>
             <div
@@ -147,6 +155,7 @@ const Footer = () => {
                   fontFamily: "Signika Negative, sans-serif",
                   fontWeight: "600",
                   color: "#fff",
+                  textShadow: "1px 2px 3px #000000"
                 }}
               >
                 Our Office :
@@ -158,6 +167,7 @@ const Footer = () => {
                   fontWeight: "600",
                   color: "#fff",
                   fontSize: "1.1em",
+                  textShadow: "1px 2px 3px #000000"
                 }}
               >
                 Jl. Taman Belimbing no. 34, <br /> Semarang Tengah, Kota
@@ -169,6 +179,7 @@ const Footer = () => {
                   fontFamily: "Signika Negative, sans-serif",
                   fontWeight: "600",
                   color: "#fff",
+                  textShadow: "1px 2px 3px #000000"
                 }}
               >
                 Our Factory :
@@ -180,6 +191,7 @@ const Footer = () => {
                   fontWeight: "600",
                   color: "#fff",
                   fontSize: "1.1em",
+                  textShadow: "1px 2px 3px #000000"
                 }}
               >
                 Jl. Musuk no. 34, <br /> Musuk, Boyolali
@@ -195,7 +207,7 @@ const Footer = () => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h5" sx={HeadingStyle}>
+            <Typography variant="h4" sx={{...HeadingStyle,  textShadow: "1px 2px 3px #000000"}}>
               Social Media
             </Typography>
             <div
@@ -207,7 +219,7 @@ const Footer = () => {
             />
           </div>
         </div>
-        <Typography variant="body" sx={{ color: "#fff", fontWeight: "600" }}>
+        <Typography variant="body" sx={{ color: "#fff", fontWeight: "600",  textShadow: "1px 2px 3px #000000" }}>
           © Copyright 2023, CV. Langgeng Tani Makmur
         </Typography>
       </div>
