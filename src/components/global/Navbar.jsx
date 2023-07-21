@@ -28,7 +28,7 @@ const Navbar = () => {
           justifyContent: "space-evenly",
           alignItems: "center",
           padding: "10px 0",
-          gap: "10px",
+          gap: "1vw",
         }}
       >
         <HashLink
@@ -52,13 +52,13 @@ const Navbar = () => {
         </HashLink>
         <HashLink
           to="/#home-find-us"
-          style={{ fontWeight: "600", fontSize: "1.3em", color: "#226CE0" }}
+          style={{ fontWeight: "600", fontSize: "1.3em", color: "#226CE0", marginRight: 'auto' }}
         >
           Find Us
         </HashLink>
         <Divider
           orientation="vertical"
-          sx={{ marginLeft: "auto", marginRight: "1%" }}
+          sx={{ marginRight: "1%" }}
         />
         <HashLink
           to="/#home-hero"
@@ -76,11 +76,11 @@ const Navbar = () => {
         </HashLink>
         <Divider
           orientation="vertical"
-          sx={{ marginRight: "auto", marginLeft: "1%" }}
+          sx={{ marginLeft: "1%" }}
         />
         <Link
           to="product"
-          style={{ fontWeight: "600", fontSize: "1.3em", color: "#226CE0" }}
+          style={{ fontWeight: "600", fontSize: "1.3em", color: "#226CE0", marginLeft: 'auto' }}
         >
           Product
         </Link>

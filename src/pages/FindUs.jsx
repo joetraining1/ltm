@@ -111,7 +111,7 @@ const FindUs = () => {
               <Typography variant="h6" sx={LabelStyle2}>
                 Boyolali adalah kota yang terkenal dengan hasil susu sapi perah yang melimpah. 
                 Dan jadi pilihan tepat bagi Marino's untuk merawat sapi perah dan meletakkan peternakan kami.
-                <a href="https://goo.gl/maps/iBBy7iDR3x516GpYA" style={{ ...LabelStyle, color: "#008BF8"}}> klik untuk menuju Lokasi</a>
+                <a href="https://goo.gl/maps/iBBy7iDR3x516GpYA" target="blank" style={{ ...LabelStyle, color: "#008BF8"}}> klik untuk menuju Lokasi</a>
               </Typography>
             </div>
           </Card>
@@ -163,7 +163,7 @@ const FindUs = () => {
               <Typography variant="h6" sx={LabelStyle2}>
                 Kami hadir di dekat anda! di tengah Kota Semarang adalah outlet sekaligus kantor Marino's Milk & Yoghurt.
                  Anda dapat memesan langsung dari sini jika kalian warga Kota Semarang yah!
-                 <a href="https://goo.gl/maps/ZTYNgB8vFjNP3dqB8" style={{ ...LabelStyle, color: "#008BF8"}}> klik untuk menuju Lokasi</a>
+                 <a href="https://goo.gl/maps/ZTYNgB8vFjNP3dqB8" target="blank" style={{ ...LabelStyle, color: "#008BF8"}}> klik untuk menuju Lokasi</a>
               </Typography>
             </div>
           </Card>

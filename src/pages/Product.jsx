@@ -55,7 +55,7 @@ const Product = () => {
           </Typography>
         </div>
         <Typography
-          variant="h4"
+          variant="h3"
           sx={{
             fontFamily: "Signika Negative, sans-serif",
             fontWeight: "700",
@@ -85,7 +85,6 @@ const Product = () => {
             spaceBetween={50}
             modules={[Navigation, Virtual, Pagination]}
             navigation
-            infinite={true}
             virtual
             style={{
               width: "100%",
@@ -128,6 +127,7 @@ const Product = () => {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
+                        gap: '1vw'
                       }}
                     >
                       <Typography
@@ -161,7 +161,7 @@ const Product = () => {
           </Swiper>
         </div>
         <Typography
-          variant="h4"
+          variant="h3"
           sx={{
             fontFamily: "Signika Negative, sans-serif",
             fontWeight: "700",
@@ -191,7 +191,6 @@ const Product = () => {
             spaceBetween={50}
             modules={[Navigation, Virtual, Pagination]}
             navigation
-            infinite={true}
             virtual
             style={{
               width: "100%",
@@ -234,6 +233,8 @@ const Product = () => {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
+                        gap: '1vw'
+
                       }}
                     >
                       <Typography

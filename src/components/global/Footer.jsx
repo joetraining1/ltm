@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import BGmilk from "../../assets/cows4.png";
 import { Logo } from "../../utils/constants";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import GoogleIcon from '@mui/icons-material/Google';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
   const HeadingStyle = {
@@ -20,7 +24,7 @@ const Footer = () => {
     "&:hover": {
       color: "#F3DE2C",
     },
-    textShadow: "1px 2px 3px #000000"
+    textShadow: "1px 2px 3px #000000",
   };
 
   return (
@@ -30,7 +34,7 @@ const Footer = () => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          height: "40vh",
+          height: "50vh",
           background: "#2A4494",
           justifyContent: "center",
           alignItems: "center",
@@ -64,7 +68,7 @@ const Footer = () => {
                 color: "#fff",
                 fontWeight: "700",
                 textShadow: "1px 2px 3px #000000",
-                fontSize: '2.5em'
+                fontSize: "2.5em",
               }}
             >
               Marino's <br /> Milk & Yoghurt
@@ -103,7 +107,7 @@ const Footer = () => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
-                padding: "1vw 0",
+                padding: "1vw 10px",
               }}
             >
               <HashLink to="/#home-hero" style={LinkStyle}>
@@ -131,7 +135,10 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h4" sx={{...HeadingStyle, textShadow: "1px 2px 3px #000000"}}>
+            <Typography
+              variant="h4"
+              sx={{ ...HeadingStyle, textShadow: "1px 2px 3px #000000" }}
+            >
               Locations
             </Typography>
             <div
@@ -146,7 +153,7 @@ const Footer = () => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
-                padding: "1vw 0",
+                padding: "1vw 10px",
               }}
             >
               <Typography
@@ -155,7 +162,7 @@ const Footer = () => {
                   fontFamily: "Signika Negative, sans-serif",
                   fontWeight: "600",
                   color: "#fff",
-                  textShadow: "1px 2px 3px #000000"
+                  textShadow: "1px 2px 3px #000000",
                 }}
               >
                 Our Office :
@@ -166,12 +173,12 @@ const Footer = () => {
                   fontFamily: "Signika Negative, sans-serif",
                   fontWeight: "600",
                   color: "#fff",
-                  fontSize: "1.1em",
-                  textShadow: "1px 2px 3px #000000"
+                  fontSize: "1em",
+                  textShadow: "1px 1px 1px #000000",
                 }}
               >
-                Jl. Taman Belimbing no. 34, <br /> Semarang Tengah, Kota
-                Semarang
+                Jl. Taman Blimbing No.34, Peterongan, <br />
+                Kec. Semarang Sel., Kota Semarang
               </Typography>
               <Typography
                 variant="h6"
@@ -179,7 +186,7 @@ const Footer = () => {
                   fontFamily: "Signika Negative, sans-serif",
                   fontWeight: "600",
                   color: "#fff",
-                  textShadow: "1px 2px 3px #000000"
+                  textShadow: "1px 2px 3px #000000",
                 }}
               >
                 Our Factory :
@@ -190,11 +197,13 @@ const Footer = () => {
                   fontFamily: "Signika Negative, sans-serif",
                   fontWeight: "600",
                   color: "#fff",
-                  fontSize: "1.1em",
-                  textShadow: "1px 2px 3px #000000"
+                  fontSize: "1em",
+                  textShadow: "1px 1px 1px #000000",
                 }}
               >
-                Jl. Musuk no. 34, <br /> Musuk, Boyolali
+                Dukuh Getakrejo RT 04/RW 02 Desa Sukorejo, Kecamatan
+                Musuk,
+                Kabupaten Boyolali
               </Typography>
             </div>
           </div>
@@ -207,7 +216,10 @@ const Footer = () => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h4" sx={{...HeadingStyle,  textShadow: "1px 2px 3px #000000"}}>
+            <Typography
+              variant="h4"
+              sx={{ ...HeadingStyle, textShadow: "1px 2px 3px #000000" }}
+            >
               Social Media
             </Typography>
             <div
@@ -217,9 +229,50 @@ const Footer = () => {
                 background: "#F3DE2C",
               }}
             />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                padding: "1vw 0",
+                alignItems: 'center'
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "Signika Negative, sans-serif",
+                  fontWeight: "600",
+                  color: "#fff",
+                  textShadow: "1px 2px 3px #000000",
+                }}
+              >
+                Follow Us On :
+              </Typography>
+              <div style={{
+                display: "flex",
+                width: "50%",
+                height: "auto",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+                <FacebookIcon style={{ color: '#fff', width: '100%' }}/>
+                <InstagramIcon style={{ color: '#fff',  width: '100%' }}/>
+                <GoogleIcon style={{ color: '#fff',  width: '100%'}}/>
+                <LinkedInIcon style={{ color: '#fff',  width: '100%'}}/>
+              </div>
+            </div>
           </div>
         </div>
-        <Typography variant="body" sx={{ color: "#fff", fontWeight: "600",  textShadow: "1px 2px 3px #000000" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "#fff",
+            fontWeight: "600",
+            textShadow: "1px 2px 3px #000000",
+            fontFamily: "Signika Negative, sans-serif",
+          }}
+        >
           © Copyright 2023, CV. Langgeng Tani Makmur
         </Typography>
       </div>
