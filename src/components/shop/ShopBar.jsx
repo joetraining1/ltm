@@ -7,15 +7,19 @@ import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutl
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
+import { useSelector } from "react-redux";
 
 const ShopBar = () => {
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.auth.authState);
+
   return (
     <Card
       sx={{
         width: "350px",
-        height: "370px",
+        height: "fit-content",
         transition: "height 0.2s ease",
         padding: "1vw",
         display: "flex",
@@ -29,7 +33,7 @@ const ShopBar = () => {
       </Typography>
       <Divider />
       <Button
-        onClick={() => navigate('/shop')}
+        onClick={() => navigate("/shop")}
         sx={{
           width: "100%",
           display: "flex",
@@ -44,7 +48,7 @@ const ShopBar = () => {
         </Typography>
       </Button>
       <Button
-      onClick={() => navigate('orders')}
+        onClick={() => navigate("orders")}
         sx={{
           width: "100%",
           display: "flex",
@@ -59,7 +63,7 @@ const ShopBar = () => {
         </Typography>
       </Button>
       <Button
-        onClick={() => navigate('payment')}
+        onClick={() => navigate("payment")}
         sx={{
           width: "100%",
           display: "flex",
@@ -74,7 +78,7 @@ const ShopBar = () => {
         </Typography>
       </Button>
       <Button
-        onClick={() => navigate('checkout')}
+        onClick={() => navigate("checkout")}
         sx={{
           width: "100%",
           display: "flex",
@@ -88,23 +92,25 @@ const ShopBar = () => {
           Checkout
         </Typography>
       </Button>
+      {user?.user_id === "" ? null : (
+        <Button
+          onClick={() => navigate("profile")}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-start",
+            gap: "1vw",
+            alignItems: "center",
+          }}
+        >
+          <PermIdentityRoundedIcon sx={iconStyle} />
+          <Typography variant="h6" sx={menuItemStyle}>
+            Profile
+          </Typography>
+        </Button>
+      )}
       <Button
-        onClick={() => navigate('profile')}
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "flex-start",
-          gap: "1vw",
-          alignItems: "center",
-        }}
-      >
-        <PermIdentityRoundedIcon sx={iconStyle} />
-        <Typography variant="h6" sx={menuItemStyle}>
-          Profile
-        </Typography>
-      </Button>
-      <Button
-        onClick={() => navigate('guide')}
+        onClick={() => navigate("guide")}
         style={{
           width: "100%",
           display: "flex",

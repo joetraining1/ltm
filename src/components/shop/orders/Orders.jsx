@@ -22,6 +22,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import OrderItem from "./OrderItem";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
+import { useEffect } from "react";
 
 const Orders = () => {
   const { id } = useParams();
@@ -29,6 +30,13 @@ const Orders = () => {
   const [datas, setDatas] = useState([...Array(13)]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
   const eleRef = useRef();
+
+  useEffect(() => {
+    if(!id){
+      return setDetailOn(false);
+    } 
+    return
+  }, [id])
 
   const navigate = useNavigate();
   const handleChangePage = (event, value) => {
@@ -189,6 +197,7 @@ const Orders = () => {
             ? "47svh"
             : "70svh",
           gap: "1vw",
+          transition: "width 0.4s ease, height 0.4s ease",
         }}
       >
         <div
@@ -208,9 +217,6 @@ const Orders = () => {
             alignContent: "start",
             transition: "width 0.4s ease, height 0.4s ease",
             padding: "1vw",
-            "&::-webkit-scrollbar": {
-              background: "#fff",
-            },
           }}
         >
           {activeDataset.map((item, index) => {

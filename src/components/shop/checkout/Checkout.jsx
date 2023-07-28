@@ -10,10 +10,16 @@ import React, { useState } from "react";
 import { H5style, MetaStyle } from "../../../utils/constants";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import CheckoutItem from "./CheckoutItem";
+import { LoadingButton } from "@mui/lab";
+import useNotif from "../../../hooks/useNotif";
+import Preload from "../../global/Preload";
 
 const Checkout = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([...Array(10)]);
+
+  const { infoToast, updateToast } = useNotif();
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -41,6 +47,14 @@ const Checkout = () => {
 
   const Hero = MultiArray(datas, 3);
 
+  const checkFunc = () => {
+    infoToast("Checkout");
+    setTimeout(() => {
+      updateToast("Pesanan dibuat", "success");
+    }, 2000);
+    return;
+  };
+
   return (
     <div
       style={{
@@ -49,7 +63,6 @@ const Checkout = () => {
         width: "100%",
         height: "fit-content",
         gap: "1vw",
-        marginBottom: "5%",
       }}
     >
       <Typography variant="h4" sx={H5style}>
@@ -86,7 +99,7 @@ const Checkout = () => {
             {Hero.map((item, index) => {
               if (pageActive === index) {
                 return item.dataset.map((i, ind) => {
-                  return <CheckoutItem key={ind} ind={ind}/>;
+                  return <CheckoutItem key={ind} ind={ind} />;
                 });
               }
               return null;
@@ -143,20 +156,27 @@ const Checkout = () => {
               5 botol
             </Typography>
           </div>
-          <Button
-            variant="contained"
-            sx={{
-              width: "100%",
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              display: "flex",
-              gap: "10px",
-              marginTop: "auto",
-            }}
-          >
-            <ShoppingCartCheckoutRoundedIcon />
-            Checkout
-          </Button>
+          {isLoading ? (
+            <Preload />
+          ) : (
+            <Button
+              variant="contained"
+              // disabled={isLoading}
+              // loading={isLoading}
+              onClick={() => checkFunc()}
+              sx={{
+                width: "100%",
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                display: "flex",
+                gap: "10px",
+                marginTop: "auto",
+              }}
+            >
+              <ShoppingCartCheckoutRoundedIcon />
+              Checkout
+            </Button>
+          )}
         </Card>
       </div>
     </div>

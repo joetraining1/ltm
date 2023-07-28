@@ -141,11 +141,11 @@ const QuickLook = () => {
           }}
         >
           <div style={MetaStyle5}>
-            <div style={{display: 'flex', width: '100%'}}>
+            <div style={{ display: "flex", width: "100%" }}>
               <Typography variant="body" sx={LabelStyle2}>
                 Order No.
               </Typography>
-              <Typography variant="body" sx={{ marginLeft: 'auto'}}>
+              <Typography variant="body" sx={{ marginLeft: "auto" }}>
                 00{id}
               </Typography>
             </div>
@@ -166,6 +166,19 @@ const QuickLook = () => {
             </Typography>
           </div>
           <div style={MetaStyle5}>
+            <div style={MetaStyle3}>
+              <div style={MetaStyle2}>
+                <Typography variant="body" sx={LabelStyle2}>
+                  Penerima
+                </Typography>
+                <Typography variant="body" sx={LabelStyle2}>
+                  :
+                </Typography>
+              </div>
+              <Typography variant="body" sx={MetaValue}>
+                Pagani
+              </Typography>
+            </div>
             <div style={MetaStyle3}>
               <div style={MetaStyle2}>
                 <Typography variant="body" sx={LabelStyle2}>
@@ -260,12 +273,22 @@ const QuickLook = () => {
         </div>
         <Divider />
         <div style={MetaStyle3}>
-          <PhotoViewer picurl={proof1} title="Bukti Pembayaran"/>
-          <PhotoViewer picurl={resi1} title="Resi"/>
+          <PhotoViewer picurl={proof1} title="Bukti Pembayaran" />
+          <PhotoViewer picurl={resi1} title="Resi" />
         </div>
         <Divider />
-        <Typography variant="body" sx={{...LabelStyle2, height: '10%', width: '100%', textAlign: 'center'}}>
-          Terima kasih telah memesan produk olahan susu sapi Marino's Milk & Yoghurt. Dimohon untuk mengecek berkala status dari pesanan anda masing-masing.
+        <Typography
+          variant="body"
+          sx={{
+            ...LabelStyle2,
+            height: "10%",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          Terima kasih telah memesan produk olahan susu sapi Marino's Milk &
+          Yoghurt. Dimohon untuk mengecek berkala status dari pesanan anda
+          masing-masing.
         </Typography>
         <div
           style={{

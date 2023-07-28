@@ -14,11 +14,24 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { H5style, TypeItem } from "../../../utils/constants";
 import TypeCard from "./TypeCard";
 import TypeForm from "./TypeForm";
+import ApiClient from "../../../services/ApiClient";
+import { useEffect } from "react";
 
 const UserType = () => {
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true)
+    const reqType = await ApiClient.get('type').then((res) => {
+      return res.data
+    })
+    setDatas(reqType.result)
+    setIsLoading(false)
+    return
+  }
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
@@ -26,6 +39,12 @@ const UserType = () => {
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
   };
+
+  useEffect(() => {
+    if(datas.length === 0){
+      getType()
+    }
+  }, [datas])
 
   const MultiArray = (arr, rows) => {
     const ArrSlice = arr.reduce((acc, val, ind) => {
@@ -49,7 +68,7 @@ const UserType = () => {
 
   let activeDataset;
 
-  const Hero = MultiArray(TypeItem, 9);
+  const Hero = MultiArray(datas, 9);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
@@ -132,7 +151,7 @@ const UserType = () => {
           display: "grid",
           width: "100%",
           gridTemplateColumns:
-            activeDataset.length < 3
+            activeDataset?.length < 3
               ? "repeat(auto-fit, minmax(250px, 300px))"
               : "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "1vw",
@@ -141,9 +160,9 @@ const UserType = () => {
           transition: "width 0.4s ease, height 0.4s ease",
           padding: "1vw",
           height:
-            activeDataset.length < 4
+            activeDataset?.length < 4
               ? "28svh"
-              : activeDataset.length < 7
+              : activeDataset?.length < 7
               ? "54svh"
               : "68svh",
         }}
@@ -153,10 +172,11 @@ const UserType = () => {
             <TypeCard
               title={item.title}
               key={item.id}
-              desc={item.desc}
-              dibuat={item.createdAt}
+              desc={item.description}
+              dibuat={item.createdAt.slice(0,10)}
               ind={index}
               id={item.id}
+              refresh={() => getType()}
             />
           );
         })}
@@ -194,7 +214,7 @@ const UserType = () => {
             gap: '0.5vw'
           }}
         >
-          <TypeForm title="Tambah Tipe Akun" onClose={() => handleClose()}/>
+          <TypeForm title="Tambah Tipe Akun" refresh={() => getType()} onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

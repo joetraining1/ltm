@@ -14,12 +14,32 @@ import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CtgCard from "./CtgCard";
 import CtgForm from "./form/CtgForm";
+import ApiClient from "../../../services/ApiClient";
+import { useEffect } from "react";
 
 const Ctgs = () => {
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true)
+    const reqType = await ApiClient.get('ctg').then((res) => {
+      return res.data
+    })
+    setDatas(reqType.result)
+    setIsLoading(false)
+    return
+  }
+
+  useEffect(() => {
+    if(datas.length === 0){
+      getType()
+    }
+  }, [datas])
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
@@ -50,7 +70,7 @@ const Ctgs = () => {
 
   let activeDataset;
 
-  const Hero = MultiArray(CategoryItem, 9);
+  const Hero = MultiArray(datas, 9);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
@@ -136,7 +156,7 @@ const Ctgs = () => {
           display: "grid",
           width: "100%",
           gridTemplateColumns:
-            activeDataset.length < 3
+            activeDataset?.length < 3
               ? "repeat(auto-fit, minmax(250px, 300px))"
               : "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "1vw",
@@ -145,9 +165,9 @@ const Ctgs = () => {
           transition: "width 0.4s ease, height 0.4s ease",
           padding: "1vw",
           height:
-            activeDataset.length < 4
+            activeDataset?.length < 4
               ? "24svh"
-              : activeDataset.length < 7
+              : activeDataset?.length < 7
               ? "54svh"
               : "68svh",
         }}
@@ -157,7 +177,7 @@ const Ctgs = () => {
             <CtgCard
               title={item.title}
               dibuat={item.createdAt}
-              desc={item.desc}
+              desc={item.description}
               ind={index}
               key={item.id}
               id={item.id}

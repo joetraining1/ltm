@@ -1,5 +1,5 @@
 import React from "react";
-import { H5style, MetaStyle } from "../../../utils/constants";
+import { H5style, MetaStyle, SideNoteStyle } from "../../../utils/constants";
 import { Divider, Typography } from "@mui/material";
 
 const PaymentMeta = () => {
@@ -23,18 +23,28 @@ const PaymentMeta = () => {
         </Typography>
       </div>
       <Divider />
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        gap: '0'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          gap: "0",
+        }}
+      >
+        <div style={MetaStyle}>
+          <Typography variant="body" sx={H5style}>
+            Order No.
+          </Typography>
+          <Typography variant="h6" sx={H5style}>
+            001
+          </Typography>
+        </div>
         <div style={MetaStyle}>
           <Typography variant="body" sx={H5style}>
             Variant Produk
           </Typography>
           <Typography variant="h6" sx={H5style}>
-            2 
+            2
           </Typography>
         </div>
         <div style={MetaStyle}>
@@ -46,19 +56,8 @@ const PaymentMeta = () => {
           </Typography>
         </div>
         <div style={MetaStyle}>
-          <Typography variant="body" sx={H5style}>
-            Harga per variant
-          </Typography>
-          <Typography variant="h6" sx={H5style}>
-            Rp. 7,000
-          </Typography>
-        </div>
-        <div style={MetaStyle}>
-          <Typography variant="body" sx={H5style}>
-            Biaya Pengiriman
-          </Typography>
-          <Typography variant="h6" sx={H5style}>
-            Rp. 18,000
+          <Typography variant="body" sx={{...SideNoteStyle, marginLeft: 'auto', textAlign: 'right'}}>
+            disarankan untuk melakukan pembayaran setelah biaya pengiriman tercetak
           </Typography>
         </div>
       </div>

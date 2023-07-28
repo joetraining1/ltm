@@ -34,7 +34,7 @@ const PaymentCard = ({ title, dibuat, ind, desc, id }) => {
             display: "flex",
             flexWrap: "wrap",
             height: "60%",
-            alignItems: "center",
+            justifyContent: 'center'
           }}
         >
           <Typography

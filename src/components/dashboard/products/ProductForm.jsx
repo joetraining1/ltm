@@ -15,14 +15,14 @@ import {
   LabelStyle2,
   colorHex,
 } from "../../../utils/constants";
-import LoupeRoundedIcon from '@mui/icons-material/LoupeRounded';
+import LoupeRoundedIcon from "@mui/icons-material/LoupeRounded";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
+import MoreRoundedIcon from "@mui/icons-material/MoreRounded";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 
 const ProductForm = ({ onClose, title }) => {
-  const [errorMsg, setErrorMsg] = useState({
-  });
+  const [errorMsg, setErrorMsg] = useState({});
   const [proofing, setProofing] = useState("");
 
   const FileImageHandler = (submits) => {
@@ -70,9 +70,12 @@ const ProductForm = ({ onClose, title }) => {
         }}
       >
         <MoreRoundedIcon sx={{ color: colorHex.iconColor }} />
-        <Divider orientation="vertical" sx={{
-          margin: '0 0.3vw 0 1vw'
-        }}/>
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: "0 0.3vw 0 1vw",
+          }}
+        />
         <TextField
           label="Pilih kategori"
           sx={{
@@ -106,7 +109,7 @@ const ProductForm = ({ onClose, title }) => {
             MenuProps: {
               sx: {
                 "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                  height: CategoryItem.length < 4 ? 'auto' : "150px",
+                  height: CategoryItem.length < 4 ? "auto" : "150px",
                 },
               },
             },
@@ -145,9 +148,12 @@ const ProductForm = ({ onClose, title }) => {
         }}
       >
         <LocalOfferOutlinedIcon sx={{ color: colorHex.iconColor }} />
-        <Divider orientation="vertical" sx={{
-            margin: '0 0.3vw 0 1vw'
-          }}/>
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: "0 0.3vw 0 1vw",
+          }}
+        />
         <TextField
           label="nama produk.."
           sx={{
@@ -194,6 +200,123 @@ const ProductForm = ({ onClose, title }) => {
       <Paper
         sx={{
           width: "100%",
+          height: "6svh",
+          display: "flex",
+          alignItems: "center",
+          padding: "0.75em 1vw",
+        }}
+      >
+        <PriceChangeOutlinedIcon sx={{ color: colorHex.iconColor }} />
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: "0 0.3vw 0 1vw",
+          }}
+        />
+        <TextField
+          type="number"
+          label="harga produk.."
+          sx={{
+            width: "100%",
+            minHeight: "5px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          size="small"
+          InputLabelProps={{
+            sx: {
+              ...LabelStyle,
+              top: "10%",
+              fontSize: "0.95em",
+            },
+          }}
+          InputProps={{
+            sx: {
+              "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                border: "none",
+                outline: "none",
+              },
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+            },
+          }}
+          inputProps={{
+            sx: {
+              ...H5style,
+              padding: "1% auto",
+            },
+          }}
+          helperText={errorMsg?.msg}
+          FormHelperTextProps={{
+            sx: {
+              color: "#ff0000",
+              opacity: "0.8",
+              fontSize: "0.7em",
+              marginTop: 0,
+              lineHeight: 0,
+              ...LabelStyle,
+            },
+          }}
+        />
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: "0 1vw",
+          }}
+        />
+        <TextField
+          type="number"
+          label="stock.."
+          sx={{
+            width: "100%",
+            minHeight: "5px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          size="small"
+          InputLabelProps={{
+            sx: {
+              ...LabelStyle,
+              top: "10%",
+              fontSize: "0.95em",
+            },
+          }}
+          InputProps={{
+            sx: {
+              "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                border: "none",
+                outline: "none",
+              },
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  display: "none",
+                },
+            },
+          }}
+          inputProps={{
+            sx: {
+              ...H5style,
+              padding: "1% auto",
+            },
+          }}
+          helperText={errorMsg?.msg}
+          FormHelperTextProps={{
+            sx: {
+              color: "#ff0000",
+              opacity: "0.8",
+              fontSize: "0.7em",
+              marginTop: 0,
+              lineHeight: 0,
+              ...LabelStyle,
+            },
+          }}
+        />
+      </Paper>
+      <Paper
+        sx={{
+          width: "100%",
           height: "15svh",
           display: "flex",
           alignItems: "start",
@@ -204,7 +327,7 @@ const ProductForm = ({ onClose, title }) => {
         <Divider
           orientation="vertical"
           sx={{
-            margin: '0 0.3vw 0 1vw'
+            margin: "0 0.3vw 0 1vw",
           }}
         />
         <TextField
@@ -216,14 +339,14 @@ const ProductForm = ({ onClose, title }) => {
             width: "100%",
             minHeight: "5px",
             "& .css-1r6xk0x-MuiInputBase-root-MuiOutlinedInput-root": {
-                padding: '0 0.9em'
+              padding: "0 0.9em",
             },
           }}
           size="small"
           InputLabelProps={{
             sx: {
               ...LabelStyle,
-              top: '-8%',
+              top: "-8%",
               fontSize: "0.95em",
               display: "flex",
               justifyContent: "center",
@@ -250,7 +373,7 @@ const ProductForm = ({ onClose, title }) => {
               color: "#ff0000",
               opacity: "0.8",
               fontSize: "0.7em",
-              marginTop: '1%',
+              marginTop: "1%",
               lineHeight: 0,
               ...LabelStyle,
             },
@@ -267,9 +390,12 @@ const ProductForm = ({ onClose, title }) => {
         }}
       >
         <AddPhotoAlternateIcon sx={{ color: "#1976d2" }} />
-        <Divider orientation="vertical" sx={{
-          margin: '0 0.3vw 0 1vw'
-        }}/>
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: "0 0.3vw 0 1vw",
+          }}
+        />
         {proofing !== "" ? (
           <Typography variant="body" style={{ ...H5style, marginLeft: "15px" }}>
             {proofing}

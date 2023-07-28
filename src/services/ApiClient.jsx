@@ -3,11 +3,12 @@ import Cookies from "js-cookie";
 import useAuth from "../hooks/useAuth";
 
 const ApiClient = axios.create({
-  baseURL: `http://localhost:3003/`,
+  baseURL: `http://localhost:3030/`,
 });
 
 ApiClient.interceptors.request.use((config) => {
   const token = Cookies.get('accessToken');
+  // console.log(token)
 
   config.headers.Authorization = `Bearer ${token}`;
   return config;
@@ -20,7 +21,7 @@ ApiClient.interceptors.response.use(
   (error) => {
     const { response } = error;
     
-    console.log(response)
+    // console.log(response)
     throw error;
   }
 );

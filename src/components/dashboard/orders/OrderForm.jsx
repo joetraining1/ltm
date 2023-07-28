@@ -38,7 +38,8 @@ import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceW
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 const OrderForm = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +50,7 @@ const OrderForm = ({ onClose }) => {
   const [proofing, setProofing] = useState("");
   const [shipments, setShipments] = useState("");
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(5)]);
+  const [datas, setDatas] = useState([...Array(7)]);
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -75,7 +76,7 @@ const OrderForm = ({ onClose }) => {
     return SortedArr;
   };
 
-  const Hero = MultiArray(datas, 4);
+  const Hero = MultiArray(datas, 5);
 
   let activeDataset;
 
@@ -94,16 +95,16 @@ const OrderForm = ({ onClose }) => {
   });
 
   const FileImageHandler = (submits, type) => {
-    if(type === 'proofing'){
+    if (type === "proofing") {
       setProofing(URL.createObjectURL(submits));
-      return
+      return;
     }
-    setShipments(URL.createObjectURL(submits))
+    setShipments(URL.createObjectURL(submits));
     return;
   };
 
   const FileExtractor = (submitted, type) => {
-    console.log(type)
+    console.log(type);
     if (submitted) {
       if (submitted.size > 2000000) {
         return toastError("Ukuran file melebihi batas.");
@@ -113,15 +114,15 @@ const OrderForm = ({ onClose }) => {
         const lastExt = name.lastIndexOf(".");
         const fileName = name.substring(0, 10).concat("...");
         const ext = name.substring(lastExt + 1);
-        if(type === 'proofing'){
+        if (type === "proofing") {
           setProofing(fileName.concat(ext));
-          return
+          return;
         }
-        return setShipments(fileName.concat(ext))
+        return setShipments(fileName.concat(ext));
       }
-      if(type === 'proofing'){
+      if (type === "proofing") {
         setProofing(submitted?.name);
-        return
+        return;
       }
       return setShipments(submitted?.name);
     }
@@ -310,7 +311,7 @@ const OrderForm = ({ onClose }) => {
               </Paper>
             );
           })}
-          {datas.length < 5 ? null : (
+          {datas.length < 6 ? null : (
             <Pagination
               count={Hero.length}
               sx={{
@@ -492,6 +493,69 @@ const OrderForm = ({ onClose }) => {
                 <SearchRoundedIcon sx={{ color: colorHex.iconColor }} />
               )}
             </Button>
+          </Paper>
+          <Paper
+            sx={{
+              width: "100%",
+              height: "6svh",
+              display: "flex",
+              alignItems: "center",
+              padding: "0.75em 1vw",
+            }}
+          >
+            <PersonOutlinedIcon sx={{ color: colorHex.iconColor }} />
+            <Divider
+              orientation="vertical"
+              sx={{
+                margin: "0 0.3vw 0 1vw",
+              }}
+            />
+            <TextField
+              label="nama penerima.."
+              sx={{
+                width: "100%",
+                minHeight: "5px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              size="small"
+              InputLabelProps={{
+                sx: {
+                  ...LabelStyle,
+                  top: "10%",
+                  fontSize: "0.95em",
+                },
+              }}
+              InputProps={{
+                sx: {
+                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                    outline: "none",
+                  },
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                },
+              }}
+              inputProps={{
+                sx: {
+                  ...H5style,
+                  padding: "1% auto",
+                },
+              }}
+              helperText={errorMsg?.msg}
+              FormHelperTextProps={{
+                sx: {
+                  color: "#ff0000",
+                  opacity: "0.8",
+                  fontSize: "0.7em",
+                  marginTop: 0,
+                  lineHeight: 0,
+                  ...LabelStyle,
+                },
+              }}
+            />
           </Paper>
           <Paper
             sx={{
@@ -697,7 +761,7 @@ const OrderForm = ({ onClose }) => {
             width: "100%",
             alignItems: "center",
             gap: "10px",
-            height: '100%'
+            height: "100%",
           }}
         >
           <Paper
@@ -983,6 +1047,7 @@ const OrderForm = ({ onClose }) => {
               }}
             />
             <TextField
+              type="number"
               label="biaya pengiriman.."
               sx={{
                 width: "100%",
@@ -1004,12 +1069,20 @@ const OrderForm = ({ onClose }) => {
                     border: "none",
                     outline: "none",
                   },
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
                 },
               }}
               inputProps={{
                 sx: {
                   ...H5style,
                   padding: "1% auto",
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
                 },
               }}
               helperText={errorMsg?.msg}
@@ -1025,12 +1098,21 @@ const OrderForm = ({ onClose }) => {
               }}
             />
           </Paper>
-          <div style={{...MetaStyle3, marginTop: 'auto'}}>
-              <div style={MetaStyle2}>
-                <Typography variant="h6" sx={H5style}>Total</Typography>
-                <Typography variant="h6" sx={H5style}>:</Typography>
-              </div>
-              <Typography variant="h5" sx={{ width: '100%', ...H5style, textAlign: 'right'}}>Rp. 53,000</Typography>
+          <div style={{ ...MetaStyle3, marginTop: "auto" }}>
+            <div style={MetaStyle2}>
+              <Typography variant="h6" sx={H5style}>
+                Total
+              </Typography>
+              <Typography variant="h6" sx={H5style}>
+                :
+              </Typography>
+            </div>
+            <Typography
+              variant="h5"
+              sx={{ width: "100%", ...H5style, textAlign: "right" }}
+            >
+              Rp. 53,000
+            </Typography>
           </div>
         </div>
       </div>

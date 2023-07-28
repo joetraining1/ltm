@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import {
   Avatar,
@@ -19,20 +19,43 @@ import {
   iconStyle,
   menuItemStyle,
 } from "../../utils/constants";
-import Pagani from "../../assets/pagani.jpg";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
-import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
 import DvrRoundedIcon from "@mui/icons-material/DvrRounded";
+import FormData from "form-data";
 
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { logout, mutateValueAvatar } from "../../redux/slices/authSlice";
+import useNotif from "../../hooks/useNotif";
+import ApiClient from "../../services/ApiClient";
 
 const Handler = () => {
   const [anchorEL, setAnchorEl] = useState(null);
-  const [condition, setCondition] = useState(true);
+  const [condition, setCondition] = useState(false);
   const [mode, setMode] = useState("Login");
+  const [isLoading, setIsLoading] = useState(false);
+  const [ava, setAva] = useState("");
+  const [pic, setPic] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth.authState);
+  const { infoToast, updateToast } = useNotif();
+
+  const FormPayload = new FormData()
+
+  useEffect(() => {
+    if (user?.user_id !== "") {
+      setCondition(true);
+      return;
+    } else {
+      return;
+    }
+  }, [user]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,12 +68,62 @@ const Handler = () => {
   const open = Boolean(anchorEL);
   const id = open ? "be-popin" : undefined;
 
+  const logoutSeq = async () => {
+    setIsLoading(true);
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    dispatch(
+      logout({
+        user_id: "",
+        user: "",
+        type: "",
+        cart_id: "",
+      })
+    );
+    setCondition(false);
+    setIsLoading(false);
+    return;
+  };
+
+  const uploadAva = async () => {
+    setIsLoading(true);
+    infoToast("menyimpan foto..");
+    try {
+      const FormPayload = new FormData()
+      FormPayload.append('image', ava)
+
+      console.log(user.avapic);
+      const photoApi = await ApiClient.put(`user/${user.id}`, FormPayload).then((res) => {
+        return res.data
+      });
+      dispatch(mutateValueAvatar(photoApi.result.avapic))
+      console.log(photoApi.result.avapic);
+      console.log(user.avapic);
+      setIsLoading(false)
+      updateToast("Berhasil", "success")
+      return
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
+
+  const FileImageHandler = (submits) => {
+    // after or before, send the file first, so whenever the files changed, it already recorded at database
+    // api request here
+    setAva(submits)
+    setPic(URL.createObjectURL(submits));
+    return
+  }
+
   return (
     <React.Fragment>
       {condition ? (
         <Button onClick={handleClick}>
           <Avatar
-            src={Pagani}
+            src={user?.avapic}
             sx={{
               width: AvaSize.navPic,
               height: AvaSize.navPic,
@@ -94,7 +167,7 @@ const Handler = () => {
               }}
             >
               <Avatar
-                src={Pagani}
+                src={user?.avapic ? user.avapic : pic}
                 sx={{ width: AvaSize.profPic, height: AvaSize.profPic }}
               />
               <div
@@ -107,14 +180,41 @@ const Handler = () => {
                 }}
               >
                 <Typography sx={H5style} variant="h6">
-                  Paganini
+                  {user?.name}
                 </Typography>
                 <Typography sx={SideNoteStyle} variant="body">
-                  pagani@gmail.com
+                  {user?.email}
                 </Typography>
               </div>
             </div>
-            <Divider sx={{ width: "100%", margin: "10% 0 5% 0" }} />
+            {user?.avapic ? null : ava === "" ? (
+              <Button
+                variant="text"
+                component="label"
+                size="small"
+                sx={{ ...LabelStyle, marginTop: "10px" }}
+              >
+                upload photo
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => FileImageHandler(e.target.files[0])}
+                />
+              </Button>
+            ) : (
+              <Button
+                variant="text"
+                component="label"
+                size="small"
+                sx={{ ...LabelStyle, marginTop: "10px" }}
+                onClick={() => uploadAva()}
+              >
+                simpan
+              </Button>
+            )}
+
+            <Divider sx={{ width: "100%", margin: user?.avapic ? "10% 0 5% 0" : "0% 0 5% 0" }} />
             <Button
               sx={{
                 width: "100%",
@@ -171,7 +271,7 @@ const Handler = () => {
                 marginLeft: "auto",
                 color: "#ff0000",
               }}
-              onClick={() => setCondition(false)}
+              onClick={() => logoutSeq()}
             >
               Logout
             </Button>

@@ -23,16 +23,19 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FmdGoodRoundedIcon from "@mui/icons-material/FmdGoodRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
-import PhoneRoundedIcon from '@mui/icons-material/PhoneRounded';
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import VpnKeyRoundedIcon from "@mui/icons-material/VpnKeyRounded";
+import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 
-const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => {
+const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) => {
   const [errorMsg, setErrorMsg] = useState({});
   const [userLogin, setUserLogin] = useState({
     type: "admin",
   });
-  const [proofing, setProofing] = useState("");
+  const [proofing, setProofing] = useState(url ? url : "");
+  const [emails, setEmails] = useState(email ? email : "")
+  const [name, setName] = useState(nama ? nama : "")
+  const [phone, setPhone] = useState(fone ? fone : "")
 
   const itemMap = TypeItem.map((i, ind) => {
     if (userLogin.type !== "admin") {
@@ -96,7 +99,11 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
         >
           <Avatar
             src={proofing !== "" ? proofing : null}
-            sx={{ height: 96, width: 96, boxShadow: "1px 1px 1px 2px rgba(0,0,0,0.4)" }}
+            sx={{
+              height: mode !== "add" ? 154 : 96,
+              width: mode !== "add" ? 154 : 96,
+              boxShadow: "1px 1px 1px 2px rgba(0,0,0,0.4)",
+            }}
           />
           <Paper
             sx={{
@@ -114,27 +121,76 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
                 margin: "0 0.3vw 0 1vw",
               }}
             />
-            <Button
-              component="label"
-              variant="text"
-              size="small"
-              sx={{
-                width: "35%",
-                fontFamily: "Signika Negative, sans-serif",
-                fontWeight: "700",
-                display: "flex",
-                margin: "auto auto auto 2.4vw",
-                alignItems: "center",
-              }}
-            >
-              {proofing ? "ubah foto" : "file foto"}
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={(e) => FileImageHandler(e.target.files[0])}
-              />
-            </Button>
+            {proofing !== "" ? (
+              <div
+                style={{
+                  display: "flex",
+                  width: "67.5%",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  marginLeft: "auto",
+                }}
+              >
+                <Button
+                  component="label"
+                  variant="text"
+                  size="small"
+                  sx={{
+                    width: "100%",
+                    fontFamily: "Signika Negative, sans-serif",
+                    fontWeight: "700",
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#ff0000",
+                  }}
+                  onClick={() => setProofing("")}
+                >
+                  hapus foto
+                </Button>
+                <Button
+                  component="label"
+                  variant="text"
+                  size="small"
+                  sx={{
+                    width: "100%",
+                    fontFamily: "Signika Negative, sans-serif",
+                    fontWeight: "700",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  Ubah foto
+                  <input
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={(e) => FileImageHandler(e.target.files[0])}
+                  />
+                </Button>
+              </div>
+            ) : (
+              <Button
+                component="label"
+                variant="text"
+                size="small"
+                sx={{
+                  width: "35%",
+                  fontFamily: "Signika Negative, sans-serif",
+                  fontWeight: "700",
+                  display: "flex",
+                  margin: "auto auto auto 2.4vw",
+                  alignItems: "center",
+                }}
+              >
+                file foto
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => FileImageHandler(e.target.files[0])}
+                />
+              </Button>
+            )}
           </Paper>
           <Paper
             sx={{
@@ -155,6 +211,7 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
             <TextField
               label="email.."
               type="email"
+              value={emails}
               sx={{
                 width: "100%",
                 minHeight: "5px",
@@ -162,6 +219,7 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
                 justifyContent: "center",
               }}
               size="small"
+              onChange={(e) => setEmails(e.target.value)}
               InputLabelProps={{
                 sx: {
                   ...LabelStyle,
@@ -198,65 +256,65 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
           </Paper>
           {mode === "add" ? (
             <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <VpnKeyRoundedIcon sx={{ color: colorHex.iconColor }} />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="password.."
-              type="password"
               sx={{
                 width: "100%",
-                minHeight: "5px",
+                height: "6svh",
                 display: "flex",
-                justifyContent: "center",
+                alignItems: "center",
+                padding: "0.75em 1vw",
               }}
-              size="small"
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
+            >
+              <VpnKeyRoundedIcon sx={{ color: colorHex.iconColor }} />
+              <Divider
+                orientation="vertical"
+                sx={{
+                  margin: "0 0.3vw 0 1vw",
+                }}
+              />
+              <TextField
+                label="password.."
+                type="password"
+                sx={{
+                  width: "100%",
+                  minHeight: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                size="small"
+                InputLabelProps={{
+                  sx: {
+                    ...LabelStyle,
+                    top: "10%",
+                    fontSize: "0.95em",
                   },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                  padding: "1% auto",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  marginTop: 0,
-                  lineHeight: 0,
-                  ...LabelStyle,
-                },
-              }}
-            />
-          </Paper>
+                }}
+                InputProps={{
+                  sx: {
+                    "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                      outline: "none",
+                    },
+                  },
+                }}
+                inputProps={{
+                  sx: {
+                    ...H5style,
+                    padding: "1% auto",
+                  },
+                }}
+                helperText={errorMsg?.msg}
+                FormHelperTextProps={{
+                  sx: {
+                    color: "#ff0000",
+                    opacity: "0.8",
+                    fontSize: "0.7em",
+                    marginTop: 0,
+                    lineHeight: 0,
+                    ...LabelStyle,
+                  },
+                }}
+              />
+            </Paper>
           ) : null}
         </div>
         <div
@@ -312,7 +370,7 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
                   ...LabelStyle,
                 },
               }}
-              defaultValue="User"
+              defaultValue={"User"}
               SelectProps={{
                 MenuProps: {
                   sx: {
@@ -364,6 +422,8 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
             />
             <TextField
               label="nama.."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               sx={{
                 width: "100%",
                 minHeight: "5px",
@@ -423,6 +483,8 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat,  }) => 
             />
             <TextField
               label="nomor telephone.."
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               sx={{
                 width: "100%",
                 minHeight: "5px",

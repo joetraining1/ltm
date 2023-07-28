@@ -35,11 +35,12 @@ const UserType = lazy(() => import('./components/dashboard/type/UserType'));
 const DashHome = lazy(() => import("./components/dashboard/DashHome"));
 const Sneakpeek = lazy(() => import("./components/dashboard/carts/Sneakpeek"));
 import NotifProvider from "./contexts/NotifContext";
+import Loading from "./pages/Loading";
 
 function App() {
   return (
     <NotifProvider>
-      <Suspense fallback={<div>Loading..</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />

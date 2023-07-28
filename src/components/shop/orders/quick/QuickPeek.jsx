@@ -42,6 +42,8 @@ const QuickPeek = () => {
   const navigate = useNavigate();
 
   const FileImageHandler = (submits) => {
+    // after or before, send the file first, so whenever the files changed, it already recorded at database
+    // api request here
     setProofing(URL.createObjectURL(submits));
     return
   }

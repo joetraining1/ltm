@@ -8,7 +8,7 @@ import {
 } from "../../../utils/constants";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import useNotif from "../../../hooks/useNotif";
-import LocalShippingRoundedIcon from '@mui/icons-material/LocalShippingRounded';
+import LocalShippingRoundedIcon from "@mui/icons-material/LocalShippingRounded";
 
 const PaymentForm = () => {
   const [theFile, setFile] = useState("");
@@ -89,12 +89,38 @@ const PaymentForm = () => {
         })}
       </TextField>
       <TextField
-        label="Nomor Penerima"
+        label="Nama penerima.."
         size="small"
         sx={{
           width: "100%",
         }}
         inputProps={{ sx: H5style }}
+        InputProps={{
+          sx: {
+            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+              {
+                display: "none",
+              },
+          },
+        }}
+        InputLabelProps={{ sx: LabelStyle }}
+      />
+      <TextField
+        label="Nomor Penerima (085xxx)"
+        type="number"
+        size="small"
+        sx={{
+          width: "100%",
+        }}
+        inputProps={{ sx: H5style }}
+        InputProps={{
+          sx: {
+            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+              {
+                display: "none",
+              },
+          },
+        }}
         InputLabelProps={{ sx: LabelStyle }}
       />
       <TextField
@@ -156,6 +182,7 @@ const PaymentForm = () => {
           fontFamily: "Signika Negative, sans-serif",
           fontWeight: "600",
           width: "100%",
+          marginTop: 'auto'
         }}
         startIcon={<LocalShippingRoundedIcon />}
       >

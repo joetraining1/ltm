@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Bottle from "../../../assets/milk2.png";
-import { H5style } from "../../../utils/constants";
+import { H5style, LabelStyle2 } from "../../../utils/constants";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import useNotif from "../../../hooks/useNotif";
 import MilkIcon from "../../../assets/milksvg.svg";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 
 const CheckoutItem = ({ ind }) => {
   const [qty, setQty] = useState("0");
@@ -77,9 +78,28 @@ const CheckoutItem = ({ ind }) => {
             gap: "10px",
           }}
         >
-          <Typography variant="h6" sx={H5style}>
-            Susu Pasteurisasi
-          </Typography>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6" sx={LabelStyle2}>
+              Susu Pasteurisasi
+            </Typography>
+            <Button
+              variant="text"
+              sx={{
+                marginLeft: "auto",
+                minWidth: "10px",
+                color: "#ff0000",
+                padding: "5px",
+              }}
+            >
+              <DeleteOutlineRoundedIcon />
+            </Button>
+          </div>
           <Divider />
           <div
             style={{
@@ -89,9 +109,20 @@ const CheckoutItem = ({ ind }) => {
               height: "100%",
             }}
           >
-            <Typography variant="h5" sx={H5style}>
-              Variant Strawberry
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h5" sx={H5style}>
+                Variant Strawberry
+              </Typography>
+              <Typography variant="h6" sx={{...H5style, marginLeft: 'auto'}}>
+              Rp. {qty * 7},000
             </Typography>
+            </div>
             <Typography variant="h6" sx={H5style}>
               Rp. 7,000
             </Typography>
@@ -114,7 +145,7 @@ const CheckoutItem = ({ ind }) => {
               }}
             >
               <Typography variant="body" sx={H5style}>
-                Quantity:{" "}
+                quantity:{" "}
               </Typography>
               <Button
                 variant="text"
@@ -139,7 +170,7 @@ const CheckoutItem = ({ ind }) => {
                 }}
                 inputProps={{
                   sx: {
-                    "text-align": "center",
+                    textAlign: "center",
                   },
                 }}
                 value={qty}

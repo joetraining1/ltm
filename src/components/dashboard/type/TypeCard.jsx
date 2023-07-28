@@ -5,12 +5,30 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import TypeForm from "./TypeForm";
+import ApiClient from "../../../services/ApiClient";
 
-const TypeCard = ({ title, dibuat, ind, desc, id }) => {
+const TypeCard = ({ title, dibuat, ind, desc, id, refresh }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
+
+  const deleteType = async () => {
+    setIsLoading(true)
+    try{
+      const delTy = await ApiClient.delete(`type/${id}`)
+      setIsLoading(false)
+      refresh()
+      return
+    }catch(err){
+      console.log(err)
+      setIsLoading(false)
+      return
+    }
+  }
+
+  
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -39,7 +57,7 @@ const TypeCard = ({ title, dibuat, ind, desc, id }) => {
         >
           <Typography
             variant="body"
-            sx={{ ...LabelStyle2, textAlign: "center" }}
+            sx={{ ...LabelStyle2, textAlign: "center", width: '100%' }}
           >
             {desc}
           </Typography>
@@ -63,7 +81,7 @@ const TypeCard = ({ title, dibuat, ind, desc, id }) => {
             <EditRoundedIcon />
           </Button>
           <Divider orientation="vertical" />
-          <Button variant="text" sx={{ minWidth: "20px" }}>
+          <Button variant="text" sx={{ minWidth: "20px" }} onClick={() => deleteType()}>
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
@@ -92,7 +110,7 @@ const TypeCard = ({ title, dibuat, ind, desc, id }) => {
               gap: "0.5vw",
             }}
           >
-            <TypeForm id={id} title="Edit Tipe Akun" nama={title} desc={desc} onClose={() => handleClose()} />
+            <TypeForm id={id} title="Edit Tipe Akun" refresh={() => refresh()} nama={title} desc={desc} port="edit" onClose={() => handleClose()} />
           </Paper>
         </Modal>
       </Card>

@@ -33,7 +33,7 @@ const StatusCard = ({ title, ind, desc, dibuat, id }) => {
           padding: "1vw",
         }}
       >
-        <Typography variant="h6" style={{ ...H5style, margin: "10px 0" }}>
+        <Typography variant="h5" style={{ ...H5style, margin: "10px 0" }}>
           {title}
         </Typography>
         <Divider sx={{ width: "100%", margin: "3% 0 5% 0" }} />
@@ -45,6 +45,7 @@ const StatusCard = ({ title, ind, desc, dibuat, id }) => {
             flexWrap: "wrap",
             height: "60%",
             alignItems: "start",
+            justifyContent: 'center'
           }}
         >
           <Typography

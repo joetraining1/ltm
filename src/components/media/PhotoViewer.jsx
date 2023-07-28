@@ -42,6 +42,7 @@ const PhotoViewer = ({ picurl, title }) => {
             width: "225px",
             height: "150px",
             borderRadius: "4px",
+            filter: "drop-shadow(2px 3px 2px rgba(0,0,0,0.3))"
           }}
         />
       </Button>

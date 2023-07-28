@@ -301,7 +301,7 @@ const DashOrders = () => {
           sx={{
             width: "1100px",
             minHeight: "350px",
-            height: "63svh",
+            height: "70svh",
             position: "absolute",
             top: "50%",
             left: "50%",

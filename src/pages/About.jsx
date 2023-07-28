@@ -48,14 +48,21 @@ const About = () => {
             background: "#F3DE2C",
           }}
         />
-        <img src={Logo} style={{ height: 'auto', width: '11%'}}/>
+        <img
+          src={Logo}
+          style={{
+            height: "auto",
+            width: "11%",
+            filter: 'drop-shadow(0px 0px 20px rgba(255,255,255, 0.4))'
+          }}
+        />
         <Typography
           variant="h3"
           sx={{
             fontFamily: "Signika Negative, sans-serif",
             fontWeight: "700",
             color: "#fff",
-            textShadow: '1px 2px 3px #000000'
+            textShadow: "1px 2px 3px #000000",
           }}
         >
           Marino's Milk & Yoghurt
@@ -66,14 +73,17 @@ const About = () => {
             fontFamily: "Signika Negative, sans-serif",
             fontWeight: "700",
             color: "#fff",
-            textAlign: 'center',
-            width: '50%',
-            textShadow: '1px 2px 3px #000000'
+            textAlign: "center",
+            width: "50%",
+            textShadow: "1px 2px 3px #000000",
           }}
         >
-          Kami adalah brand minuman olahan bernutrisi kebaikan susu sapi perah murni.
+          Kami adalah brand minuman olahan bernutrisi kebaikan susu sapi perah
+          murni.
           <br />
-          Kami memiliki visi untuk dapat menyediakan produk berkualitas dan gizi yang dapat dan lebih dari olahan susu sapi perah ke masyarakat Indonesia.
+          Kami memiliki visi untuk dapat menyediakan produk berkualitas dan gizi
+          yang dapat dan lebih dari olahan susu sapi perah ke masyarakat
+          Indonesia.
           <br />
         </Typography>
       </div>

@@ -82,7 +82,7 @@ const BankGridDisplayer = ({ judul, datasets, accounts }) => {
               ? "34svh"
               : activeDataset.length < 7
               ? "64svh"
-              : "90svh",
+              : "92svh",
         }}
       >
         {activeDataset?.map((item, index) => {

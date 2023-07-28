@@ -14,11 +14,30 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { H5style, PaymentItem } from "../../../utils/constants";
 import PaymentCard from "./PaymentCard";
 import PaymentForm from "./PaymentForm";
+import { useEffect } from "react";
+import ApiClient from "../../../services/ApiClient";
 
 const Payements = () => {
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getPaid = async () => {
+    setIsLoading(true)
+    const reqPaid = await ApiClient.get('payment').then((res) => {
+      return res.data
+    })
+    setDatas(reqPaid.result)
+    setIsLoading(false)
+    return
+  }
+
+  useEffect(() => {
+    if(datas.length === 0){
+      getPaid()
+    }
+  }, [datas])
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
@@ -49,7 +68,7 @@ const Payements = () => {
 
   let activeDataset;
 
-  const Hero = MultiArray(PaymentItem, 9);
+  const Hero = MultiArray(datas, 9);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
@@ -132,7 +151,7 @@ const Payements = () => {
           display: "grid",
           width: "100%",
           gridTemplateColumns:
-            activeDataset.length < 3
+            activeDataset?.length < 3
               ? "repeat(auto-fit, minmax(250px, 300px))"
               : "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "1vw",
@@ -141,9 +160,9 @@ const Payements = () => {
           transition: "width 0.4s ease, height 0.4s ease",
           padding: "1vw",
           height:
-            activeDataset.length < 4
+            activeDataset?.length < 4
               ? "24svh"
-              : activeDataset.length < 7
+              : activeDataset?.length < 7
               ? "54svh"
               : "68svh",
         }}
@@ -153,7 +172,7 @@ const Payements = () => {
             <PaymentCard
               title={item.title}
               key={item.id}
-              desc={item.desc}
+              desc={item.description}
               dibuat={item.createdAt}
               ind={index}
               id={item.id}

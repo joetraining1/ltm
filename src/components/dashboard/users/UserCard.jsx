@@ -43,7 +43,7 @@ const UserCard = ({ ind }) => {
             height: AvaSize.profile,
             width: AvaSize.profile,
             margin: "0.5vw 0",
-            boxShadow: "1px 1px 5px 1px rgba(0,0,0,0.4)",
+            boxShadow: "1px 1px 5px 2px rgba(0,0,0,0.7)",
           }}
         />
         <Typography variant="h6" sx={H5style}>

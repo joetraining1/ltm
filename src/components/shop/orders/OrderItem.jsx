@@ -80,7 +80,7 @@ const OrderItem = ({ ind, spill }) => {
               marginLeft: "auto",
             }}
           >
-            delete
+            cancel
           </Button>
           <Divider orientation="vertical" />
           <Button

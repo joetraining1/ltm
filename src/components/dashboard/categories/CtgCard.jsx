@@ -34,7 +34,7 @@ const CtgCard = ({ title, ind, desc, dibuat, id }) => {
             width: "100%",
             display: "flex",
             height: "60%",
-            alignItems: "center",
+            justifyContent: 'center'
           }}
         >
           <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "center" }}>

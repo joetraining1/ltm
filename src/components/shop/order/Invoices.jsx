@@ -8,6 +8,7 @@ import InvoicesDetail from "./invoices/InvoicesDetail";
 import InvoicesHead from "./invoices/InvoicesHead";
 import InvoicesFooter from "./invoices/InvoicesFooter";
 import { H5style, LabelStyle2 } from "../../../utils/constants";
+import Logo from "../../../assets/marino.png";
 
 const Invoices = () => {
   const { id } = useParams();
@@ -47,9 +48,25 @@ const Invoices = () => {
         }}
         elevation={3}
       >
-        <Avatar sx={{ width: 120, height: 120 }} />
-        <Typography variant="h4" sx={H5style}>Marino's Milk & Yohurt</Typography>
-        <Typography variant="h6" sx={LabelStyle2}>Kepada :</Typography>
+        <img src={Logo} style={{ objectFit: "cover", width: "10%" }} />
+        <Typography variant="h4" sx={H5style}>
+          Marino's Milk & Yohurt
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "1vw",
+          }}
+        >
+          <Typography variant="h6" sx={LabelStyle2}>
+            Kepada :{" "}
+          </Typography>
+          <Typography variant="h6" sx={H5style}>
+          Pagani
+        </Typography>
+        </div>
         <Divider style={{ width: "100%" }} />
         <InvoicesHead />
         <Divider style={{ width: "100%" }} />
