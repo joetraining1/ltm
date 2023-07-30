@@ -15,9 +15,73 @@ import {
 } from "../../../../utils/constants";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
+import ApiClient from "../../../../services/ApiClient";
+import useNotif from "../../../../hooks/useNotif";
 
-const AccountForm = ({ onClose, title, bank, noRek }) => {
+const AccountForm = ({ onClose, title, bank, noRek, refresh, bId, port, bankList, id }) => {
   const [errorMsg, setErrorMsg] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [cname, setCname] = useState(bank ? bank : "BCA");
+  const [cdesc, setCdesc] = useState(noRek ? noRek : "");
+  const [cBank, setCbank] = useState({
+    bank_name: bank ? bank : "BCA",
+    bank_id: bId ? bId : 1
+  })
+
+
+  const { infoToast, updateToast } = useNotif();
+
+  const upApi = async () => {
+    setIsLoading(true);
+    infoToast("memperbaharui data..");
+    const payload = {
+      ...cBank,
+      norek: cdesc
+    };
+    try {
+      const reqData = await ApiClient.put(`account/${id}`, payload).then(
+        (response) => {
+          return response.data;
+        }
+      );
+      setIsLoading(false);
+      updateToast("Berhasil mengubah data.", "success");
+      onClose();
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
+
+  const newApi = async () => {
+    setIsLoading(true);
+    infoToast("menambahkan data..");
+    const payload = {
+      ...cBank,
+      norek: cdesc
+    };
+    try {
+      const reqData = await ApiClient.post("account", payload).then(
+        (response) => {
+          return response.data;
+        }
+      );
+      setIsLoading(false);
+      updateToast("Data ditambahkan.", "success");
+      refresh();
+      onClose();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
 
   return (
     <React.Fragment>
@@ -72,8 +136,8 @@ const AccountForm = ({ onClose, title, bank, noRek }) => {
               ...LabelStyle,
             },
           }}
-          value={bank ? bank : null}
-          defaultValue="BCA"
+          value={cBank.bank_name}
+          defaultValue={cBank.bank_name}
           SelectProps={{
             MenuProps: {
               sx: {
@@ -98,9 +162,12 @@ const AccountForm = ({ onClose, title, bank, noRek }) => {
             },
           }}
         >
-          {BankItem.map((item, index) => {
+          {bankList?.map((item, index) => {
             return (
-              <MenuItem key={item.id} value={item.acronim} sx={H5style}>
+              <MenuItem key={item.id} value={item.acronim} sx={H5style} onClick={() => setCbank({
+                bank_id: item.id,
+                bank_name: item.acronim
+              })}>
                 {item.acronim}
               </MenuItem>
             );
@@ -128,7 +195,8 @@ const AccountForm = ({ onClose, title, bank, noRek }) => {
             justifyContent: "center",
           }}
           size="small"
-          value={noRek ? noRek : null}
+          value={cdesc}
+          onChange={(e) => setCdesc(e.target.value)}
           InputLabelProps={{
             sx: {
               ...LabelStyle,
@@ -180,7 +248,12 @@ const AccountForm = ({ onClose, title, bank, noRek }) => {
         >
           cancel
         </Button>
-        <Button variant="contained" sx={LabelStyle}>
+        <Button
+          variant="contained"
+          sx={LabelStyle}
+          disabled={isLoading}
+          onClick={port === "edit" ? () => upApi() : () => newApi()}
+        >
           simpan
         </Button>
       </div>

@@ -1,4 +1,13 @@
-import { Avatar, Button, Card, Divider, Grow, Modal, Paper, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Card,
+  Divider,
+  Grow,
+  Modal,
+  Paper,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import {
   AvaSize,
@@ -11,9 +20,45 @@ import Pagani from "../../../assets/pagani.jpg";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import UserForm from "./UserForm";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
 
-const UserCard = ({ ind }) => {
+const UserCard = ({
+  ind,
+  id,
+  name,
+  picurl,
+  esurat,
+  addr,
+  nomer,
+  dibuat,
+  tipe,
+  done,
+  active,
+  refresh,
+  tData
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast } = useNotif();
+
+  const deleteType = async () => {
+    setIsLoading(true);
+    infoToast('menghapus user..')
+    try {
+      const delTy = await ApiClient.delete(`user/${id}`);
+      setIsLoading(false);
+      updateToast('User dihapus.', 'success')
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast('Gagal.', 'error')
+      return;
+    }
+  };
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
@@ -34,11 +79,14 @@ const UserCard = ({ ind }) => {
         <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle, marginLeft: "3%" }}>
-            14 juni 2023
+            {dibuat?.slice(0,10)}
+          </Typography>
+          <Typography variant="body" sx={{ ...H5style, marginLeft: "auto" }}>
+            {tipe}
           </Typography>
         </div>
         <Avatar
-          src={Pagani}
+          src={picurl}
           sx={{
             height: AvaSize.profile,
             width: AvaSize.profile,
@@ -47,10 +95,10 @@ const UserCard = ({ ind }) => {
           }}
         />
         <Typography variant="h6" sx={H5style}>
-          Paganini
+          {name}
         </Typography>
         <Typography variant="body" sx={SideNoteStyle}>
-          pagani@gmail.com
+          {esurat}
         </Typography>
         <div
           style={{
@@ -69,7 +117,7 @@ const UserCard = ({ ind }) => {
             }}
           >
             <Typography variant="h5" sx={H5style}>
-              3
+              {active}
             </Typography>
             <Typography variant="body" sx={H5style}>
               pesanan aktif
@@ -84,7 +132,7 @@ const UserCard = ({ ind }) => {
             }}
           >
             <Typography variant="h5" sx={{ ...H5style, color: "#00ff00" }}>
-              17
+              {done}
             </Typography>
             <Typography variant="body" sx={H5style}>
               pesanan selesai
@@ -108,7 +156,7 @@ const UserCard = ({ ind }) => {
               textAlign: "center",
             }}
           >
-            081234567890
+            {nomer}
           </Typography>
           <Typography
             variant="body"
@@ -118,7 +166,7 @@ const UserCard = ({ ind }) => {
               textAlign: "center",
             }}
           >
-            jl. Suyudono Selatan no. 51, Jakarta Utara, Jakarta
+            {addr}
           </Typography>
         </div>
         <div
@@ -139,36 +187,36 @@ const UserCard = ({ ind }) => {
             Edit
           </Button>
           <Divider orientation="vertical" />
-          <Button sx={{ ...LabelStyle, color: "#ff0000" }}>Delete</Button>
+          <Button disabled={isLoading} sx={{ ...LabelStyle, color: "#ff0000" }} onClick={() => deleteType()}>Delete</Button>
         </div>
         <Modal
-        open={modalOpen}
-        onClose={() => handleClose()}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <Paper
-          sx={{
-            width: "750px",
-            minHeight: "350px",
-            height: 'fit-content',
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1000,
-            backgroundColor: "#fff",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '2vw',
-            alignItems: 'center',
-            borderRadius: '5px',
-            gap: '0.5vw'
-          }}
+          open={modalOpen}
+          onClose={() => handleClose()}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
         >
-          <UserForm title="Edit Data User" onClose={() => handleClose()}/>
-        </Paper>
-      </Modal>
+          <Paper
+            sx={{
+              width: "750px",
+              minHeight: "350px",
+              height: "fit-content",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              backgroundColor: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              padding: "2vw",
+              alignItems: "center",
+              borderRadius: "5px",
+              gap: "0.5vw",
+            }}
+          >
+            <UserForm title="Edit Data User" tData={tData} id={id} type={tipe} alamat={addr} email={esurat} fone={nomer} nama={name} refresh={() => refresh()} url={picurl} onClose={() => handleClose()} />
+          </Paper>
+        </Modal>
       </Card>
     </Grow>
   );

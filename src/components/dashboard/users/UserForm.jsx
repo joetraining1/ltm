@@ -26,44 +26,124 @@ import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import VpnKeyRoundedIcon from "@mui/icons-material/VpnKeyRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
+import { useSelector } from "react-redux";
+import ApiClient from "../../../services/ApiClient";
+import { useEffect } from "react";
+import useNotif from "../../../hooks/useNotif";
+import Blank from '../../../assets/blank.jpg';
 
-const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) => {
+const UserForm = ({
+  onClose,
+  mode,
+  title,
+  id,
+  fone,
+  nama,
+  email,
+  alamat,
+  url,
+  type,
+  refresh,
+  tData,
+}) => {
+  const user = useSelector((state) => state.auth.authState);
   const [errorMsg, setErrorMsg] = useState({});
-  const [userLogin, setUserLogin] = useState({
-    type: "admin",
-  });
   const [proofing, setProofing] = useState(url ? url : "");
-  const [emails, setEmails] = useState(email ? email : "")
-  const [name, setName] = useState(nama ? nama : "")
-  const [phone, setPhone] = useState(fone ? fone : "")
+  const [emails, setEmails] = useState(email ? email : "");
+  const [name, setName] = useState(nama ? nama : "");
+  const [phone, setPhone] = useState(fone ? fone : "");
+  const [addr, setAddr] = useState(alamat ? alamat : "");
+  const [pass, setPass] = useState("");
+  const [ctype, setCtype] = useState(type ? type : "User");
+  const [stype, setStype] = useState(3);
+  const [isLoading, setIsLoading] = useState(false)
+  const [types, setTypes] = useState(tData ? tData :[]);
+  const [curl, setCurl] = useState(null);
 
-  const itemMap = TypeItem.map((i, ind) => {
-    if (userLogin.type !== "admin") {
-      return null;
+  const selectType = (stype, ctype) => {
+    setCtype(ctype)
+    setStype(stype)
+    return
+  }
+
+  const { infoToast, updateToast } = useNotif()
+
+  const newApi = async () => {
+    setIsLoading(true);
+    infoToast("manambahkan user..");
+    try {
+      const FormPayload = new FormData();
+      FormPayload.append("name", name);
+      FormPayload.append("phone", phone);
+      FormPayload.append("alamat", addr);
+      FormPayload.append("email", emails);
+      FormPayload.append("password", pass);
+      FormPayload.append("type_id", stype);
+      if(curl !== null){
+        FormPayload.append("image", curl);
+      }
+
+      const photoApi = await ApiClient.post(`user`, FormPayload).then((res) => {
+        return res.data;
+      });
+      setIsLoading(false);
+      updateToast("Berhasil.", "success");
+      refresh();
+      onClose();
+      return;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
     }
-    return i;
-  });
-
-  const FileImageHandler = (submits) => {
-    setProofing(URL.createObjectURL(submits));
-    return;
   };
 
-  const FileExtractor = (submitted) => {
-    if (submitted) {
-      if (submitted.size > 2000000) {
-        return toastError("Ukuran file melebihi batas.");
+  const upApi = async () => {
+    setIsLoading(true);
+    infoToast("menyimpan perubahan..");
+    try {
+      const FormPayload = new FormData();
+      FormPayload.append("name", name);
+      FormPayload.append("phone", phone);
+      FormPayload.append("alamat", addr);
+      FormPayload.append("email", emails);
+      FormPayload.append("password", pass);
+      FormPayload.append("type_id", stype);
+      if(curl !== null){
+        FormPayload.append("image", curl);
       }
-      if (submitted.name.length > 11) {
-        const name = submitted?.name;
-        const lastExt = name.lastIndexOf(".");
-        const fileName = name.substring(0, 10).concat("...");
-        const ext = name.substring(lastExt + 1);
-        return setProofing(fileName.concat(ext));
+      if(curl === ""){
+        FormPayload.append("image", "clear photo")
       }
-      return setProofing(submitted?.name);
+
+      const photoApi = await ApiClient.put(`user/${id}`, FormPayload).then(
+        (res) => {
+          return res.data;
+        }
+      );
+      setIsLoading(false);
+      updateToast("Berhasil.", "success");
+      refresh();
+      onClose();
+      return;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
     }
-    return null;
+  };
+
+  const FileImageHandler = (submits) => {
+    if(submits === ""){
+      setCurl(submits)
+      setProofing(submits)  
+      return
+    }
+    setCurl(submits)
+    setProofing(URL.createObjectURL(submits));
+    return;
   };
 
   return (
@@ -143,7 +223,7 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) 
                     alignItems: "center",
                     color: "#ff0000",
                   }}
-                  onClick={() => setProofing("")}
+                  onClick={() => FileImageHandler("")}
                 >
                   hapus foto
                 </Button>
@@ -274,6 +354,8 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) 
               <TextField
                 label="password.."
                 type="password"
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
                 sx={{
                   width: "100%",
                   minHeight: "5px",
@@ -317,6 +399,9 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) 
             </Paper>
           ) : null}
         </div>
+        {
+          // user type selector
+        }
         <div
           style={{
             display: "flex",
@@ -326,84 +411,87 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) 
             gap: "10px",
           }}
         >
-          <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <ManageAccountsRoundedIcon sx={{ color: colorHex.iconColor }} />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="Pilih tipe user"
+          {user.type === "Superadmin" || user.type === "Admin" ? (
+            <Paper
               sx={{
                 width: "100%",
-                minHeight: "5px",
+                height: "6svh",
                 display: "flex",
-                justifyContent: "center",
-              }}
-              size="small"
-              select
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  lineHeight: 0,
-                  marginTop: "1%",
-                  ...LabelStyle,
-                },
-              }}
-              defaultValue={"User"}
-              SelectProps={{
-                MenuProps: {
-                  sx: {
-                    "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                      height: TypeItem.length < 4 ? "auto" : "150px",
-                    },
-                  },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
-                  },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                  paddingBottom: 0,
-                },
+                alignItems: "center",
+                padding: "0.75em 1vw",
               }}
             >
-              {TypeItem.map((item, index) => {
-                return (
-                  <MenuItem key={item.id} value={item.title} sx={H5style}>
-                    {item.title}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          </Paper>
+              <ManageAccountsRoundedIcon sx={{ color: colorHex.iconColor }} />
+              <Divider
+                orientation="vertical"
+                sx={{
+                  margin: "0 0.3vw 0 1vw",
+                }}
+              />
+              <TextField
+                label="Pilih tipe user"
+                sx={{
+                  width: "100%",
+                  minHeight: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                size="small"
+                select
+                InputLabelProps={{
+                  sx: {
+                    ...LabelStyle,
+                    top: "10%",
+                    fontSize: "0.95em",
+                  },
+                }}
+                helperText={errorMsg?.msg}
+                FormHelperTextProps={{
+                  sx: {
+                    color: "#ff0000",
+                    opacity: "0.8",
+                    fontSize: "0.7em",
+                    lineHeight: 0,
+                    marginTop: "1%",
+                    ...LabelStyle,
+                  },
+                }}
+                defaultValue={ctype}
+                value={ctype}
+                SelectProps={{
+                  MenuProps: {
+                    sx: {
+                      "& .css-6hp17o-MuiList-root-MuiMenu-list": {
+                        height: TypeItem.length < 4 ? "auto" : "150px",
+                      },
+                    },
+                  },
+                }}
+                InputProps={{
+                  sx: {
+                    "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                      outline: "none",
+                    },
+                  },
+                }}
+                inputProps={{
+                  sx: {
+                    ...H5style,
+                    paddingBottom: 0,
+                  },
+                }}
+              >
+                {types.map((item, index) => {
+                  return (
+                    <MenuItem key={item.id} value={item.title} sx={H5style} onClick={() => selectType(item.id, item.title)}>
+                      {item.title}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
+            </Paper>
+          ) : null}
           <Paper
             sx={{
               width: "100%",
@@ -547,6 +635,8 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) 
               minRows={3}
               maxRows={3}
               label="alamat.."
+              value={addr}
+              onChange={(e) => setAddr(e.target.value)}
               sx={{
                 width: "100%",
                 minHeight: "5px",
@@ -610,7 +700,7 @@ const UserForm = ({ onClose, mode, title, id, fone, nama, email, alamat, url }) 
         >
           cancel
         </Button>
-        <Button variant="contained" sx={LabelStyle}>
+        <Button variant="contained" disabled={isLoading} sx={LabelStyle} onClick={mode === "add" ? () => newApi() : () => upApi()}>
           simpan
         </Button>
       </div>

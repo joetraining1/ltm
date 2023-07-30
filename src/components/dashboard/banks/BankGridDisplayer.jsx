@@ -4,7 +4,7 @@ import { H5style } from "../../../utils/constants";
 import BankCard from "./BankCard";
 import AccountCard from "./AccountCard";
 
-const BankGridDisplayer = ({ judul, datasets, accounts }) => {
+const BankGridDisplayer = ({ judul, datasets, accounts, refresh, bankList }) => {
   const [pageActive, setPageActive] = useState(0);
 
   const handleChangePage = (event, value) => {
@@ -69,7 +69,7 @@ const BankGridDisplayer = ({ judul, datasets, accounts }) => {
           display: "grid",
           width: "100%",
           gridTemplateColumns:
-            activeDataset.length < 3
+            activeDataset?.length < 3
               ? "repeat(auto-fit, minmax(250px, 300px))"
               : "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "1vw",
@@ -78,11 +78,11 @@ const BankGridDisplayer = ({ judul, datasets, accounts }) => {
           transition: "width 0.4s ease, height 0.4s ease",
           padding: "1vw",
           height:
-            activeDataset.length < 4
-              ? "34svh"
-              : activeDataset.length < 7
-              ? "64svh"
-              : "92svh",
+            activeDataset?.length < 4
+              ? "41svh"
+              : activeDataset?.length < 7
+              ? "75svh"
+              : "100svh",
         }}
       >
         {activeDataset?.map((item, index) => {
@@ -91,23 +91,28 @@ const BankGridDisplayer = ({ judul, datasets, accounts }) => {
               <AccountCard
                 key={item.id}
                 akun={item.norek}
-                user={item.user}
-                bank={item.bank}
+                user={item.name}
+                bank={item.bank_name}
                 id={item.id}
-                pic={item.picurl}
-                dibuat={item.createdAt}
+                pic={item.url}
+                bId={item.bank_id}
+                dibuat={item.createdAt.slice(0, 10)}
                 ind={index}
+                refresh={() => refresh()}
+                bankList={bankList}
               />
             );
           }
           return (
             <BankCard
               key={item.id}
-              pic={item.fotourl}
-              dibuat={item.createdAt}
+              pic={item.url}
+              dibuat={item.createdAt.slice(0,10)}
               acronim={item.acronim}
-              nama={item.nama}
+              nama={item.title}
               ind={index}
+              id={item.id}
+              refresh={() => refresh()}
             />
           );
         })}

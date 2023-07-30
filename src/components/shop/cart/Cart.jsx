@@ -17,11 +17,23 @@ import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import CartItem from "./CartItem";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
+import ApiClient from "../../../services/ApiClient";
 
 const Cart = ({ mode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(6)]);
+  const [datas, setDatas] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true)
+    const reqType = await ApiClient.get('cart').then((res) => {
+      return res.data
+    })
+    setDatas(reqType.result)
+    setIsLoading(false)
+    return
+  }
 
   const handleClose = () => {
     return setIsOpen(!isOpen);
@@ -51,7 +63,7 @@ const Cart = ({ mode }) => {
     return SortedArr;
   };
 
-  let activeDataset;
+  let activeDataset = [];
 
   const Hero = MultiArray(datas, 4);
   const HeroItem = Hero.map((item, index) => {

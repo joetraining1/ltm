@@ -1,10 +1,11 @@
 import React from "react";
 import DashBar from "../components/dashboard/DashBar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import BGmilk from "../assets/cows4.png";
 
 const Dashboard = () => {
+
   return (
     <React.Fragment>
       <div
@@ -53,17 +54,17 @@ const Dashboard = () => {
             <Outlet />
           </div>
         </div>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            height: "25vh",
-            backgroundImage: `url(${BGmilk})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "bottom 28% right 0",
-          }}
-        />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          height: "25vh",
+          backgroundImage: `url(${BGmilk})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "bottom 28% right 0",
+        }}
+      />
     </React.Fragment>
   );
 };

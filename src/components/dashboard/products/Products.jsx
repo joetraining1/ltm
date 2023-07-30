@@ -6,6 +6,7 @@ import Slider from "react-slick";
 
 const Products = () => {
   const [slickRef, setSliderRef] = useState();
+  const [dataset, setDataset] = useState(Category)
   const settings = {
     infinite: true,
     slidesToShow: 1,
@@ -61,7 +62,7 @@ const Products = () => {
           marginLeft: "auto",
         }}
       >
-        {Category.map((item, index) => {
+        {dataset.map((item, index) => {
           return <ProductContainer key={item.id} title={item.title} />;
         })}
       </Slider>

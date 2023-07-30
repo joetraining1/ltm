@@ -176,6 +176,7 @@ const Payements = () => {
               dibuat={item.createdAt}
               ind={index}
               id={item.id}
+              refresh={() => getPaid()}
             />
           );
         })}
@@ -213,7 +214,7 @@ const Payements = () => {
             gap: '0.5vw'
           }}
         >
-          <PaymentForm title="Tambah Metode Bayar" onClose={() => handleClose()}/>
+          <PaymentForm refresh={() => getPaid()} title="Tambah Metode Bayar" onClose={() => handleClose()}/>
         </Paper>
       </Modal>
     </div>

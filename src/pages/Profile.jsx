@@ -33,14 +33,10 @@ const Profile = () => {
 
   const user = useSelector((state) => state.auth.authState);
 
-  console.log(userData);
-
-  const uId = user.id;
-
   const getUser = async () => {
     setIsLoading(true);
     try {
-      const userApi = await ApiClient.get(`user/${uId}`).then((res) => {
+      const userApi = await ApiClient.get(`user/${user?.id}`).then((res) => {
         return res.data;
       });
       setLastOrder(userApi.last);
@@ -111,7 +107,7 @@ const Profile = () => {
                 boxShadow: "1px 1px 5px 2px rgba(0,0,0,0.7)",
               }}
             />
-            <Typography variant="h5" sx={{ ...H5style }}>
+            <Typography variant="h5" sx={{ ...H5style, textAlign: 'center' }}>
               {userData.name}
             </Typography>
             <div

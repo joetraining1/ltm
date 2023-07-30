@@ -13,12 +13,35 @@ import {
   Typography,
 } from "@mui/material";
 import StatusForm from "./StatusForm";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
 
-const StatusCard = ({ title, ind, desc, dibuat, id }) => {
+const StatusCard = ({ title, ind, desc, dibuat, id, refresh }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast } = useNotif();
+
+  const deleteType = async () => {
+    setIsLoading(true);
+    infoToast('menghapus data..')
+    try {
+      const delTy = await ApiClient.delete(`status/${id}`);
+      setIsLoading(false);
+      updateToast('Berhasil menghapus data', 'success')
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast('Gagal.', 'error')
+      return;
+    }
+  };
 
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
@@ -74,7 +97,7 @@ const StatusCard = ({ title, ind, desc, dibuat, id }) => {
             <EditRoundedIcon />
           </Button>
           <Divider orientation="vertical" />
-          <Button variant="text" sx={{ minWidth: "20px" }}>
+          <Button variant="text" sx={{ minWidth: "20px" }} onClick={() => deleteType()}>
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
@@ -107,7 +130,10 @@ const StatusCard = ({ title, ind, desc, dibuat, id }) => {
               title="Edit Status Pesanan"
               nama={title}
               desc={desc}
+              id={id}
               onClose={() => handleClose()}
+              refresh={() => refresh()}
+              port="edit"
             />
           </Paper>
         </Modal>

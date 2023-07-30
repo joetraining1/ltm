@@ -20,9 +20,9 @@ const Products = lazy(() => import("./components/dashboard/products/Products"));
 const DashboardOrder = lazy(() =>
   import("./components/dashboard/orders/DashOrders")
 );
-const Profile = lazy(() => import('./pages/Profile'));
-const QuickLook = lazy(() => import("./components/dashboard/orders/QuickLook"))
-const QuickEdit = lazy(() => import("./components/dashboard/orders/QuickEdit"))
+const Profile = lazy(() => import("./pages/Profile"));
+const QuickLook = lazy(() => import("./components/dashboard/orders/QuickLook"));
+const QuickEdit = lazy(() => import("./components/dashboard/orders/QuickEdit"));
 const Carts = lazy(() => import("./components/dashboard/carts/Carts"));
 const Ctgs = lazy(() => import("./components/dashboard/categories/Ctgs"));
 const Banks = lazy(() => import("./components/dashboard/banks/Banks"));
@@ -31,11 +31,12 @@ const Payments = lazy(() =>
   import("./components/dashboard/payments/Payements")
 );
 const Users = lazy(() => import("./components/dashboard/users/Users"));
-const UserType = lazy(() => import('./components/dashboard/type/UserType'));
+const UserType = lazy(() => import("./components/dashboard/type/UserType"));
 const DashHome = lazy(() => import("./components/dashboard/DashHome"));
 const Sneakpeek = lazy(() => import("./components/dashboard/carts/Sneakpeek"));
 import NotifProvider from "./contexts/NotifContext";
 import Loading from "./pages/Loading";
+import AdminLayout from "./components/layout/AdminLayout";
 
 function App() {
   return (
@@ -57,23 +58,25 @@ function App() {
               <Route path="guide" element={<Guide />} />
             </Route>
             <Route path="product" element={<Product />} />
-            <Route path="dashboard" element={<Dashboard />}>
-              <Route index element={<DashHome />} />
-              <Route path="types" element={<UserType />} />
-              <Route path="products" element={<Products />} />
-              <Route path="orders" element={<DashboardOrder />}>
-                <Route path=":id" element={<QuickLook />} />
-                <Route path="edit/:id" element={<QuickEdit />} />
+            <Route element={<AdminLayout />}>
+              <Route path="dashboard" element={<Dashboard />}>
+                <Route index element={<DashHome />} />
+                <Route path="types" element={<UserType />} />
+                <Route path="products" element={<Products />} />
+                <Route path="orders" element={<DashboardOrder />}>
+                  <Route path=":id" element={<QuickLook />} />
+                  <Route path="edit/:id" element={<QuickEdit />} />
+                </Route>
+                <Route path="order/:id" element={<Invoice />} />
+                <Route path="carts" element={<Carts />}>
+                  <Route path=":id" element={<Sneakpeek />} />
+                </Route>
+                <Route path="categories" element={<Ctgs />} />
+                <Route path="banks" element={<Banks />} />
+                <Route path="status" element={<Status />} />
+                <Route path="payments" element={<Payments />} />
+                <Route path="users" element={<Users />}></Route>
               </Route>
-              <Route path="order/:id" element={<Invoice />} />
-              <Route path="carts" element={<Carts />}>
-                <Route path=":id" element={<Sneakpeek />} />
-              </Route>
-              <Route path="categories" element={<Ctgs />} />
-              <Route path="banks" element={<Banks />} />
-              <Route path="status" element={<Status />} />
-              <Route path="payments" element={<Payments />} />
-              <Route path="users" element={<Users />}></Route>
             </Route>
           </Route>
         </Routes>

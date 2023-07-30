@@ -26,20 +26,20 @@ const Ctgs = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getType = async () => {
-    setIsLoading(true)
-    const reqType = await ApiClient.get('ctg').then((res) => {
-      return res.data
-    })
-    setDatas(reqType.result)
-    setIsLoading(false)
-    return
-  }
+    setIsLoading(true);
+    const reqType = await ApiClient.get("ctg").then((res) => {
+      return res.data;
+    });
+    setDatas(reqType.result);
+    setIsLoading(false);
+    return;
+  };
 
   useEffect(() => {
-    if(datas.length === 0){
-      getType()
+    if (datas.length === 0) {
+      getType();
     }
-  }, [datas])
+  }, [datas]);
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
@@ -181,6 +181,7 @@ const Ctgs = () => {
               ind={index}
               key={item.id}
               id={item.id}
+              refresh={() => getType()}
             />
           );
         })}
@@ -203,22 +204,22 @@ const Ctgs = () => {
           sx={{
             width: "450px",
             minHeight: "350px",
-            height: 'fit-content',
+            height: "fit-content",
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '2vw',
-            alignItems: 'center',
-            borderRadius: '5px',
-            gap: '0.5vw'
+            display: "flex",
+            flexDirection: "column",
+            padding: "2vw",
+            alignItems: "center",
+            borderRadius: "5px",
+            gap: "0.5vw",
           }}
         >
-          <CtgForm title="Tambah Kategori" onClose={() => handleClose()}/>
+          <CtgForm title="Tambah" onClose={() => handleClose()} refresh={() => getType()}/>
         </Paper>
       </Modal>
     </div>

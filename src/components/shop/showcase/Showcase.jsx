@@ -17,8 +17,21 @@ import {
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import Cart from "../cart/Cart";
 import ShowcaseCard from "./ShowcaseCard";
+import { useState } from "react";
+import ApiClient from "../../../services/ApiClient";
 
 const Showcase = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true)
+    const reqType = await ApiClient.get('type').then((res) => {
+      return res.data
+    })
+    setDatas(reqType.result)
+    setIsLoading(false)
+    return
+  }
   return (
     <div
       style={{

@@ -178,6 +178,7 @@ const Statuses = () => {
               id={item.id}
               dibuat={item.createdAt.slice(0,10)}
               key={item.id}
+              refresh={() => getStats()}
             />
           );
         })}
@@ -218,6 +219,7 @@ const Statuses = () => {
           <StatusForm
             title="Tambah Status Pesanan"
             onClose={() => handleClose()}
+            refresh={() => getStats()}
           />
         </Paper>
       </Modal>

@@ -82,6 +82,7 @@ const Handler = () => {
     );
     setCondition(false);
     setIsLoading(false);
+    navigate('/')
     return;
   };
 
@@ -111,8 +112,6 @@ const Handler = () => {
   };
 
   const FileImageHandler = (submits) => {
-    // after or before, send the file first, so whenever the files changed, it already recorded at database
-    // api request here
     setAva(submits)
     setPic(URL.createObjectURL(submits));
     return

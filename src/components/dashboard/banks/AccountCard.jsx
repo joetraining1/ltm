@@ -18,9 +18,42 @@ import {
   SideNoteStyle,
 } from "../../../utils/constants";
 import AccountForm from "./form/AccountForm";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
 
-const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
+const AccountCard = ({
+  bId,
+  bank,
+  akun,
+  user,
+  id,
+  pic,
+  dibuat,
+  ind,
+  refresh,
+  bankList
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast } = useNotif();
+
+  const deleteType = async () => {
+    setIsLoading(true);
+    infoToast("menghapus data..");
+    try {
+      const delTy = await ApiClient.delete(`account/${id}`);
+      setIsLoading(false);
+      updateToast("Berhasil menghapus data", "success");
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
 
   const handleClose = () => {
     setModalOpen(false);
@@ -182,7 +215,12 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
             Edit
           </Button>
           <Divider orientation="vertical" />
-          <Button variant="text" sx={{ minWidth: "20px" }}>
+          <Button
+            variant="text"
+            sx={{ minWidth: "20px" }}
+            disabled={isLoading}
+            onClick={() => deleteType()}
+          >
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
@@ -211,7 +249,17 @@ const AccountCard = ({ bank, akun, user, id, pic, dibuat, ind }) => {
               gap: "0.5vw",
             }}
           >
-            <AccountForm title="Edit Akun Bank" noRek={akun} bank={bank} onClose={() => handleClose()} />
+            <AccountForm
+              port={"edit"}
+              refresh={() => refresh()}
+              title="Edit Akun Bank"
+              noRek={akun}
+              bank={bank}
+              id={id}
+              bId={bId}
+              onClose={() => handleClose()}
+              bankList={bankList}
+            />
           </Paper>
         </Modal>
       </Card>

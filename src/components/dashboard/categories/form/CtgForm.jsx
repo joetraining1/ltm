@@ -14,41 +14,73 @@ import {
   LabelStyle2,
   colorHex,
 } from "../../../../utils/constants";
-import MoreRoundedIcon from '@mui/icons-material/MoreRounded';
-import LoupeRoundedIcon from '@mui/icons-material/LoupeRounded';
+import MoreRoundedIcon from "@mui/icons-material/MoreRounded";
+import LoupeRoundedIcon from "@mui/icons-material/LoupeRounded";
+import useNotif from "../../../../hooks/useNotif";
+import ApiClient from "../../../../services/ApiClient";
 
+const CtgForm = ({ onClose, title, nama, desc, id, refresh }) => {
+  const [errorMsg, setErrorMsg] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [cname, setCname] = useState(nama ? nama : "");
+  const [cdesc, setCdesc] = useState(desc ? desc : "");
 
-const CtgForm = ({ onClose, title, nama, desc, id }) => {
-  const [errorMsg, setErrorMsg] = useState({
-  });
-  const [proofing, setProofing] = useState("");
+  const { infoToast, updateToast } = useNotif();
 
-  const FileImageHandler = (submits) => {
-    setProofing(URL.createObjectURL(submits));
-    return;
+  const upApi = async () => {
+    setIsLoading(true);
+    infoToast("memperbaharui kategori..");
+    const payload = {
+      title: cname,
+      description: cdesc,
+    };
+    try {
+      const reqData = await ApiClient.put(`ctg/${id}`, payload).then((response) => {
+        return response.data;
+      });
+      setIsLoading(false);
+      updateToast("Berhasil mengubah kategori.", "success");
+      onClose();
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal mengubah kategori.", "error");
+      return;
+    }
   };
 
-  const FileExtractor = (submitted) => {
-    if (submitted) {
-      if (submitted.size > 2000000) {
-        return toastError("Ukuran file melebihi batas.");
-      }
-      if (submitted.name.length > 11) {
-        const name = submitted?.name;
-        const lastExt = name.lastIndexOf(".");
-        const fileName = name.substring(0, 10).concat("...");
-        const ext = name.substring(lastExt + 1);
-        return setProofing(fileName.concat(ext));
-      }
-      return setProofing(submitted?.name);
+  const newApi = async () => {
+    setIsLoading(true);
+    infoToast("menambahkan kategori..");
+    const payload = {
+      title: cname,
+      description: cdesc,
+    };
+    try {
+      const reqData = await ApiClient.post("ctg", payload).then(
+        (response) => {
+          return response.data;
+        }
+      );
+      setIsLoading(false);
+      updateToast("Kategori ditambahkan.", "success");
+      refresh()
+      onClose();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
     }
-    return null;
   };
 
   return (
     <React.Fragment>
       <Typography variant="h6" sx={H5style}>
-        {title}
+        {title.concat(" Kategori")}
       </Typography>
       <div
         style={{
@@ -68,12 +100,16 @@ const CtgForm = ({ onClose, title, nama, desc, id }) => {
         }}
       >
         <MoreRoundedIcon sx={{ color: colorHex.iconColor }} />
-        <Divider orientation="vertical" sx={{
-            margin: '0 0.3vw 0 1vw'
-          }}/>
+        <Divider
+          orientation="vertical"
+          sx={{
+            margin: "0 0.3vw 0 1vw",
+          }}
+        />
         <TextField
           label="nama kategori.."
-          value={nama ? nama : null}
+          value={cname}
+          onChange={(e) => setCname(e.target.value)}
           sx={{
             width: "100%",
             minHeight: "5px",
@@ -128,7 +164,7 @@ const CtgForm = ({ onClose, title, nama, desc, id }) => {
         <Divider
           orientation="vertical"
           sx={{
-            margin: '0 0.3vw 0 1vw'
+            margin: "0 0.3vw 0 1vw",
           }}
         />
         <TextField
@@ -136,19 +172,20 @@ const CtgForm = ({ onClose, title, nama, desc, id }) => {
           minRows={5}
           maxRows={5}
           label="deskripsi.."
-          value={desc ? desc : null}
+          value={cdesc}
+          onChange={(e) => setCdesc(e.target.value)}
           sx={{
             width: "100%",
             minHeight: "5px",
             "& .css-1r6xk0x-MuiInputBase-root-MuiOutlinedInput-root": {
-                padding: '0 0.9em'
+              padding: "0 0.9em",
             },
           }}
           size="small"
           InputLabelProps={{
             sx: {
               ...LabelStyle,
-              top: '-8%',
+              top: "-8%",
               fontSize: "0.95em",
               display: "flex",
               justifyContent: "center",
@@ -175,7 +212,7 @@ const CtgForm = ({ onClose, title, nama, desc, id }) => {
               color: "#ff0000",
               opacity: "0.8",
               fontSize: "0.7em",
-              marginTop: '1%',
+              marginTop: "1%",
               lineHeight: 0,
               ...LabelStyle,
             },
@@ -198,9 +235,15 @@ const CtgForm = ({ onClose, title, nama, desc, id }) => {
         >
           cancel
         </Button>
-        <Button variant="contained" sx={LabelStyle}>
-          simpan
-        </Button>
+        {title === "Edit" ? (
+          <Button variant="contained" sx={LabelStyle} disabled={isLoading} onClick={() => upApi()}>
+            simpan
+          </Button>
+        ) : (
+          <Button variant="contained" sx={LabelStyle} disabled={isLoading} onClick={() => newApi()}>
+            tambah
+          </Button>
+        )}
       </div>
     </React.Fragment>
   );

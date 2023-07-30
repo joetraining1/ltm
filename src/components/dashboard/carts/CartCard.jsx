@@ -14,7 +14,7 @@ import {
 } from "../../../utils/constants";
 import profi from "../../../assets/pagani.jpg";
 
-const CartCard = ({ ind, spill }) => {
+const CartCard = ({ ind, spill, id, vari, uni, amou, dibuat, uurl, uname, uemail }) => {
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -34,13 +34,13 @@ const CartCard = ({ ind, spill }) => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ height: 36, width: 36 }} src={profi} />
+          <Avatar sx={{ height: 36, width: 36 }} src={uurl} />
           <div style={{ marginLeft: "10px" }}>
             <Typography variant="body" sx={H5style}>
-              Paganini
+              {uname}
             </Typography>
             <Typography variant="body2" sx={SideNoteStyle}>
-              pagani@gmail.com
+              {uemail}
             </Typography>
           </div>
           <Button
@@ -72,7 +72,7 @@ const CartCard = ({ ind, spill }) => {
             width: '100%'
           }}>
             <Typography variant="body" sx={LabelStyle2}>jumlah produk</Typography>
-            <Typography variant="body" sx={LabelStyle}>9 produk</Typography>
+            <Typography variant="body" sx={LabelStyle}>{vari ? vari : 0} produk</Typography>
           </div>
           <div style={{
             display: 'flex',
@@ -80,7 +80,7 @@ const CartCard = ({ ind, spill }) => {
             width: '100%'
           }}>
             <Typography variant="body" sx={LabelStyle2}>jumlah unit</Typography>
-            <Typography variant="body" sx={LabelStyle}>53 unit</Typography>
+            <Typography variant="body" sx={LabelStyle}>{uni ? uni : 0} unit</Typography>
           </div>
           <div style={{...MetaStyle3, marginTop: 'auto'}}>
             <div style={MetaStyle2}>
@@ -95,7 +95,7 @@ const CartCard = ({ ind, spill }) => {
                 justifyContent: "flex-end",
               }}
             >
-              Rp. 53,000
+              Rp. {amou ? amou : 0},000
             </Typography>
           </div>
         </div>
@@ -110,8 +110,8 @@ const CartCard = ({ ind, spill }) => {
           }}
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
-          <Typography sx={{ ...SideNoteStyle}}>
-            14 juni 2023
+          <Typography sx={{ ...SideNoteStyle, marginLeft: '3%'}}>
+            {dibuat}
           </Typography>
         </div>
       </Card>

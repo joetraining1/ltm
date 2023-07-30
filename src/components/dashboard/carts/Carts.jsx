@@ -14,12 +14,34 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import CartCard from "./CartCard";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
+import ApiClient from "../../../services/ApiClient";
+import NoData from "../../global/NoData";
 
 const Carts = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true)
+    const reqType = await ApiClient.get('cart').then((res) => {
+      return res.data
+    })
+    setDatas(reqType.result)
+    setIsLoading(false)
+    return
+  }
+
+  useEffect(() => {
+    if(datas.length === 0){
+      getType()
+      return
+    }
+    return
+  }, [datas])
 
   const navigate = useNavigate();
   const handleChangePage = (event, value) => {
@@ -131,16 +153,17 @@ const Carts = () => {
       {
         // this is the section of mapped data, or data displayer
       }
-      <div
+      {datas.length === 0 ? <NoData /> : (<React.Fragment>
+        <div
         style={{
           display: "flex",
           justifyContent: "space-evenly",
           width: "100%",
           height:  detailOn
           ? "100svh"
-          : activeDataset.length < 4
+          : activeDataset?.length < 4
           ? "24svh"
-          : activeDataset.length < 7
+          : activeDataset?.length < 7
           ? "54svh"
           : "68svh",
           gap: "1vw",
@@ -154,9 +177,9 @@ const Carts = () => {
             width: detailOn ? "52%" : "100%",
             height: detailOn
               ? "95svh"
-              : activeDataset.length < 4
+              : activeDataset?.length < 4
               ? "24svh"
-              : activeDataset.length < 7
+              : activeDataset?.length < 7
               ? "54svh"
               : "68svh",
             gap: "1vw",
@@ -166,12 +189,20 @@ const Carts = () => {
             padding: "1vw",
           }}
         >
-          {activeDataset.map((item, index) => {
+          {activeDataset?.map((item, index) => {
             return (
               <CartCard
-                key={index}
+                key={item.id}
+                vari={item.variant}
+                amou={item.total}
+                dibuat={item.createdAt?.slice(0,10)}
+                id={item.id}
+                uemail={item.email}
+                uurl={item.url}
+                uname={item.name}
+                uni={item.unit}
                 ind={index}
-                spill={() => showQuick(index)}
+                spill={() => showQuick(item.id)}
               />
             );
           })}
@@ -208,6 +239,7 @@ const Carts = () => {
         renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
         onChange={handleChangePage}
       />
+        </React.Fragment>)}
     </div>
   );
 };

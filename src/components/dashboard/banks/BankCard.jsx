@@ -5,9 +5,31 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import BankForm from "./form/BankForm";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
 
-const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
+const BankCard = ({ pic, nama, acronim, id, dibuat, ind, refresh }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast } = useNotif();
+
+  const deleteType = async () => {
+    setIsLoading(true);
+    infoToast('menghapus data..')
+    try {
+      const delTy = await ApiClient.delete(`bank/${id}`);
+      setIsLoading(false);
+      updateToast('Berhasil menghapus data', 'success')
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast('Gagal.', 'error')
+      return;
+    }
+  };
 
   const handleClose = () => {
     setModalOpen(false)
@@ -26,7 +48,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
           display: "flex",
           flexDirection: "column",
           width: "300px",
-          height: "275px",
+          height: "fit-content",
           alignItems: "center",
           paddingTop: '25px'
         }}
@@ -37,12 +59,13 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             height: "150px",
             display: "grid",
             placeItems: "center",
+            overflow: 'hidden'
           }}
         >
           <img
             src={pic}
             style={{
-              objectFit: "cover",
+              objectFit:'contain',
               width: "100%",
             }}
           />
@@ -132,7 +155,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             <EditRoundedIcon />
           </Button>
           <Divider orientation="vertical" />
-          <Button variant="text" sx={{ minWidth: "20px" }}>
+          <Button variant="text" sx={{ minWidth: "20px" }} disabled={isLoading} onClick={() => deleteType()}>
             <DeleteOutlineRoundedIcon sx={{ color: "#ff0000" }} />
           </Button>
         </div>
@@ -161,7 +184,7 @@ const BankCard = ({ pic, nama, acronim, id, dibuat, ind }) => {
             gap: '0.5vw'
           }}
         >
-          <BankForm bank={nama} acro={acronim} picurl={pic} title="Edit Bank" onClose={() => handleClose()} />
+          <BankForm port={"edit"} bank={nama} refresh={() => refresh()} acro={acronim} id={id} picurl={pic} title="Edit Bank" onClose={() => handleClose()} />
         </Paper>
       </Modal>
       </Card>

@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../global/Navbar";
 import Footer from "../global/Footer";
 import Cookies from "js-cookie";
 import ApiClient from "../../services/ApiClient";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slices/authSlice";
 
 const MainLayout = () => {
   const rToken = Cookies.get("refreshToken");
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.authState)
+  const navigate = useNavigate()
 
   const getRtoken = async() =>{
     if(rToken){
@@ -36,6 +38,14 @@ const MainLayout = () => {
     }
     return
   }
+
+  // useEffect(() => {
+  //   if(user.user === ''){
+  //     navigate('/')
+  //     return
+  //   }
+  //   return
+  // }, [user])
 
   useEffect(() => {
     if(rToken){

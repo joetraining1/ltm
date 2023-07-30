@@ -43,7 +43,9 @@ const UserType = () => {
   useEffect(() => {
     if(datas.length === 0){
       getType()
+      return
     }
+    return
   }, [datas])
 
   const MultiArray = (arr, rows) => {

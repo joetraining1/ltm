@@ -8,20 +8,52 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { H5style } from "../../../utils/constants";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { useNavigate, useParams } from "react-router-dom";
 import UserCard from "./UserCard";
 import UserForm from "./UserForm";
+import NoData from "../../global/NoData";
+import ApiClient from "../../../services/ApiClient";
 
 const Users = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(13)]);
+  const [datas, setDatas] = useState([]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [types, setTypes] = useState([])
+
+  const getTypes = async () => {
+    setIsLoading(true)
+    const reqType = await ApiClient.get('type').then((res) => {
+      return res.data
+    })
+    setTypes(reqType.result)
+    setIsLoading(false)
+    return
+  }
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get("user").then((res) => {
+      return res.data;
+    });
+    setDatas(reqType.result);
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    if (datas.length === 0) {
+      getType();
+    }
+    getTypes()
+    return;
+  }, [datas]);
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
@@ -143,34 +175,57 @@ const Users = () => {
           Tambah user
         </Button>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          width: detailOn ? "52%" : "100%",
-          height:
-            activeDataset.length < 4
-              ? "50svh"
-              : activeDataset.length < 7
-              ? "93svh"
-              : "135svh",
-          gap: "1vw",
-          overflow: "auto",
-          alignContent: "start",
-          transition: "width 0.4s ease, height 0.4s ease",
-          padding: "1vw",
-        }}
-      >
-        {activeDataset.map((i, ind) => {
-          return <UserCard key={ind} ind={ind} />;
-        })}
-      </div>
-      <Pagination
-        count={Hero.length}
-        page={pageActive + 1}
-        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-        onChange={handleChangePage}
-      />
+      {datas.length === 0 ? (
+        <NoData />
+      ) : (
+        <React.Fragment>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              width: detailOn ? "52%" : "100%",
+              height:
+                activeDataset?.length < 4
+                  ? "50svh"
+                  : activeDataset?.length < 7
+                  ? "93svh"
+                  : "135svh",
+              gap: "1vw",
+              overflow: "auto",
+              alignContent: "start",
+              transition: "width 0.4s ease, height 0.4s ease",
+              padding: "1vw",
+            }}
+          >
+            {activeDataset?.map((i, ind) => {
+              return (
+                <UserCard
+                  key={i.id}
+                  name={i.name}
+                  tipe={i.type}
+                  picurl={i.url}
+                  esurat={i.email}
+                  id={i.id}
+                  addr={i.alamat}
+                  dibuat={i.createdAt}
+                  nomer={i.phone}
+                  ind={ind}
+                  done={i.done}
+                  active={i.active}
+                  refresh={() => getType()}
+                  tData={types}
+                />
+              );
+            })}
+          </div>
+          <Pagination
+            count={Hero.length}
+            page={pageActive + 1}
+            renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+            onChange={handleChangePage}
+          />
+        </React.Fragment>
+      )}
       <Modal
         open={modalOpen}
         onClose={() => handleClose()}
@@ -181,22 +236,28 @@ const Users = () => {
           sx={{
             width: "750px",
             minHeight: "350px",
-            height: 'fit-content',
+            height: "fit-content",
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '2vw',
-            alignItems: 'center',
-            borderRadius: '5px',
-            gap: '0.5vw'
+            display: "flex",
+            flexDirection: "column",
+            padding: "2vw",
+            alignItems: "center",
+            borderRadius: "5px",
+            gap: "0.5vw",
           }}
         >
-          <UserForm title="Tambah Data User" mode="add" onClose={() => handleClose()}/>
+          <UserForm
+            title="Tambah Data User"
+            mode="add"
+            onClose={() => handleClose()}
+            refresh={() => getType()}
+            tData={types}
+          />
         </Paper>
       </Modal>
     </div>
