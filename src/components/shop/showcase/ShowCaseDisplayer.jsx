@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { H5style } from "../../../utils/constants";
+import { useState } from "react";
+import { Typography } from "@mui/material";
+import ShowcaseCard from "./ShowcaseCard";
+import ApiClient from "../../../services/ApiClient";
 
-const ShowCaseDisplayer = ({ category, dataset }) => {
+const ShowCaseDisplayer = ({ category, ctgId, dataset }) => {
   const [datas, setDatas] = useState(dataset ? dataset : []);
+  const [ctitle, setCtitle] = useState(category ? category : "")
+  const [cId, setCid] = useState(ctgId ? ctgId : 1)
+  const [pageActive, setPageActive] = useState(0);
+
 
   const MultiArray = (arr, rows) => {
     const ArrSlice = arr.reduce((acc, val, ind) => {
@@ -25,13 +34,15 @@ const ShowCaseDisplayer = ({ category, dataset }) => {
 
   let activeDataset;
 
-  const Hero = MultiArray(datas, 9);
+
+  const Hero = MultiArray(dataset, 9);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
     }
     return null;
   });
+
 
   return (
     <div
@@ -49,21 +60,22 @@ const ShowCaseDisplayer = ({ category, dataset }) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 300px))",
           width: "100%",
           gap: "1vw",
+          height: 'auto'
         }}
       >
         {activeDataset?.map((item, index) => {
           return (
-            <TypeCard
-              title={item.title}
+            <ShowcaseCard
               key={item.id}
-              desc={item.description}
-              dibuat={item.createdAt.slice(0, 10)}
-              ind={index}
               id={item.id}
-              refresh={() => getType()}
+              price={item.price}
+              stock={item.stock}
+              title={item.title}
+              url={item.url}
+              ind={index}
             />
           );
         })}

@@ -13,25 +13,62 @@ import {
   H5style,
   LabelStyle,
   LabelStyle2,
+  MetaStyle,
   MetaStyle2,
   MetaStyle3,
+  SideNoteStyle,
 } from "../utils/constants";
 import { useState } from "react";
 import ApiClient from "../services/ApiClient";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import UserForm from "../components/dashboard/users/UserForm";
+import NoData from "../components/global/NoData";
+import { co } from "../redux/slices/orderFormSlice";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
   const [lastOrder, setLastOrder] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [types, setTypes] = useState([]);
+  const [done, setDone] = useState(0);
+  const [aqtiv, setAqtiv] = useState(0);
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const getTypes = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get("type").then((res) => {
+      return res.data;
+    });
+    setTypes(reqType.result);
+    setIsLoading(false);
+    return;
+  };
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get("user").then((res) => {
+      return res.data;
+    });
+    setDatas(reqType.result);
+    setIsLoading(false);
+    return;
+  };
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
 
   const user = useSelector((state) => state.auth.authState);
+
+  const completeIt = () => {
+    dispatch(co)
+    navigate(`/shop/payment`)
+    return
+  }
 
   const getUser = async () => {
     setIsLoading(true);
@@ -41,6 +78,8 @@ const Profile = () => {
       });
       setLastOrder(userApi.last);
       setUserData(userApi.result);
+      setAqtiv(userApi.active);
+      setDone(userApi.done);
       setIsLoading(false);
       return;
     } catch (error) {
@@ -52,6 +91,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUser();
+    getTypes();
   }, []);
 
   return (
@@ -81,7 +121,7 @@ const Profile = () => {
           elevation={3}
           sx={{
             width: "100%",
-            height: "80%",
+            height: "85%",
             display: "flex",
             padding: "2vw",
             justifyContent: "space-evenly",
@@ -107,7 +147,7 @@ const Profile = () => {
                 boxShadow: "1px 1px 5px 2px rgba(0,0,0,0.7)",
               }}
             />
-            <Typography variant="h5" sx={{ ...H5style, textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ ...H5style, textAlign: "center" }}>
               {userData.name}
             </Typography>
             <div
@@ -143,24 +183,8 @@ const Profile = () => {
               gap: "10px",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                variant="text"
-                sx={{ ...LabelStyle }}
-                onClick={() => handleOpen()}
-              >
-                Edit
-              </Button>
-            </div>
-            <Divider />
             <Typography variant="h6" sx={{ ...H5style }}>
-              Detail informasi
+              Informasi Tambahan
             </Typography>
             <div style={{ ...MetaStyle3, gap: "1vw", alignItems: "start" }}>
               <div style={MetaStyle2}>
@@ -198,13 +222,75 @@ const Profile = () => {
                   : "lengkapi informasi anda"}
               </Typography>
             </div>
+            <div
+              style={{
+                width: "100%",
+                height: "40%",
+                margin: "auto 0",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "1vw",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="h4" sx={{ ...H5style }}>
+                  {aqtiv}
+                </Typography>
+                <Typography variant="body" sx={{ ...H5style }}>
+                  pesanan aktif
+                </Typography>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "1vw",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="h4" sx={{ ...H5style }}>
+                  {done}
+                </Typography>
+                <Typography variant="body" sx={{ ...H5style }}>
+                  pesanan selesai
+                </Typography>
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{ ...LabelStyle, width: "100%" }}
+                onClick={() => handleOpen()}
+              >
+                Edit
+              </Button>
+            </div>
           </div>
         </Card>
         <Card
           elevation={3}
           sx={{
             width: "60%",
-            height: "80%",
+            height: "75%",
             display: "flex",
             flexDirection: "column",
             padding: "2vw",
@@ -213,6 +299,89 @@ const Profile = () => {
           <Typography variant="h5" sx={{ ...H5style }}>
             Pesanan pending
           </Typography>
+          {lastOrder.length === 0 ? (
+            <NoData prop={"pesanan apapun."} />
+          ) : (
+            <React.Fragment>
+              <div
+                style={{
+                  width: "100%",
+                  height: "40%",
+                  padding: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <div style={MetaStyle}>
+                  <Typography variant="h5" sx={H5style}>
+                    Total
+                  </Typography>
+                  <Typography variant="h5" sx={H5style}>
+                  {console.log(lastOrder)}
+                    Rp. {lastOrder[0]?.amount},000
+                  </Typography>
+                </div>
+                <Divider />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    gap: "0",
+                  }}
+                >
+                  <div style={MetaStyle}>
+                    <Typography variant="body" sx={H5style}>
+                      Order No.
+                    </Typography>
+                    <Typography variant="h6" sx={H5style}>
+                      0{lastOrder[0]?.id}
+                    </Typography>
+                  </div>
+                  <div style={MetaStyle}>
+                    <Typography variant="body" sx={H5style}>
+                      Variant Produk
+                    </Typography>
+                    <Typography variant="h6" sx={H5style}>
+                      {lastOrder[0]?.variant}
+                    </Typography>
+                  </div>
+                  <div style={MetaStyle}>
+                    <Typography variant="body" sx={H5style}>
+                      Jumlah Produk
+                    </Typography>
+                    <Typography variant="h6" sx={H5style}>
+                      {lastOrder[0]?.unit}
+                    </Typography>
+                  </div>
+                  <div style={MetaStyle}>
+                    <Typography
+                      variant="body"
+                      sx={{
+                        ...SideNoteStyle,
+                        marginLeft: "auto",
+                        textAlign: "right",
+                      }}
+                    >
+                      disarankan untuk melakukan pembayaran setelah biaya
+                      pengiriman tercetak
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+              <Button
+                variant="contained"
+                sx={{
+                  marginTop: "auto",
+                  ...LabelStyle,
+                }}
+                onClick={() => completeIt()}
+              >
+                selesaikan
+              </Button>
+            </React.Fragment>
+          )}
         </Card>
       </div>
       <Modal
@@ -242,13 +411,16 @@ const Profile = () => {
         >
           <UserForm
             title={`Edit user ${userData.name}`}
-            mode="add"
             alamat={userData.alamat}
             fone={userData.phone}
             nama={userData.name}
             url={userData.url}
             email={userData.email}
+            id={userData.id}
             onClose={() => handleClose()}
+            refresh={() => getUser()}
+            type={userData.type}
+            tData={types}
           />
         </Paper>
       </Modal>

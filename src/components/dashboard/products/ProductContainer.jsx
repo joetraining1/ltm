@@ -13,12 +13,34 @@ import { H5style, LabelStyle, MetaStyle } from "../../../utils/constants";
 import ProductCard from "./ProductCard";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import ProductForm from "./ProductForm";
+import ApiClient from "../../../services/ApiClient";
+import NoData from "../../global/NoData";
+import { useEffect } from "react";
 
-const ProductContainer = ({ title, data }) => {
+const ProductContainer = ({ title, data, ctgId }) => {
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(6)]);
+  const [datas, setDatas] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`product/${ctgId}`).then((res) => {
+      return res.data;
+    });
+    setDatas(reqType.result);
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    if (datas.length === 0) {
+      getType();
+      return;
+    }
+    return;
+  }, [datas]);
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -47,7 +69,7 @@ const ProductContainer = ({ title, data }) => {
     return SortedArr;
   };
 
-  let activeDataset;
+  let activeDataset = [];
 
   const Hero = MultiArray(datas, 4);
   const HeroItem = Hero.map((item, index) => {
@@ -61,13 +83,13 @@ const ProductContainer = ({ title, data }) => {
     <Card
       sx={{
         width: "95%",
-        height: activeDataset?.length < 5 ? "62svh" : "105svh",
+        height: "62svh",
         padding: "2vw",
         gap: "1vw",
         display: "flex",
         flexDirection: "column",
         transition: "height 0.4s ease",
-        margin: '0 1vw'
+        margin: "0 1vw",
       }}
       elevation={3}
     >
@@ -85,29 +107,49 @@ const ProductContainer = ({ title, data }) => {
         </Button>
       </div>
       <Divider />
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 210px))",
-          width: "100%",
-          height: activeDataset?.length < 5 ? "45svh" : "85svh",
-          transition: "height 0.4s ease",
-          gap: "10px",
-        }}
-      >
-        {activeDataset.map((item, index) => {
-          return <ProductCard key={index} ind={index} />;
-        })}
-      </div>
-      {datas?.length > 4 ? (
-        <Pagination
-          count={Hero.length}
-          sx={{ marginTop: "2%", margin: "0 auto" }}
-          page={pageActive + 1}
-          renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-          onChange={handleChangePage}
-        />
-      ) : null}
+      {datas.length === 0 ? (
+        <NoData />
+      ) : (
+        <React.Fragment>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 210px))",
+              width: "100%",
+              height: activeDataset?.length < 5 ? "45svh" : "85svh",
+              transition: "height 0.4s ease",
+              gap: "10px",
+            }}
+          >
+            {activeDataset?.map((item, index) => {
+              return (
+                <ProductCard
+                  key={item.id}
+                  ind={index}
+                  id={item.id}
+                  desc={item.description}
+                  dibuat={item.createdAt}
+                  url={item.url}
+                  harga={item.price}
+                  nama={item.title}
+                  stoq={item.stock}
+                  ctgId={item.ctg_id}
+                  refresh={() => getType()}
+                />
+              );
+            })}
+          </div>
+          {datas?.length > 4 ? (
+            <Pagination
+              count={Hero.length}
+              sx={{ marginTop: "2%", margin: "0 auto" }}
+              page={pageActive + 1}
+              renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+              onChange={handleChangePage}
+            />
+          ) : null}
+        </React.Fragment>
+      )}
       <Modal
         open={modalOpen}
         onClose={() => handleClose()}
@@ -118,22 +160,27 @@ const ProductContainer = ({ title, data }) => {
           sx={{
             width: "450px",
             minHeight: "350px",
-            height: 'fit-content',
+            height: "fit-content",
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1000,
             backgroundColor: "#fff",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '2vw',
-            alignItems: 'center',
-            borderRadius: '5px',
-            gap: '0.5vw'
+            display: "flex",
+            flexDirection: "column",
+            padding: "2vw",
+            alignItems: "center",
+            borderRadius: "5px",
+            gap: "0.5vw",
           }}
         >
-          <ProductForm title="Tambah Produk" onClose={() => handleClose()}/>
+          <ProductForm
+            title={`Tambah ${title}`}
+            onClose={() => handleClose()}
+            ctgId={ctgId}
+            refresh={() => getType()}
+          />
         </Paper>
       </Modal>
     </Card>

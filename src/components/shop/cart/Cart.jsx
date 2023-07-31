@@ -15,27 +15,49 @@ import {
 } from "../../../utils/constants";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import CartItem from "./CartItem";
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import ApiClient from "../../../services/ApiClient";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import NoData from "../../global/NoData";
 
 const Cart = ({ mode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [metas, setMetas] = useState({});
+
+  const user = useSelector((state) => state.auth.authState);
 
   const getType = async () => {
-    setIsLoading(true)
-    const reqType = await ApiClient.get('cart').then((res) => {
-      return res.data
-    })
-    setDatas(reqType.result)
-    setIsLoading(false)
-    return
-  }
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`cart/${user?.id}`).then((res) => {
+      return res.data;
+    });
+    setMetas(reqType.result.metadata);
+    setDatas(reqType.result.dataset);
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    if (isOpen !== isOpen) {
+      getType();
+      return;
+    }
+    return;
+  }, [isOpen]);
+
+  const handleOpen = () => {
+    getType();
+    setIsOpen(!isOpen);
+    return;
+  };
 
   const handleClose = () => {
+    getType();
     return setIsOpen(!isOpen);
   };
 
@@ -76,13 +98,13 @@ const Cart = ({ mode }) => {
   return (
     <React.Fragment>
       {mode === "one" ? (
-        <Button variant="text" onClick={() => setIsOpen(!isOpen)}>
+        <Button variant="text" onClick={() => handleOpen()}>
           <ShoppingCartOutlinedIcon />
         </Button>
       ) : null}
       {mode === "two" ? (
         <Button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => handleOpen()}
           variant="contained"
           sx={{
             height: "104%",
@@ -121,26 +143,53 @@ const Cart = ({ mode }) => {
         <Typography variant="h5" sx={{ ...H5style, margin: "0 auto" }}>
           Kelola Keranjang
         </Typography>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          alignItems: 'center',
-          marginTop: '1vw'
-        }}>
-          {activeDataset.map((item, index) => {
-            return (<CartItem ind={index} key={index}/>)
-          })}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            alignItems: "center",
+            marginTop: "1vw",
+          }}
+        >
+          {user.type === "" ? (
+            <Typography variant="h6" sx={{...H5style, textAlign: 'center'}}>Silahkan login terlebih dahulu.</Typography>
+          ) : (datas?.length === 0 ? (
+            <NoData prop={"produk di keranjangmu."} />
+          ) : (
+            activeDataset.map((item, index) => {
+              return (
+                <CartItem
+                  ind={index}
+                  key={item.id}
+                  amounts={item.amount}
+                  price={item.price}
+                  qtys={item.qty}
+                  id={item.id}
+                  produk={item.nama_produk}
+                  url={item.url}
+                  refresh={() => getType()}
+                />
+              );
+            })
+          ))}
         </div>
         <Pagination
           count={Hero.length}
           page={pageActive + 1}
           renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
           onChange={handleChangePage}
-          sx={{ margin: 'auto auto 0 auto'}}
+          sx={{ margin: "auto auto 0 auto" }}
         />
         <div style={{ display: "flex", width: "100%" }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '20%', alignItems: 'center'}}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "20%",
+              alignItems: "center",
+            }}
+          >
             <Typography variant="h6" sx={LabelStyle}>
               Total
             </Typography>
@@ -157,10 +206,14 @@ const Cart = ({ mode }) => {
               justifyContent: "flex-end",
             }}
           >
-            Rp. 53,000
+            Rp. {metas.total ? metas.total : 0},000
           </Typography>
         </div>
-        <Button variant="contained" sx={{ ...LabelStyle, margin: "1vw 0" }} startIcon={<ShoppingCartCheckoutRoundedIcon />}>
+        <Button
+          variant="contained"
+          sx={{ ...LabelStyle, margin: "1vw 0" }}
+          startIcon={<ShoppingCartCheckoutRoundedIcon />}
+        >
           Checkout
         </Button>
       </Drawer>

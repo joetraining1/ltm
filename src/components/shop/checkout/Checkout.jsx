@@ -13,13 +13,63 @@ import CheckoutItem from "./CheckoutItem";
 import { LoadingButton } from "@mui/lab";
 import useNotif from "../../../hooks/useNotif";
 import Preload from "../../global/Preload";
+import { useDispatch, useSelector } from "react-redux";
+import ApiClient from "../../../services/ApiClient";
+import { useEffect } from "react";
+import { co } from "../../../redux/slices/orderFormSlice";
+import { useNavigate } from "react-router-dom";
+import NoData from "../../global/NoData";
 
 const Checkout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([]);
+  const [metas, setMetas] = useState({});
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { infoToast, updateToast } = useNotif();
+  const user = useSelector((state) => state.auth.authState);
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`cart/${user?.id}`).then((res) => {
+      return res.data;
+    });
+    setMetas(reqType.result.metadata);
+    setDatas(reqType.result.dataset);
+    setIsLoading(false);
+    return;
+  };
+
+  const checkout = async () => {
+    infoToast("mengirimkan pesanan..");
+    setIsLoading(true);
+    const payload = {
+      user_id: user.id,
+      cart_id: user.cart_id,
+    };
+    const checkout = await ApiClient.post(`order/checkout`, payload)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        updateToast("Gagal.", "error");
+        setIsLoading(false);
+        return;
+      });
+    dispatch(co(checkout.result.order_id));
+    setIsLoading(false);
+    updateToast("Berhasil.", "success");
+    navigate("/shop/payment");
+    return;
+  };
+
+  useEffect(() => {
+    getType();
+    return;
+  }, []);
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -44,8 +94,15 @@ const Checkout = () => {
 
     return SortedArr;
   };
-
+  let activeDataset = [];
   const Hero = MultiArray(datas, 3);
+
+  const HeroItem = Hero.map((item, index) => {
+    if (pageActive === index) {
+      return (activeDataset = item.dataset);
+    }
+    return null;
+  });
 
   const checkFunc = () => {
     infoToast("Checkout");
@@ -96,29 +153,52 @@ const Checkout = () => {
               gap: "1vw",
             }}
           >
-            {Hero.map((item, index) => {
-              if (pageActive === index) {
-                return item.dataset.map((i, ind) => {
-                  return <CheckoutItem key={ind} ind={ind} />;
-                });
-              }
-              return null;
-            })}
-          </div>
-          <Pagination
-            count={Hero.length}
-            page={pageActive + 1}
-            onChange={handleChangePage}
-            renderItem={(item) => (
-              <PaginationItem
-                {...item}
-                sx={{
-                  fontFamily: "Signika Negative, sans-serif",
-                  fontWeight: "600",
-                }}
-              />
+            {user.type === "" ? (
+              <Typography variant="h5" sx={{ ...H5style, textAlign: "center" }}>
+                Silahkan login terlebih dahulu.
+              </Typography>
+            ) : datas.length === 0 ? (
+              <NoData prop={"produk apapun."} />
+            ) : (
+              Hero.map((item, index) => {
+                if (pageActive === index) {
+                  return item.dataset.map((i, ind) => {
+                    return (
+                      <CheckoutItem
+                        key={i.id}
+                        ind={ind}
+                        refresh={() => getType()}
+                        kategori={i.kategori}
+                        url={i.url}
+                        id={i.id}
+                        produk={i.nama_produk}
+                        amounts={i.amount}
+                        qtys={i.qty}
+                        price={i.price}
+                      />
+                    );
+                  });
+                }
+                return null;
+              })
             )}
-          />
+          </div>
+          {datas.length < 4 ? null : (
+            <Pagination
+              count={Hero.length}
+              page={pageActive + 1}
+              onChange={handleChangePage}
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  sx={{
+                    fontFamily: "Signika Negative, sans-serif",
+                    fontWeight: "600",
+                  }}
+                />
+              )}
+            />
+          )}
         </div>
         <Card
           sx={{
@@ -136,7 +216,7 @@ const Checkout = () => {
               Total
             </Typography>
             <Typography variant="h5" sx={H5style}>
-              Rp. 35,000
+              Rp. {metas.total ? metas.total : 0},000
             </Typography>
           </div>
           <Divider />
@@ -145,7 +225,7 @@ const Checkout = () => {
               jumlah variant
             </Typography>
             <Typography variant="h6" sx={H5style}>
-              2 variant
+              {metas.variant ? metas.variant : 0} variant
             </Typography>
           </div>
           <div style={MetaStyle}>
@@ -153,7 +233,7 @@ const Checkout = () => {
               jumlah produk
             </Typography>
             <Typography variant="h6" sx={H5style}>
-              5 botol
+              {metas.unit ? metas.unit : 0} botol
             </Typography>
           </div>
           {isLoading ? (
@@ -161,9 +241,9 @@ const Checkout = () => {
           ) : (
             <Button
               variant="contained"
-              // disabled={isLoading}
-              // loading={isLoading}
-              onClick={() => checkFunc()}
+              disabled={isLoading}
+              loading={isLoading}
+              onClick={() => checkout()}
               sx={{
                 width: "100%",
                 fontFamily: "Signika Negative, sans-serif",

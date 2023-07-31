@@ -4,8 +4,52 @@ import { H4style, H5style, LabelStyle2 } from "../../../utils/constants";
 import PaymentMeta from "./PaymentMeta";
 import PaymentForm from "./PaymentForm";
 import PaymentData from "./PaymentData";
+import ApiClient from "../../../services/ApiClient";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Completion = () => {
+  const [datas, setDatas] = useState([])
+  const [metas, setMetas] = useState({})
+    const [isLoading, setIsLoading] = useState(false);
+
+
+  const user = useSelector((state) => state.auth.authState)
+  const co = useSelector((state) => state.of.value)
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`order/completion/form/${co}`).then((res) => {
+      return res.data;
+    });
+    setMetas(reqType.metadata);
+    setDatas(reqType.dataset);
+    setIsLoading(false);
+    return;
+  };
+
+  const getLast = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`order/completion/order/${user.id}`).then((res) => {
+      return res.data;
+    });
+    setMetas(reqType.metadata);
+    setDatas(reqType.dataset);
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    if(co !== 0){
+      getType()
+      return
+    } else {
+
+    }
+    return
+  }, [co])
+
   return (
     <React.Fragment>
       <Typography variant="h4" sx={H4style}>

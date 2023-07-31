@@ -2,14 +2,37 @@ import React, { useState } from "react";
 import BGmilk from "../assets/cows4.png";
 import { Card, Typography } from "@mui/material";
 import Ivy from "../assets/ivy3.png";
-import Slider from "react-slick";
 import { LabelStyle, LabelStyle2, PaymentItem } from "../utils/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Virtual, Pagination } from "swiper/modules";
 import Bottle from "../assets/milk2.png";
+import ProductSwiper from "../components/product/ProductSwiper";
+import { useEffect } from "react";
+import ApiClient from "../services/ApiClient";
 
 const Product = () => {
   const [slides, setSlides] = useState(Array.from({ length: 5 }));
+  const [datas, setDatas] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get("display").then((res) => {
+      return res.data;
+    });
+    setDatas(reqType.result);
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    if (datas.length === 0) {
+      getType();
+      return;
+    }
+    return;
+  }, [datas]);
 
   return (
     <React.Fragment>
@@ -54,219 +77,18 @@ const Product = () => {
             Marino's Products
           </Typography>
         </div>
-        <Typography
-          variant="h3"
-          sx={{
-            fontFamily: "Signika Negative, sans-serif",
-            fontWeight: "700",
-            color: "#008BF8",
-          }}
-        >
-          Susu Pasteurisasi
-        </Typography>
-        <div
-          style={{
-            height: "7px",
-            width: "150px",
-            background: "#F3DE2C",
-          }}
-        />
-        <div
-          style={{
-            width: "1280px",
-            height: "60vh",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Swiper
-            slidesPerView={1}
-            loop={true}
-            spaceBetween={50}
-            modules={[Navigation, Virtual, Pagination]}
-            navigation
-            virtual
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            {slides.map((item, index) => {
+        {datas.length === 0
+          ? null
+          : datas.map((item, index) => {
               return (
-                <SwiperSlide
-                  key={index}
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                  }}
-                  virtualIndex={index}
-                >
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "80%",
-                      margin: "3vw auto",
-                      padding: "1vw 3vw",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "5vw",
-                    }}
-                    elevation={3}
-                  >
-                    <img
-                      src={Bottle}
-                      style={{
-                        width: "12%",
-                      }}
-                    />
-                    <div
-                      style={{
-                        height: "100%",
-                        width: "50%",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        gap: '1vw'
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        sx={{
-                          fontFamily: "Signika Negative, sans-serif",
-                          fontWeight: "700",
-                          color: "#262626",
-                          textAlign: "center",
-                        }}
-                      >
-                        Strawberry Variant
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontFamily: "Signika Negative, sans-serif",
-                          fontWeight: "700",
-                          color: "#636363",
-                          textAlign: "center",
-                        }}
-                      >
-                        Produk olahan susu sapi Marino's Milk & Yoghurt dengan
-                        rasa buah Strawberry alami
-                      </Typography>
-                    </div>
-                  </div>
-                </SwiperSlide>
+                <ProductSwiper
+                  titleCtg={item.dataValues.title}
+                  key={item.dataValues.id}
+                  ctgId={item.dataValues.id}
+                  dataset={item.dataset}
+                />
               );
             })}
-          </Swiper>
-        </div>
-        <Typography
-          variant="h3"
-          sx={{
-            fontFamily: "Signika Negative, sans-serif",
-            fontWeight: "700",
-            color: "#008BF8",
-          }}
-        >
-          Yoghurt
-        </Typography>
-        <div
-          style={{
-            height: "7px",
-            width: "150px",
-            background: "#F3DE2C",
-          }}
-        />
-        <div
-          style={{
-            width: "1280px",
-            height: "60vh",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Swiper
-            slidesPerView={1}
-            loop={true}
-            spaceBetween={50}
-            modules={[Navigation, Virtual, Pagination]}
-            navigation
-            virtual
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            {slides.map((item, index) => {
-              return (
-                <SwiperSlide
-                  key={index}
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                  }}
-                  virtualIndex={index}
-                >
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "80%",
-                      margin: "3vw auto",
-                      padding: "1vw 3vw",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "5vw",
-                    }}
-                    elevation={3}
-                  >
-                    <img
-                      src={Bottle}
-                      style={{
-                        width: "12%",
-                      }}
-                    />
-                    <div
-                      style={{
-                        height: "100%",
-                        width: "50%",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        gap: '1vw'
-
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        sx={{
-                          fontFamily: "Signika Negative, sans-serif",
-                          fontWeight: "700",
-                          color: "#262626",
-                          textAlign: "center",
-                        }}
-                      >
-                        Strawberry Variant
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontFamily: "Signika Negative, sans-serif",
-                          fontWeight: "700",
-                          color: "#636363",
-                          textAlign: "center",
-                        }}
-                      >
-                        Produk olahan susu sapi Marino's Milk & Yoghurt dengan
-                        rasa buah Strawberry alami
-                      </Typography>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
       </div>
       <div
         style={{

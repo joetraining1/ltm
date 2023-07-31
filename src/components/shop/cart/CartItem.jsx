@@ -13,35 +13,60 @@ import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import useNotif from "../../../hooks/useNotif";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import ApiClient from "../../../services/ApiClient";
 
-const CartItem = ({ ind, price }) => {
-  const [qty, setQty] = useState("0");
-  const [amount, setAmount] = useState("0");
+const CartItem = ({ ind, price, url, id, amounts, qtys, produk, refresh }) => {
+  const [qty, setQty] = useState(qtys ? qtys?.toString() : "0");
+  const [amount, setAmount] = useState(amounts ? amounts.toString() : "0");
+  
   const idCurrency = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
     minimumFractionDigits: 0
   }).format(parseInt(amount));
 
-  const tempPrice = '7'
-
   useEffect(() => {
-    const intPrice = parseInt(tempPrice);
     if (qty === undefined || qty === null || qty === "") {
       return setAmount("0");
     }
     const intQty = parseInt(qty);
-    const rightAmount = intQty * intPrice;
+    const rightAmount = intQty * price;
     setAmount(rightAmount.toString());
   }, [qty]);
 
   const { toastError } = useNotif();
+
+  const deleteItem = async() => {
+    const iCart = await ApiClient.delete(`cart_details/${id}`).then((res) => {
+      return res.data
+    }).catch((error) => {
+      console.log(error)
+      return
+    })
+    refresh()
+    return
+  }
+
+  const updateItem = async(qty) => {
+    const payload = {
+      qty: qty === "" ? 0 : qty
+    }
+    const iCart = await ApiClient.put(`cart_details/${id}`, payload).then((res) => {
+      return res.data
+    }).catch((error) => {
+      console.log(error)
+      return
+    })
+    refresh()
+    return
+  }
 
   const inputHandler = (count) => {
     const IntQty = parseInt(count);
     if (IntQty >= 50000) {
       return toastError("Jumlah melebihi kapasitas stok.");
     } else {
+      updateItem(IntQty)
       return setQty(count);
     }
   };
@@ -54,6 +79,7 @@ const CartItem = ({ ind, price }) => {
         return toastError("Jumlah melebihi kapasitas stok.");
       }
       const addQty1 = intQty + 1;
+      updateItem(addQty1)
       setQty(addQty1.toString());
       return;
     }
@@ -62,6 +88,7 @@ const CartItem = ({ ind, price }) => {
       return toastError("Jumlah melebihi kapasitas stok.");
     }
     const addQty1 = intQty + 1;
+    updateItem(addQty1)
     setQty(addQty1.toString());
     return;
   };
@@ -70,6 +97,7 @@ const CartItem = ({ ind, price }) => {
     let IntQty;
     if (qty === "") {
       IntQty = 0;
+      updateItem(IntQty)
       setQty(IntQty.toString());
       return null;
     }
@@ -78,6 +106,7 @@ const CartItem = ({ ind, price }) => {
       return null;
     }
     const rmvQty1 = IntQty - 1;
+    updateItem(rmvQty1)
     setQty(rmvQty1.toString());
     return;
   };
@@ -98,12 +127,13 @@ const CartItem = ({ ind, price }) => {
           style={{
             height: "100%",
             width: "50%",
+            overflow: 'hidden',
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <img src={Bottle} style={{ objectFit: "cover", width: "40%" }} />
+          <img src={url} style={{ objectFit: "cover", width: "100%" }} />
         </div>
         <Divider orientation="vertical" />
         <div
@@ -124,7 +154,7 @@ const CartItem = ({ ind, price }) => {
             }}
           >
             <Typography variant="h6" sx={H5style}>
-              Strawberry Variant
+              {produk}
             </Typography>
             <Button
               variant="text"
@@ -134,11 +164,12 @@ const CartItem = ({ ind, price }) => {
                 color: "#ff0000",
                 padding: "5px",
               }}
+              onClick={() => deleteItem()}
             >
               <DeleteOutlineRoundedIcon />
             </Button>
           </div>
-          <Typography variant="body" sx={LabelStyle}>Rp. {tempPrice.concat(',000')}</Typography>
+          <Typography variant="body" sx={LabelStyle}>Rp. {price},000</Typography>
           <Typography
             variant="h6"
             style={{

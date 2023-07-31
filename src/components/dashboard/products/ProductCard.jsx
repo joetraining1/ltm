@@ -15,13 +15,45 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import ProductForm from "./ProductForm";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
 
-const ProductCard = ({ ind }) => {
+const ProductCard = ({
+  ind,
+  id,
+  stoq,
+  harga,
+  nama,
+  desc,
+  ctgId,
+  dibuat,
+  url,
+  refresh,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast } = useNotif();
+
+  const deleteType = async () => {
+    setIsLoading(true);
+    infoToast("menghapus produk..");
+    try {
+      const delTy = await ApiClient.delete(`product/${id}`);
+      setIsLoading(false);
+      updateToast("Product dihapus.", "success");
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
 
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
-
 
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
@@ -41,12 +73,16 @@ const ProductCard = ({ ind }) => {
             alignItems: "center",
             height: "60%",
             width: "100%",
+            overflow: 'hidden',
+            borderRadius: '5px'
           }}
         >
-          <img src={`${Bottle}`} style={{ objectFit: "cover", width: "32%" }} />
+          {url ? (
+            <img src={`${url}`} style={{ objectFit: "contain", width: "100%" }} />
+          ) : null}
         </div>
         <Typography variant="h6" sx={H5style}>
-          Strawberry Variant
+          {nama}
         </Typography>
         <div
           style={{
@@ -70,7 +106,7 @@ const ProductCard = ({ ind }) => {
                 justifyContent: "flex-end",
               }}
             >
-              Rp. 7,000
+              Rp. {harga},000
             </Typography>
           </div>
           <div style={MetaStyle3}>
@@ -87,17 +123,20 @@ const ProductCard = ({ ind }) => {
                 justifyContent: "flex-end",
               }}
             >
-              1000 unit
+              {stoq} unit
             </Typography>
           </div>
           <Divider sx={{ margin: "5px 0" }} />
-          <Typography variant="body" sx={{ width: "100%", ...LabelStyle2, textAlign: 'center' }}>
-            Susu Pasteurisasi dengan rasa buah strawberry
+          <Typography
+            variant="body"
+            sx={{ width: "100%", ...LabelStyle2, textAlign: "center" }}
+          >
+            {desc}
           </Typography>
           <div style={{ ...MetaStyle3, marginTop: "auto" }}>
             <div style={MetaStyle4}>
               <AccessTimeRoundedIcon sx={SideNoteStyle} />
-              <Typography sx={SideNoteStyle}>14 juni 2023</Typography>
+              <Typography sx={SideNoteStyle}>{dibuat?.slice(0, 10)}</Typography>
             </div>
             <div
               style={{
@@ -128,6 +167,8 @@ const ProductCard = ({ ind }) => {
                   minWidth: "40px",
                   width: "auto",
                 }}
+                onClick={() => deleteType()}
+                disabled={isLoading}
               >
                 <DeleteOutlineRoundedIcon />
               </Button>
@@ -135,33 +176,45 @@ const ProductCard = ({ ind }) => {
           </div>
         </div>
         <Modal
-        open={modalOpen}
-        onClose={() => handleClose()}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <Paper
-          sx={{
-            width: "450px",
-            minHeight: "350px",
-            height: 'fit-content',
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1000,
-            backgroundColor: "#fff",
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '2vw',
-            alignItems: 'center',
-            borderRadius: '5px',
-            gap: '0.5vw'
-          }}
+          open={modalOpen}
+          onClose={() => handleClose()}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
         >
-          <ProductForm title="Edit Product" onClose={() => handleClose()}/>
-        </Paper>
-      </Modal>
+          <Paper
+            sx={{
+              width: "450px",
+              minHeight: "350px",
+              height: "fit-content",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              backgroundColor: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              padding: "2vw",
+              alignItems: "center",
+              borderRadius: "5px",
+              gap: "0.5vw",
+            }}
+          >
+            <ProductForm
+              refresh={() => refresh()}
+              title="Edit Product"
+              onClose={() => handleClose()}
+              ctgId={ctgId}
+              desc={desc}
+              price={harga}
+              produk={nama}
+              stock={stoq}
+              url={url}
+              port={"edit"}
+              id={id}
+            />
+          </Paper>
+        </Modal>
       </div>
     </Grow>
   );

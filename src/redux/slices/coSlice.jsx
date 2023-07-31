@@ -1,15 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: 0,
+  value: {
+    user_id: "",
+    avapic: "",
+    user: "",
+    type: "",
+    cart_id: "",
+  },
 };
 
-export const ofSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    co: (state, action) => {
-      state.value = action.payload
+    login: (state, action) => {
+      state.authState = action.payload
     },
     logout: (state, action) => {
       state.authState = action.payload;
@@ -20,6 +26,6 @@ export const ofSlice = createSlice({
   },
 });
 
-export const { co, logout, mutateValueAvatar } = ofSlice.actions;
+export const { login, logout, mutateValueAvatar } = authSlice.actions;
 
-export default ofSlice.reducer;
+export default authSlice.reducer;
