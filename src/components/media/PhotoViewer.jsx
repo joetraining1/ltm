@@ -6,10 +6,9 @@ const PhotoViewer = ({ picurl, title }) => {
   const [open, setOpen] = useState(false);
   const [proofing, setProofing] = useState(picurl ? picurl : "");
   const [picFile, setPicFile] = useState("");
-  
+
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
-
 
   return (
     <div
@@ -25,33 +24,34 @@ const PhotoViewer = ({ picurl, title }) => {
       <Typography variant="body" sx={{ ...LabelStyle2, textAlign: "left" }}>
         {title}
       </Typography>
-      <Button
-        sx={{
-          display: "flex",
-          width: "100%",
-          height: "auto",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        onClick={handleOpen}
-      >
-        <img
-          src={picurl}
-          style={{
-            objectFit: "cover",
-            width: "225px",
-            height: "150px",
-            borderRadius: "4px",
-            filter: "drop-shadow(2px 3px 2px rgba(0,0,0,0.3))"
+      {picurl ? (
+        <Button
+          sx={{
+            display: "flex",
+            width: "100%",
+            height: "auto",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
-      </Button>
+          onClick={handleOpen}
+        >
+          <img
+            src={picurl}
+            style={{
+              objectFit: "cover",
+              width: "225px",
+              height: "150px",
+              borderRadius: "4px",
+              filter: "drop-shadow(2px 3px 2px rgba(0,0,0,0.3))",
+            }}
+          />
+        </Button>
+      ) : null}
       <Modal
         open={open}
         onClose={() => handleClose()}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-       
       >
         <img
           onClick={handleClose}

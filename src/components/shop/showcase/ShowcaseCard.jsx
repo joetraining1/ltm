@@ -10,12 +10,15 @@ import { useSelector } from "react-redux";
 const ShowcaseCard = ({ id, stock, title, url, price, ind }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-
-  const { infoToast, updateToast } = useNotif();
+  const { infoToast, updateToast, toastInfo } = useNotif();
 
   const user = useSelector((state) => state.auth.authState)
 
   const addToCart = async() => {
+    if(user.type === ""){
+      toastInfo('Silahkan login terlebih dahulu.')
+      return
+    }
     setIsLoading(true)
     infoToast('menambahkan produk..')
     try {

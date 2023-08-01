@@ -2,7 +2,7 @@ import React from "react";
 import { H5style, MetaStyle, SideNoteStyle } from "../../../utils/constants";
 import { Divider, Typography } from "@mui/material";
 
-const PaymentMeta = () => {
+const PaymentMeta = ({ amount, variant, id, unit}) => {
   return (
     <div
       style={{
@@ -19,7 +19,7 @@ const PaymentMeta = () => {
           Total
         </Typography>
         <Typography variant="h5" sx={H5style}>
-          Rp. 53,000
+          Rp {amount ? amount : 0},000
         </Typography>
       </div>
       <Divider />
@@ -36,7 +36,7 @@ const PaymentMeta = () => {
             Order No.
           </Typography>
           <Typography variant="h6" sx={H5style}>
-            001
+            0{id ? id : 0}
           </Typography>
         </div>
         <div style={MetaStyle}>
@@ -44,7 +44,7 @@ const PaymentMeta = () => {
             Variant Produk
           </Typography>
           <Typography variant="h6" sx={H5style}>
-            2
+            {variant ? variant : 0}
           </Typography>
         </div>
         <div style={MetaStyle}>
@@ -52,7 +52,7 @@ const PaymentMeta = () => {
             Jumlah Produk
           </Typography>
           <Typography variant="h6" sx={H5style}>
-            5
+            {unit? unit : 0}
           </Typography>
         </div>
         <div style={MetaStyle}>

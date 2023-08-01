@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { LabelStyle } from "../../../utils/constants";
 import PaymentItem from "./PaymentItem";
 
-const PaymentData = () => {
+const PaymentData = ({ dataset }) => {
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([...dataset]);
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -33,14 +33,13 @@ const PaymentData = () => {
 
   let activeDataset;
 
-  const Hero = MultiArray(datas, 3);
+  const Hero = MultiArray(dataset, 3);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
     }
     return null;
   });
-
 
   return (
     <React.Fragment>
@@ -53,12 +52,25 @@ const PaymentData = () => {
           gap: "1vw",
         }}
       >
-        {activeDataset.map((item, index) => {
-              return <PaymentItem key={index} ind={index}/>;
-          }
-        )}
+        {activeDataset?.map((item, index) => {
+          return (
+            <PaymentItem
+              key={index}
+              ind={index}
+              kategori={item.kategori}
+              url={item.url}
+              produk={item.produk}
+              price={item.price}
+              unit={item.qty}
+              amount={item.amount}
+            />
+          );
+        })}
       </div>
       <Pagination
+        sx={{
+          marginTop: "auto",
+        }}
         count={Hero.length}
         page={pageActive + 1}
         onChange={handleChangePage}

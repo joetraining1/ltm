@@ -109,8 +109,8 @@ const Testimonials = () => {
           <Typography variant="h6" sx={{ ...LabelStyle2, textAlign: "center" }}>
             Kami menyediakan layanan pelanggan dengan mengirimkan produk olahan
             susu sapi Marino's Milk & Yoghurt secara rutin kepada pelanggan yang
-            sudah bergabung bersama kami. Mari saling membantu dalam upaya
-            menyediakan nutrisi kebaikan olahan susu sapi perah ke seluruh
+            sudah bergabung bersama kami. Bersama-sama membantu dalam upaya
+            menyediakan nutrisi kebaikan olahan susu sapi perah ke seluruh rakyat
             Indonesia
           </Typography>
         </Card>

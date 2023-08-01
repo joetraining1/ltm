@@ -23,12 +23,33 @@ import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import DashOrderItem from "./DashOrderItem";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import OrderForm from "./OrderForm";
+import ApiClient from "../../../services/ApiClient";
 
 const DashOrders = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`order/`).then((res) => {
+      return res.data;
+    });
+    setDatas(reqType.result);
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    if(datas.length === 0){
+      getType()
+      return
+    }
+    return
+  }, [datas])
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -228,15 +249,15 @@ const DashOrders = () => {
             style={{
               display: "grid",
               gridTemplateColumns:
-                activeDataset.length < 3
+                activeDataset?.length < 3
                   ? "repeat(auto-fit, minmax(250px, 300px))"
                   : "repeat(auto-fit, minmax(250px, 1fr))",
               width: detailOn ? "55%" : "100%",
               height: detailOn
                 ? "100svh"
-                : activeDataset.length < 4
+                : activeDataset?.length < 4
                 ? "24svh"
-                : activeDataset.length < 7
+                : activeDataset?.length < 7
                 ? "46svh"
                 : "70svh",
               gap: "1vw",
@@ -246,14 +267,22 @@ const DashOrders = () => {
               padding: "1vw",
             }}
           >
-            {activeDataset.map((item, index) => {
+            {activeDataset?.map((item, index) => {
+              console.log(item)
               return (
                 <DashOrderItem
                   key={index}
-                  id={index}
+                  id={item.id}
+                  metode={item.pembayaran}
+                  status={item.status}
+                  user={item.name}
+                  email={item.email}
+                  url={item.url}
+                  total={item.total}
+                  dibuat={item.createdAt}
                   ind={index}
-                  spill={() => showQuick(index)}
-                  actionEdit={() => editMode(index)}
+                  spill={() => showQuick(item.id)}
+                  actionEdit={() => editMode(item.id)}
                 />
               );
             })}

@@ -17,7 +17,7 @@ import {
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 
-const PaymentItem = ({ ind }) => {
+const PaymentItem = ({ ind, kategori, url, produk, price, unit, amount }) => {
   const [countQty, setQty] = useState(0);
 
   const qtyFilter = (theQty) => {
@@ -38,10 +38,10 @@ const PaymentItem = ({ ind }) => {
         elevation={3}
       >
         <img
-          src={`${Bottle}`}
+          src={`${url}`}
           style={{
             objectFit: "cover",
-            width: "10%",
+            width: "30%",
           }}
         />
         <div
@@ -53,7 +53,7 @@ const PaymentItem = ({ ind }) => {
           }}
         >
           <Typography variant="h6" sx={H5style}>
-            Susu Pasteurisasi
+            {kategori}
           </Typography>
           <Divider />
           <div
@@ -64,10 +64,10 @@ const PaymentItem = ({ ind }) => {
             }}
           >
             <Typography variant="h5" sx={H5style}>
-              Variant Strawberry
+              {produk}
             </Typography>
             <Typography variant="h6" sx={H5style}>
-              Rp. 7,000
+              Rp. {price ? price : 0},000
             </Typography>
           </div>
           <div
@@ -84,7 +84,7 @@ const PaymentItem = ({ ind }) => {
                 quantity
               </Typography>
               <Typography variant="body" sx={H5style}>
-                5 botol
+                {unit ? unit : 0} botol
               </Typography>
             </div>
             <div style={MetaStyle2}>
@@ -92,7 +92,7 @@ const PaymentItem = ({ ind }) => {
                 amount
               </Typography>
               <Typography variant="body" sx={H5style}>
-                Rp. 35,000
+                Rp. {amount ? amount : 0},000
               </Typography>
             </div>
           </div>

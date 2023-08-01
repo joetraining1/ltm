@@ -18,9 +18,12 @@ import CartItem from "./CartItem";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import ApiClient from "../../../services/ApiClient";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import NoData from "../../global/NoData";
+import useNotif from "../../../hooks/useNotif";
+import { useNavigate } from "react-router-dom";
+import { co } from "../../../redux/slices/orderFormSlice";
 
 const Cart = ({ mode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +33,33 @@ const Cart = ({ mode }) => {
   const [metas, setMetas] = useState({});
 
   const user = useSelector((state) => state.auth.authState);
+  const { infoToast, updateToast} = useNotif()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const checkout = async () => {
+    infoToast("mengirimkan pesanan..");
+    setIsLoading(true);
+    const payload = {
+      user_id: user.id,
+      cart_id: user.cart_id,
+    };
+    const checkout = await ApiClient.post(`order/checkout`, payload)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        updateToast("Gagal.", "error");
+        setIsLoading(false);
+        return;
+      });
+    dispatch(co(checkout.result.order_id));
+    setIsLoading(false);
+    updateToast("Berhasil.", "success");
+    navigate("/shop/payment");
+    return;
+  };
 
   const getType = async () => {
     setIsLoading(true);
@@ -152,12 +182,12 @@ const Cart = ({ mode }) => {
             marginTop: "1vw",
           }}
         >
-          {user.type === "" ? (
+          {user?.type === "" ? (
             <Typography variant="h6" sx={{...H5style, textAlign: 'center'}}>Silahkan login terlebih dahulu.</Typography>
           ) : (datas?.length === 0 ? (
             <NoData prop={"produk di keranjangmu."} />
           ) : (
-            activeDataset.map((item, index) => {
+            activeDataset?.map((item, index) => {
               return (
                 <CartItem
                   ind={index}
@@ -213,6 +243,8 @@ const Cart = ({ mode }) => {
           variant="contained"
           sx={{ ...LabelStyle, margin: "1vw 0" }}
           startIcon={<ShoppingCartCheckoutRoundedIcon />}
+          onClick={() => checkout()}
+          disabled={datas.length === 0}
         >
           Checkout
         </Button>

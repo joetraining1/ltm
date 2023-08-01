@@ -36,8 +36,8 @@ const Profile = () => {
   const [done, setDone] = useState(0);
   const [aqtiv, setAqtiv] = useState(0);
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getTypes = async () => {
     setIsLoading(true);
@@ -65,10 +65,10 @@ const Profile = () => {
   const user = useSelector((state) => state.auth.authState);
 
   const completeIt = () => {
-    dispatch(co)
-    navigate(`/shop/payment`)
-    return
-  }
+    dispatch(co);
+    navigate(`/shop/payment`);
+    return;
+  };
 
   const getUser = async () => {
     setIsLoading(true);
@@ -90,9 +90,14 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getUser();
-    getTypes();
-  }, []);
+    if (user.type !== "") {
+      getUser();
+      getTypes();
+      return
+    }
+    navigate('/')
+    return;
+  }, [user]);
 
   return (
     <div
@@ -318,7 +323,7 @@ const Profile = () => {
                     Total
                   </Typography>
                   <Typography variant="h5" sx={H5style}>
-                  {console.log(lastOrder)}
+                    {console.log(lastOrder)}
                     Rp. {lastOrder[0]?.amount},000
                   </Typography>
                 </div>

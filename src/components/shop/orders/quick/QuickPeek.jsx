@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   AvaSize,
   H5style,
+  LabelStyle,
   LabelStyle2,
   MetaStyle2,
   MetaStyle3,
@@ -32,21 +33,125 @@ import QuickItems from "../../../dashboard/orders/quick/QuickItems";
 import proof1 from "../../../../assets/proof1.png";
 import resi1 from "../../../../assets/resi1.png";
 import PhotoViewer from "../../../media/PhotoViewer";
+import ApiClient from "../../../../services/ApiClient";
+import { useEffect } from "react";
+import useNotif from "../../../../hooks/useNotif";
+import FormData from "form-data";
+import { useSelector } from "react-redux";
 
-const QuickPeek = () => {
+const QuickPeek = ({ ids }) => {
   const { id } = useParams();
+  const [activeId, setActiveId] = useState(id);
+  const [states, setStates] = useState(false);
+
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [datas, setDatas] = useState([]);
+  const [metas, setMetas] = useState({});
   const [proofing, setProofing] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [curl, setCurl] = useState(null);
+
+  const user = useSelector((state) => state.auth.authState);
 
   const navigate = useNavigate();
+
+  const { infoToast, updateToast, toastInfo } = useNotif();
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`order/quick/${id}`).then((res) => {
+      return res.data;
+    });
+    console.log(reqType.result.metadata.proof_url);
+    setProofing(reqType.result.metadata.proof_url);
+    setMetas(reqType.result.metadata);
+    setDatas(reqType.result.items);
+    setIsLoading(false);
+    return;
+  };
+
+  const cancel = async () => {
+    setIsLoading(true);
+    infoToast("Membatalkan pesanan..");
+    const payload = {
+      status_id: 8,
+    };
+    const reqType = await ApiClient.put(`order/${id}`, payload)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        updateToast("Gagal.", "error");
+        return;
+      });
+    updateToast("Pesanan dibatalkan.", "success");
+    getType();
+    setIsLoading(false);
+    return;
+  };
+
+  const upApi = async () => {
+    if (curl === null) {
+      return toastInfo("Bukti bayar belum ditambahkan.");
+    }
+    setIsLoading(true);
+    infoToast("Menambahkan informasi..");
+    const FormPayload = new FormData();
+    if (curl !== null) {
+      FormPayload.append("proof", curl);
+    }
+    const reqType = await ApiClient.put(`order/${id}`, FormPayload)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        updateToast("Gagal.", "error");
+        return;
+      });
+    updateToast("Bukti bayar ditambahkan.", "success");
+    getType();
+    setIsLoading(false);
+    return;
+  };
+
+  const falseApi = async () => {
+    setActiveId(id);
+    setStates(false);
+    return;
+  };
+
+  id === activeId ? null : falseApi();
+  useEffect(() => {
+    if (user?.type !== "") {
+      if (!states) {
+        getType();
+        setStates(true);
+        return;
+      }
+      return;
+    }
+    return;
+  }, [states]);
 
   const FileImageHandler = (submits) => {
     // after or before, send the file first, so whenever the files changed, it already recorded at database
     // api request here
+    setCurl(submits);
     setProofing(URL.createObjectURL(submits));
-    return
-  }
+    return;
+  };
+
+  useEffect(() => {
+    if (curl !== null) {
+      upApi();
+      return;
+    }
+    return;
+  }, [curl]);
 
   const FileExtractor = (submitted) => {
     if (submitted) {
@@ -124,7 +229,7 @@ const QuickPeek = () => {
         >
           <Avatar
             sx={{ height: AvaSize.profile2, width: AvaSize.profile2 }}
-            src={Paganini}
+            src={metas.url}
           />
           <div
             style={{
@@ -135,10 +240,10 @@ const QuickPeek = () => {
             }}
           >
             <Typography variant="h5" sx={H5style}>
-              Paganini
+              {metas.name}
             </Typography>
             <Typography variant="body" sx={SideNoteStyle}>
-              pagani@gmail.com
+              {metas.email}
             </Typography>
           </div>
           <div
@@ -153,7 +258,7 @@ const QuickPeek = () => {
               Status
             </Typography>
             <Typography variant="h6" sx={H5style}>
-              DELIVERING
+              {metas.status}
             </Typography>
           </div>
         </div>
@@ -172,24 +277,27 @@ const QuickPeek = () => {
               <Typography variant="body" sx={LabelStyle2}>
                 Order No.
               </Typography>
-              <Typography variant="body" sx={{ marginLeft: "auto" }}>
-                00{id}
+              <Typography
+                variant="body"
+                sx={{ marginLeft: "auto", ...LabelStyle }}
+              >
+                0{id}
               </Typography>
             </div>
 
             <Typography variant="body" sx={MetaValue2}>
-              Bank Transfer
+              {metas.pembayaran}
             </Typography>
             <Typography variant="body" sx={MetaValue2}>
-              BCA - 3530696790
-            </Typography>
-
-            <Typography variant="body" sx={MetaValue2}>
-              081234567890
+              {metas.bank} - {metas.norek}
             </Typography>
 
             <Typography variant="body" sx={MetaValue2}>
-              Jl. Suyudono Selatan, Tebet, Jakarta Utara, Jakarta
+              {metas.cp}
+            </Typography>
+
+            <Typography variant="body" sx={MetaValue2}>
+              {metas.address}
             </Typography>
           </div>
           <div style={MetaStyle5}>
@@ -203,7 +311,7 @@ const QuickPeek = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                2 produk
+                {metas.variant ? metas.variant : 0} produk
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -216,7 +324,7 @@ const QuickPeek = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                5 produk
+                {metas.unit ? metas.unit : 0} produk
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -229,7 +337,7 @@ const QuickPeek = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                Rp 35,000
+                Rp {metas.amount ? metas.amount : 0},000
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -242,7 +350,7 @@ const QuickPeek = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                Rp 18,000
+                Rp {metas.shipping ? metas.shipping : 0},000
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -255,7 +363,7 @@ const QuickPeek = () => {
                 </Typography>
               </div>
               <Typography variant="h6" sx={MetaValue}>
-                Rp 53,000
+                Rp {metas.total ? metas.total : 0},000
               </Typography>
             </div>
           </div>
@@ -273,8 +381,17 @@ const QuickPeek = () => {
           <Typography variant="h6" sx={{ ...H5style, marginBottom: "5px" }}>
             Detail Pesanan
           </Typography>
-          {activeDataset.map((item, index) => {
-            return <QuickItems ind={index} key={index} />;
+          {activeDataset?.map((item, index) => {
+            return (
+              <QuickItems
+                ind={index}
+                key={index}
+                qty={item.qty}
+                amount={item.amount}
+                produk={item.produk}
+                price={item.price}
+              />
+            );
           })}
           <Pagination
             size="small"
@@ -286,44 +403,16 @@ const QuickPeek = () => {
           />
         </div>
         <Divider />
-        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', alignItems: 'start', height: '32%'}}>
-          {proofing !== "" ? (
-            <div style={{
-              display: 'flex',
-              width: '100%',
-              flexDirection: 'column',
-              gap: '10px'
-            }}>
-              <PhotoViewer picurl={proofing} title="Bukti Pembayaran" />
-              <Button
-              component="label"
-              variant="contained"
-              sx={{
-                background: "#fff",
-                color: "#00ff00",
-                width: "95%",
-                fontFamily: "Signika Negative, sans-serif",
-                fontWeight: "700",
-                display: "flex",
-                alignItems: "center",
-                "&:hover": {
-                  background: "#00ff00",
-                  color: "#fff",
-                },
-              }}
-              startIcon={<CloudUploadRoundedIcon />}
-            >
-              Ubah foto
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={(e) => FileImageHandler(e.target.files[0])}
-              />
-            </Button>
-            </div>
-            
-          ) : (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-evenly",
+            alignItems: "start",
+            height: "32%",
+          }}
+        >
+          {proofing === "" || proofing === undefined || proofing === null ? (
             <Button
               component="label"
               variant="contained"
@@ -334,7 +423,7 @@ const QuickPeek = () => {
                 fontFamily: "Signika Negative, sans-serif",
                 fontWeight: "700",
                 display: "flex",
-                margin: 'auto 0',
+                margin: "auto 0",
                 alignItems: "center",
                 "&:hover": {
                   background: "#00ff00",
@@ -351,8 +440,45 @@ const QuickPeek = () => {
                 onChange={(e) => FileImageHandler(e.target.files[0])}
               />
             </Button>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                flexDirection: "column",
+                gap: "10px",
+              }}
+            >
+              <PhotoViewer picurl={proofing} title="Bukti Pembayaran" />
+              <Button
+                component="label"
+                variant="contained"
+                sx={{
+                  background: "#fff",
+                  color: "#00ff00",
+                  width: "95%",
+                  fontFamily: "Signika Negative, sans-serif",
+                  fontWeight: "700",
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": {
+                    background: "#00ff00",
+                    color: "#fff",
+                  },
+                }}
+                startIcon={<CloudUploadRoundedIcon />}
+              >
+                Ubah foto
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => FileImageHandler(e.target.files[0])}
+                />
+              </Button>
+            </div>
           )}
-          <PhotoViewer picurl={resi1} title="Resi" />
+          <PhotoViewer picurl={metas.ship_url} title="Resi" />
         </div>
         <div
           style={{
@@ -364,27 +490,30 @@ const QuickPeek = () => {
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle, marginLeft: "3%" }}>
-            14 juni 2023
+            {metas.createdAt?.slice(0, 10)}
           </Typography>
-          <Button
-            variant="text"
-            sx={{
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              minWidth: "10px",
-              color: '#FF0000',
-              marginLeft: "auto",
-            }}
-          >
-            cancel order
-          </Button>
+          {metas?.status === "Canceled" ? null : (
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Signika Negative, sans-serif",
+                fontWeight: "600",
+                minWidth: "10px",
+                color: "#FF0000",
+                marginLeft: "auto",
+              }}
+              onClick={() => cancel()}
+            >
+              cancel order
+            </Button>
+          )}
           <Button
             variant="contained"
             sx={{
               fontFamily: "Signika Negative, sans-serif",
               fontWeight: "600",
               width: "150px",
-              marginLeft: '3%'
+              marginLeft: metas?.status === "Canceled" ? "auto" : "3%",
             }}
             onClick={() => navigate(`/shop/order/${id}`)}
           >

@@ -12,8 +12,47 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import ApiClient from "../../../services/ApiClient";
+import { useState } from "react";
+import useNotif from "../../../hooks/useNotif";
 
-const OrderItem = ({ ind, spill }) => {
+const OrderItem = ({
+  ind,
+  spill,
+  id,
+  total,
+  unit,
+  cp,
+  status,
+  dibuat,
+  refresh,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast, toastInfo } = useNotif();
+
+  const cancel = async () => {
+    setIsLoading(true);
+    infoToast("Membatalkan pesanan..");
+    const payload = {
+      status_id: 8,
+    };
+    const reqType = await ApiClient.put(`order/${id}`, payload)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        updateToast("Gagal.", "error");
+        return;
+      });
+    updateToast("Pesanan dibatalkan.", "success");
+    refresh();
+    setIsLoading(false);
+    return;
+  };
+
   return (
     <Grow in={true} unmountOnExit mountOnEnter timeout={ind * 100}>
       <Card
@@ -31,16 +70,16 @@ const OrderItem = ({ ind, spill }) => {
             Total :
           </Typography>
           <Typography variant="h6" sx={{ ...H5style, marginLeft: "10%" }}>
-            Rp. 53,000
+            Rp. {total ? total : 0},000
           </Typography>
         </div>
         <Divider sx={{ margin: "2%" }} />
         <div style={{ ...MetaStyle, padding: "0 5px" }}>
           <Typography variant="body" sx={LabelStyle2}>
-            Order No: {ind}
+            Order No: 0{id}
           </Typography>
           <Typography variant="body" sx={H5style}>
-            DELIVERING
+            {status}
           </Typography>
         </div>
         <div style={{ ...MetaStyle, padding: "0 5px" }}>
@@ -48,7 +87,7 @@ const OrderItem = ({ ind, spill }) => {
             Penerima
           </Typography>
           <Typography variant="body" sx={H5style}>
-            081234567890
+            {cp}
           </Typography>
         </div>
         <div style={{ ...MetaStyle, padding: "0 5px" }}>
@@ -56,7 +95,7 @@ const OrderItem = ({ ind, spill }) => {
             jumlah item
           </Typography>
           <Typography variant="body" sx={H5style}>
-            53 botol
+            {unit ? unit : 0} botol
           </Typography>
         </div>
         <div
@@ -65,23 +104,28 @@ const OrderItem = ({ ind, spill }) => {
             display: "flex",
             alignItems: "center",
             marginTop: "auto",
-            gap: '5px'
+            gap: "5px",
           }}
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
-          <Typography sx={{ ...SideNoteStyle }}>14 Juni 2023</Typography>
-          <Button
-            variant="text"
-            size="small"
-            sx={{
-              minWidth: "20px",
-              ...LabelStyle,
-              color: "#ff0000",
-              marginLeft: "auto",
-            }}
-          >
-            cancel
-          </Button>
+          <Typography sx={{ ...SideNoteStyle }}>
+            {dibuat?.slice(0, 10)}
+          </Typography>
+          {status === "Canceled" ? null : (
+            <Button
+              variant="text"
+              size="small"
+              sx={{
+                minWidth: "20px",
+                ...LabelStyle,
+                color: "#ff0000",
+                marginLeft: "auto",
+              }}
+              onClick={() => cancel()}
+            >
+              cancel
+            </Button>
+          )}
           <Divider orientation="vertical" />
           <Button
             size="small"
@@ -91,6 +135,7 @@ const OrderItem = ({ ind, spill }) => {
               fontWeight: "700",
               width: "50px",
               padding: "5px 0",
+              marginLeft: status === "Canceled" ? 'auto' : 0
             }}
             onClick={() => spill()}
           >

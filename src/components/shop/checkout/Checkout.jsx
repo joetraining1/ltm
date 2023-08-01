@@ -67,9 +67,12 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    getType();
+    if (user.type !== "") {
+      getType();
+      return;
+    }
     return;
-  }, []);
+  }, [user]);
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -236,27 +239,24 @@ const Checkout = () => {
               {metas.unit ? metas.unit : 0} botol
             </Typography>
           </div>
-          {isLoading ? (
-            <Preload />
-          ) : (
-            <Button
-              variant="contained"
-              disabled={isLoading}
-              loading={isLoading}
-              onClick={() => checkout()}
-              sx={{
-                width: "100%",
-                fontFamily: "Signika Negative, sans-serif",
-                fontWeight: "600",
-                display: "flex",
-                gap: "10px",
-                marginTop: "auto",
-              }}
-            >
-              <ShoppingCartCheckoutRoundedIcon />
-              Checkout
-            </Button>
-          )}
+
+          <Button
+            variant="contained"
+            disabled={isLoading || datas.length === 0 ? true : false}
+            loading={isLoading}
+            onClick={() => checkout()}
+            sx={{
+              width: "100%",
+              fontFamily: "Signika Negative, sans-serif",
+              fontWeight: "600",
+              display: "flex",
+              gap: "10px",
+              marginTop: "auto",
+            }}
+          >
+            <ShoppingCartCheckoutRoundedIcon />
+            Checkout
+          </Button>
         </Card>
       </div>
     </div>
