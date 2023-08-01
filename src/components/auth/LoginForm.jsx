@@ -71,6 +71,7 @@ const LoginForm = () => {
       />
       <TextField
         label="Password"
+        type="password"
         inputRef={passRef}
         size="small"
         sx={{ width: "100%" }}

@@ -62,7 +62,6 @@ const QuickPeek = ({ ids }) => {
     const reqType = await ApiClient.get(`order/quick/${id}`).then((res) => {
       return res.data;
     });
-    console.log(reqType.result.metadata.proof_url);
     setProofing(reqType.result.metadata.proof_url);
     setMetas(reqType.result.metadata);
     setDatas(reqType.result.items);

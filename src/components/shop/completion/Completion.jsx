@@ -29,6 +29,7 @@ const Completion = () => {
         return res.data;
       }
     );
+    console.log(reqType)
     if (selForm.pay.length === 0 && selForm.norek.length === 0) {
       const reqPay = await ApiClient.get(`payment`).then((res) => {
         return res.data;

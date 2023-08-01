@@ -13,6 +13,7 @@ const ShowcaseCard = ({ id, stock, title, url, price, ind }) => {
   const { infoToast, updateToast, toastInfo } = useNotif();
 
   const user = useSelector((state) => state.auth.authState)
+  console.log(user)
 
   const addToCart = async() => {
     if(user.type === ""){

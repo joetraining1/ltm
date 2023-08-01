@@ -16,14 +16,42 @@ import CartCard from "./CartCard";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import ApiClient from "../../../services/ApiClient";
 import NoData from "../../global/NoData";
+import { useSelector } from "react-redux";
+import useNotif from "../../../hooks/useNotif";
 
 const Carts = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
+  const [keywords, setKeywords] = useState("");
+
+  const { infoToast, updateToast } = useNotif();
+
+
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const user = useSelector((state) => state.auth.authState);
+
+  const sendQ = async () => {
+    setIsLoading(true);
+    try {
+      const payload = {
+        keyword: keywords,
+      };
+      const product = await ApiClient.post("cart/search", payload).then((res) => {
+        return res.data;
+      });
+      setDatas(product.result);
+      setIsLoading(false);
+      return;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      return;
+    }
+  };
 
   const getType = async () => {
     setIsLoading(true)
@@ -57,9 +85,22 @@ const Carts = () => {
   useEffect(() => {
     if(!id){
       return setDetailOn(false);
-    } 
+    }
+    if (user.user_id !== "") {
+      getType();
+      return;
+    }
     return
   }, [id])
+
+  useEffect(() => {
+    if(keywords === ""){
+      getType()
+      return
+    }
+    sendQ()
+    return
+  }, [keywords])
   
   const backButton = () => {
     navigate(-1);
@@ -135,6 +176,8 @@ const Carts = () => {
               width: "100%",
               height: "100%",
             }}
+            value={keywords}
+            onChange={(e) => setKeywords(e.target.value)}
             inputProps={{
               sx: {
                 fontFamily: "Signika Negative, sans-serif",
@@ -173,7 +216,7 @@ const Carts = () => {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 300px))",
             width: detailOn ? "52%" : "100%",
             height: detailOn
               ? "95svh"

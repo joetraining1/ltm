@@ -34,6 +34,7 @@ const RegisterForm = () => {
       const regApi = await ApiClient.post('register', RegPayload).then((res) => {
         return res.data
       })
+      console.log(regApi)
       dispatch(login(regApi?.result));
       Cookies.set("accessToken", regApi?.access_token);
       Cookies.set("refreshToken", regApi?.refresh_token);
@@ -103,6 +104,7 @@ const RegisterForm = () => {
       />
       <TextField
         label="Password"
+        type="password"
         inputRef={passRef}
         size="small"
         sx={{ width: "100%" }}

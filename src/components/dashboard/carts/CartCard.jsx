@@ -43,17 +43,6 @@ const CartCard = ({ ind, spill, id, vari, uni, amou, dibuat, uurl, uname, uemail
               {uemail}
             </Typography>
           </div>
-          <Button
-            variant="text"
-            sx={{
-              fontFamily: "Signika Negative, sans-serif",
-              fontWeight: "600",
-              marginLeft: "auto",
-            }}
-            onClick={() => spill()}
-          >
-            view
-          </Button>
         </div>
         <Divider />
         <div

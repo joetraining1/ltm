@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   AvaSize,
   H5style,
+  LabelStyle,
   LabelStyle2,
   MetaStyle2,
   MetaStyle3,
@@ -30,17 +31,65 @@ import QuickItems from "./quick/QuickItems";
 import proof1 from "../../../assets/proof1.png";
 import resi1 from "../../../assets/resi1.png";
 import PhotoViewer from "../../media/PhotoViewer";
+import { useSelector } from "react-redux";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
+import { useEffect } from "react";
 
 const QuickLook = () => {
   const { id } = useParams();
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(10)]);
+  const [states, setStates] = useState(false);
+
+  const [activeId, setActiveId] = useState(id);
+
+  const [datas, setDatas] = useState([]);
+  const [metas, setMetas] = useState({});
+  const [proofing, setProofing] = useState("");
+  const [ship, setShip] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [curl, setCurl] = useState(null);
+
+  const user = useSelector((state) => state.auth.authState);
+  const { infoToast, updateToast, toastInfo } = useNotif();
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`order/quick/${id}`).then((res) => {
+      return res.data;
+    });
+    // setProofing(reqType.result.metadata.proof_url);
+    // setShip(reqType.result.metadata.ship_url);
+    setMetas(reqType.result.metadata);
+    setDatas(reqType.result.items);
+    setIsLoading(false);
+    return;
+  };
+
+  const falseApi = async () => {
+    setActiveId(id);
+    setStates(false);
+    return;
+  };
 
   const navigate = useNavigate();
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
   };
+
+  id === activeId ? null : falseApi();
+  useEffect(() => {
+    if (user?.type !== "") {
+      if (!states) {
+        getType();
+        setStates(true);
+        return;
+      }
+      return;
+    }
+    return;
+  }, [states]);
 
   const MultiArray = (arr, rows) => {
     const ArrSlice = arr.reduce((acc, val, ind) => {
@@ -97,7 +146,7 @@ const QuickLook = () => {
         >
           <Avatar
             sx={{ height: AvaSize.profile2, width: AvaSize.profile2 }}
-            src={Paganini}
+            src={metas.url}
           />
           <div
             style={{
@@ -108,10 +157,10 @@ const QuickLook = () => {
             }}
           >
             <Typography variant="h5" sx={H5style}>
-              Paganini
+              {metas.name}
             </Typography>
             <Typography variant="body" sx={SideNoteStyle}>
-              pagani@gmail.com
+              {metas.email}
             </Typography>
           </div>
           <div
@@ -126,7 +175,7 @@ const QuickLook = () => {
               Status
             </Typography>
             <Typography variant="h6" sx={H5style}>
-              DELIVERING
+              {metas.status}
             </Typography>
           </div>
         </div>
@@ -145,24 +194,27 @@ const QuickLook = () => {
               <Typography variant="body" sx={LabelStyle2}>
                 Order No.
               </Typography>
-              <Typography variant="body" sx={{ marginLeft: "auto" }}>
-                00{id}
+              <Typography
+                variant="body"
+                sx={{ marginLeft: "auto", ...LabelStyle }}
+              >
+                0{id}
               </Typography>
             </div>
 
             <Typography variant="body" sx={MetaValue2}>
-              Bank Transfer
+              {metas.pembayaran}
             </Typography>
             <Typography variant="body" sx={MetaValue2}>
-              BCA - 3530696790
-            </Typography>
-
-            <Typography variant="body" sx={MetaValue2}>
-              081234567890
+              {metas.bank} - {metas.norek}
             </Typography>
 
             <Typography variant="body" sx={MetaValue2}>
-              Jl. Suyudono Selatan, Tebet, Jakarta Utara, Jakarta
+              {metas.cp}
+            </Typography>
+
+            <Typography variant="body" sx={MetaValue2}>
+              {metas.address}
             </Typography>
           </div>
           <div style={MetaStyle5}>
@@ -176,7 +228,7 @@ const QuickLook = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                Pagani
+                {metas.penerima}
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -189,7 +241,7 @@ const QuickLook = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                2 produk
+                {metas.variant ? metas.variant : 0} produk
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -202,7 +254,7 @@ const QuickLook = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                5 produk
+                {metas.unit ? metas.unit : 0} produk
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -215,7 +267,7 @@ const QuickLook = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                Rp 35,000
+                Rp {metas.amount ? metas.amount : 0},000
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -228,7 +280,7 @@ const QuickLook = () => {
                 </Typography>
               </div>
               <Typography variant="body" sx={MetaValue}>
-                Rp 18,000
+                Rp {metas.shipping ? metas.shipping : 0},000
               </Typography>
             </div>
             <div style={MetaStyle3}>
@@ -241,7 +293,7 @@ const QuickLook = () => {
                 </Typography>
               </div>
               <Typography variant="h6" sx={MetaValue}>
-                Rp 53,000
+                Rp {metas.total ? metas.total : 0},000
               </Typography>
             </div>
           </div>
@@ -259,8 +311,17 @@ const QuickLook = () => {
           <Typography variant="h6" sx={{ ...H5style, marginBottom: "5px" }}>
             Detail Pesanan
           </Typography>
-          {activeDataset.map((item, index) => {
-            return <QuickItems ind={index} key={index} />;
+          {activeDataset?.map((item, index) => {
+            return (
+              <QuickItems
+                amount={item.amount}
+                price={item.price}
+                produk={item.produk}
+                qty={item.qty}
+                ind={index}
+                key={index}
+              />
+            );
           })}
           <Pagination
             size="small"
@@ -273,8 +334,8 @@ const QuickLook = () => {
         </div>
         <Divider />
         <div style={MetaStyle3}>
-          <PhotoViewer picurl={proof1} title="Bukti Pembayaran" />
-          <PhotoViewer picurl={resi1} title="Resi" />
+          <PhotoViewer picurl={metas.proof_url} title="Bukti Pembayaran" />
+          <PhotoViewer picurl={metas.ship_url} title="Resi" />
         </div>
         <Divider />
         <Typography
@@ -300,7 +361,7 @@ const QuickLook = () => {
         >
           <AccessTimeRoundedIcon sx={SideNoteStyle} />
           <Typography sx={{ ...SideNoteStyle, marginLeft: "3%" }}>
-            14 juni 2023
+            {metas.createdAt?.slice(0, 10)}
           </Typography>
           <Button
             variant="contained"

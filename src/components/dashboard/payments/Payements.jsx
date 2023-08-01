@@ -100,36 +100,6 @@ const Payements = () => {
           height: "50px",
         }}
       >
-        <Paper
-          sx={{
-            display: "flex",
-            width: "50%",
-            padding: "10px 1vw",
-            height: "100%",
-            justifyContent: "space-evenly",
-            gap: "15px",
-          }}
-          elevation={1}
-        >
-          <InputBase
-            sx={{
-              width: "100%",
-              height: "100%",
-            }}
-            inputProps={{
-              sx: {
-                fontFamily: "Signika Negative, sans-serif",
-                fontWeight: "600",
-                color: "#262626",
-              },
-            }}
-            placeholder="Temukan pembayaran.."
-          />
-          <Divider orientation="vertical" />
-          <Button variant="text">
-            <SearchRoundedIcon />
-          </Button>
-        </Paper>
         <Button
           variant="contained"
           sx={{
@@ -139,6 +109,7 @@ const Payements = () => {
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
+            marginLeft:'auto'
           }}
           onClick={() => handleOpen()}
         >

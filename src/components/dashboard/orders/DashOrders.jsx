@@ -24,6 +24,8 @@ import DashOrderItem from "./DashOrderItem";
 import PlusOneRoundedIcon from "@mui/icons-material/PlusOneRounded";
 import OrderForm from "./OrderForm";
 import ApiClient from "../../../services/ApiClient";
+import { useSelector } from "react-redux";
+import NoData from "../../global/NoData";
 
 const DashOrders = () => {
   const { id } = useParams();
@@ -31,25 +33,66 @@ const DashOrders = () => {
   const [datas, setDatas] = useState([]);
   const [detailOn, setDetailOn] = useState(id ? true : false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const user = useSelector((state) => state.auth.authState);
+  const [filter, setFilters] = useState([
+    {
+      id: 0,
+      title: "All Item",
+    },
+  ]);
+  const [activeF, setActiveF] = useState({
+    id: 0,
+    title: "All Item",
+  });
 
   const getType = async () => {
     setIsLoading(true);
     const reqType = await ApiClient.get(`order/`).then((res) => {
       return res.data;
     });
+    if (filter.length === 1) {
+      const getStatus = await ApiClient.get(`status`).then((res) => res.data);
+      setFilters([...filter, ...getStatus.result]);
+    }
     setDatas(reqType.result);
     setIsLoading(false);
     return;
   };
 
-  useEffect(() => {
-    if(datas.length === 0){
-      getType()
-      return
+  const filterCtg = async (id) => {
+    setIsLoading(true);
+    if (id === 0) {
+      getType();
+      return;
     }
-    return
-  }, [datas])
+
+    const product = await ApiClient.get(`order/status/${id}`).then((res) => {
+      return res.data;
+    });
+    setDatas(product.result);
+    setIsLoading(false);
+    return;
+  };
+
+  const setterF = async (ctg_id, title) => {
+    filterCtg(ctg_id);
+    setActiveF({
+      id: ctg_id,
+      title: title,
+    });
+    return;
+  };
+
+  useEffect(() => {
+    if (user?.type !== "") {
+      if (datas.length === 0) {
+        getType();
+        return;
+      }
+      return;
+    }
+    return;
+  }, [user]);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -57,11 +100,15 @@ const DashOrders = () => {
   const handleOpen = () => setModalOpen(true);
 
   useEffect(() => {
-    if(!id){
+    if (!id) {
       return setDetailOn(false);
-    } 
-    return
-  }, [id])
+    }
+    if (user.user_id !== "") {
+      getType();
+      return;
+    }
+    return;
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -82,7 +129,7 @@ const DashOrders = () => {
   };
 
   const backButton = () => {
-    navigate(-1);
+    navigate('/dashboard/orders');
     return setDetailOn(false);
   };
 
@@ -134,44 +181,14 @@ const DashOrders = () => {
           display: "flex",
           alignItems: "center",
           width: "100%",
-          justifyContent: "space-evenly",
           gap: "1vw",
           height: "50px",
         }}
       >
+       
         <Paper
           sx={{
-            display: "flex",
-            width: "100%",
-            padding: "10px 1vw",
-            height: "100%",
-            justifyContent: "space-evenly",
-            gap: "15px",
-          }}
-          elevation={1}
-        >
-          <InputBase
-            sx={{
-              width: "100%",
-              height: "100%",
-            }}
-            inputProps={{
-              sx: {
-                fontFamily: "Signika Negative, sans-serif",
-                fontWeight: "600",
-                color: "#262626",
-              },
-            }}
-            placeholder="Temukan pesanan.."
-          />
-          <Divider orientation="vertical" />
-          <Button variant="text">
-            <SearchRoundedIcon />
-          </Button>
-        </Paper>
-        <Paper
-          sx={{
-            width: "40%",
+            width: "12vw",
             height: "53px",
             display: "flex",
             alignItems: "center",
@@ -201,32 +218,40 @@ const DashOrders = () => {
                 fontSize: "1.1em",
               },
             }}
-            defaultValue="DELIVERING"
+            defaultValue={activeF.title}
+            value={activeF.title}
           >
-            {StatusPesanan.map((item, index) => {
+            {filter.map((item, index) => {
               return (
-                <MenuItem key={item.id} value={item.title} sx={H5style}>
+                <MenuItem
+                  onClick={() => setterF(item.id, item.title)}
+                  key={item.id}
+                  value={item.title}
+                  sx={H5style}
+                >
                   {item.title}
                 </MenuItem>
               );
             })}
           </TextField>
         </Paper>
-        <Button
-          variant="contained"
-          sx={{
-            width: "32%",
-            height: "53px",
-            fontFamily: "Signika Negative, sans-serif",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-          onClick={() => handleOpen()}
-        >
-          <PlusOneRoundedIcon />
-          Tambah Pesanan
-        </Button>
+      {  
+        // <Button
+        //   variant="contained"
+        //   sx={{
+        //     width: "12vw",
+        //     height: "53px",
+        //     fontFamily: "Signika Negative, sans-serif",
+        //     alignItems: "center",
+        //     display: "flex",
+        //     justifyContent: "space-between",
+        //   }}
+        //   onClick={() => handleOpen()}
+        // >
+        //   <PlusOneRoundedIcon />
+        //   Tambah Pesanan
+        // </Button>
+      }
       </div>
       <div
         style={{
@@ -245,48 +270,52 @@ const DashOrders = () => {
             gap: "1vw",
           }}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                activeDataset?.length < 3
-                  ? "repeat(auto-fit, minmax(250px, 300px))"
-                  : "repeat(auto-fit, minmax(250px, 1fr))",
-              width: detailOn ? "55%" : "100%",
-              height: detailOn
-                ? "100svh"
-                : activeDataset?.length < 4
-                ? "24svh"
-                : activeDataset?.length < 7
-                ? "46svh"
-                : "70svh",
-              gap: "1vw",
-              overflow: "auto",
-              alignContent: "start",
-              transition: "width 0.4s ease, height 0.4s ease",
-              padding: "1vw",
-            }}
-          >
-            {activeDataset?.map((item, index) => {
-              console.log(item)
-              return (
-                <DashOrderItem
-                  key={index}
-                  id={item.id}
-                  metode={item.pembayaran}
-                  status={item.status}
-                  user={item.name}
-                  email={item.email}
-                  url={item.url}
-                  total={item.total}
-                  dibuat={item.createdAt}
-                  ind={index}
-                  spill={() => showQuick(item.id)}
-                  actionEdit={() => editMode(item.id)}
-                />
-              );
-            })}
-          </div>
+          {datas.length === 0 ? (
+            <NoData prop={"pesanan apapun."} />
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  activeDataset?.length < 3
+                    ? "repeat(auto-fit, minmax(250px, 300px))"
+                    : "repeat(auto-fit, minmax(250px, 1fr))",
+                width: detailOn ? "55%" : "100%",
+                height: detailOn
+                  ? "100svh"
+                  : activeDataset?.length < 4
+                  ? "24svh"
+                  : activeDataset?.length < 7
+                  ? "46svh"
+                  : "70svh",
+                gap: "1vw",
+                overflow: "auto",
+                alignContent: "start",
+                transition: "width 0.4s ease, height 0.4s ease",
+                padding: "1vw",
+              }}
+            >
+              {activeDataset?.map((item, index) => {
+                return (
+                  <DashOrderItem
+                    key={index}
+                    id={item.id}
+                    metode={item.pembayaran}
+                    status={item.status}
+                    user={item.name}
+                    email={item.email}
+                    url={item.url}
+                    total={item.total}
+                    dibuat={item.createdAt}
+                    ind={index}
+                    spill={() => showQuick(item.id)}
+                    actionEdit={() => editMode(item.id)}
+                    refresh={() => getType()}
+                  />
+                );
+              })}
+            </div>
+          )}
           {detailOn ? (
             <div
               style={{
@@ -314,12 +343,14 @@ const DashOrders = () => {
           ) : null}
         </div>
       </div>
-      <Pagination
-        count={Hero.length}
-        page={pageActive + 1}
-        renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-        onChange={handleChangePage}
-      />
+      {datas.length < 10 ? null : (
+        <Pagination
+          count={Hero.length}
+          page={pageActive + 1}
+          renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+          onChange={handleChangePage}
+        />
+      )}
       <Modal
         open={modalOpen}
         onClose={() => handleClose()}

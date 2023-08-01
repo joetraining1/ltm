@@ -9,8 +9,7 @@ import {
 } from "../../../../utils/constants";
 import { useParams } from "react-router-dom";
 
-const InvoicesHead = ({}) => {
-  const { id } = useParams();
+const InvoicesHead = ({id, name, email, info, status, url}) => {
 
   return (
     <div
@@ -25,7 +24,7 @@ const InvoicesHead = ({}) => {
     >
       <Avatar
         sx={{ height: AvaSize.profile2, width: AvaSize.profile2 }}
-        src={Paganini}
+        src={url}
       />
       <div
         style={{
@@ -36,10 +35,10 @@ const InvoicesHead = ({}) => {
         }}
       >
         <Typography variant="h5" sx={H5style}>
-          Paganini
+          {name}
         </Typography>
         <Typography variant="body" sx={{ ...LabelStyle2, fontStyle: "italic" }}>
-          pagani@gmail.com
+          {email}
         </Typography>
       </div>
       <div
@@ -58,14 +57,14 @@ const InvoicesHead = ({}) => {
             Order No.
           </Typography>
           <Typography variant="h6" sx={{ marginLeft: "2%", ...H5style }}>
-            00{id}
+            0{id}
           </Typography>
         </div>
         <Typography variant="body" sx={LabelStyle2}>
           Status
         </Typography>
         <Typography variant="h6" sx={H5style}>
-          DELIVERING
+          {status}
         </Typography>
         <Typography
           variant="body"
@@ -76,8 +75,7 @@ const InvoicesHead = ({}) => {
             fontSize: "0.8em",
           }}
         >
-          Pesanan dalam pengiriman, pembeli dimohon untuk mengecek berkala
-          status dari pesanan masing-masing.
+          {info}
         </Typography>
       </div>
     </div>

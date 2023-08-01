@@ -4,7 +4,7 @@ import { H5style, LabelStyle } from "../../../../utils/constants";
 import PaymentItem from "../../completion/PaymentItem";
 import InvoiceItemDetail from "./InvoicesItemDetail";
 
-const InvoicesItem = () => {
+const InvoicesItem = ({ dataset }) => {
   const [pageActive, setPageActive] = useState(0);
   const [datas, setDatas] = useState([...Array(10)]);
 
@@ -34,7 +34,7 @@ const InvoicesItem = () => {
 
   let activeDataset;
 
-  const Hero = MultiArray(datas, 3);
+  const Hero = MultiArray(dataset, 3);
   const HeroItem = Hero.map((item, index) => {
     if (pageActive === index) {
       return (activeDataset = item.dataset);
@@ -48,8 +48,8 @@ const InvoicesItem = () => {
         flexDirection: "column",
         width: "100%",
         alignItems: "center",
-        gap: '1em',
-        height: '65%'
+        gap: "1em",
+        height: "65%",
       }}
     >
       <Typography
@@ -71,22 +71,36 @@ const InvoicesItem = () => {
           flexDirection: "column",
           width: "100%",
           gap: "10px",
-          height:'100%'
+          height: "100%",
         }}
       >
-        {activeDataset.map((item, index) => {
-          return <InvoiceItemDetail key={index} ind={index} />;
+        {activeDataset?.map((item, index) => {
+          console.log(item);
+          return (
+            <InvoiceItemDetail
+              key={index}
+              ind={index}
+              amount={item.amount}
+              kategori={item.kategori}
+              price={item.price}
+              produk={item.produk}
+              qty={item.qty}
+              url={item.url}
+            />
+          );
         })}
       </div>
-      <Pagination
-        count={Hero.length}
-        page={pageActive + 1}
-        onChange={handleChangePage}
-        renderItem={(item) => <PaginationItem sx={LabelStyle} {...item} />}
-        sx={{
-          marginTop: 'auto'
-        }}
-      />
+      {dataset?.length < 4 ? null : (
+        <Pagination
+          count={Hero.length}
+          page={pageActive + 1}
+          onChange={handleChangePage}
+          renderItem={(item) => <PaginationItem sx={LabelStyle} {...item} />}
+          sx={{
+            marginTop: "auto",
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -11,6 +11,9 @@ import useNotif from "../../../hooks/useNotif";
 import LocalShippingRoundedIcon from "@mui/icons-material/LocalShippingRounded";
 import FormData from "form-data";
 import ApiClient from "../../../services/ApiClient";
+import { useDispatch } from "react-redux";
+import { co } from "../../../redux/slices/orderFormSlice";
+import { useNavigate } from "react-router-dom";
 
 const PaymentForm = ({ id, dataset, refresh }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +36,8 @@ const PaymentForm = ({ id, dataset, refresh }) => {
   });
 
   const { toastError, infoToast, updateToast } = useNotif();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const checkout = async () => {
     if (
@@ -67,8 +72,10 @@ const PaymentForm = ({ id, dataset, refresh }) => {
           return res.data;
         })
       setIsLoading(false);
+      dispatch(co(0))
       updateToast("Berhasil.", "success");
       refresh();
+      navigate('/shop/orders')
       return;
     } catch (error) {
       console.log(error);

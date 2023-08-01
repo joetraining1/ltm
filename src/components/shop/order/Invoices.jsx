@@ -9,10 +9,45 @@ import InvoicesHead from "./invoices/InvoicesHead";
 import InvoicesFooter from "./invoices/InvoicesFooter";
 import { H5style, LabelStyle2 } from "../../../utils/constants";
 import Logo from "../../../assets/marino.png";
+import ApiClient from "../../../services/ApiClient";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Invoices = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [datas, setDatas] = useState([]);
+  const [metas, setMetas] = useState({});
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  console.log(metas);
+  console.log(datas);
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`order/invoice/${id}`)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => console.log(error));
+    setDatas(reqType?.result.items);
+    setMetas(reqType?.result.metadata);
+    setIsLoading(false);
+    return;
+  };
+
+  const user = useSelector((state) => state.auth.authState);
+
+  useEffect(() => {
+    if (user.type !== "") {
+      getType();
+      return;
+    }
+    return;
+  }, [user]);
+
   return (
     <div
       style={{
@@ -64,19 +99,39 @@ const Invoices = () => {
             Kepada :{" "}
           </Typography>
           <Typography variant="h6" sx={H5style}>
-          Pagani
-        </Typography>
+            {metas.penerima}
+          </Typography>
         </div>
         <Divider style={{ width: "100%" }} />
-        <InvoicesHead />
+        <InvoicesHead
+          email={metas.email}
+          id={metas.id}
+          info={metas.info}
+          name={metas.name}
+          status={metas.status}
+          url={metas.url}
+        />
         <Divider style={{ width: "100%" }} />
-        <InvoicesMeta />
+        <InvoicesMeta
+          id={metas.id}
+          variant={metas.variant}
+          unit={metas.unit}
+          amount={metas.amount}
+          shipping={metas.shipping}
+          total={metas.total}
+          dibuat={metas.createdAt}
+          cp={metas.cp}
+          alamat={metas.address}
+          metode={metas.pembayaran}
+          bank={metas.bank}
+          norek={metas.norek}
+        />
         <Divider style={{ width: "100%" }} />
-        <InvoicesItem />
+        <InvoicesItem dataset={datas}/>
         <Divider style={{ width: "100%", marginTop: "auto" }} />
-        <InvoicesDetail />
+        <InvoicesDetail proof={metas.proof_url} ship={metas.ship_url}/>
         <Divider style={{ width: "100%" }} />
-        <InvoicesFooter />
+        <InvoicesFooter note={metas.note}/>
       </Card>
     </div>
   );

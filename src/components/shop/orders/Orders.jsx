@@ -84,9 +84,10 @@ const Orders = () => {
         return res.data;
       })
       .catch((error) => console.log(error));
-    const getStatus = await ApiClient.get(`status`).then((res) => res.data);
-    console.log(getStatus);
-    setFilters([...filter, ...getStatus.result]);
+    if (filter.length === 1) {
+      const getStatus = await ApiClient.get(`status`).then((res) => res.data);
+      setFilters([...filter, ...getStatus.result]);
+    }
     setDatas(reqType?.result);
     setIsLoading(false);
     return;
@@ -121,13 +122,12 @@ const Orders = () => {
 
   const showQuick = (id) => {
     setDetailOn(true);
-    setStates(!states);
     navigate(`${id}`);
     return;
   };
 
   const backButton = () => {
-    navigate(-1);
+    navigate('/shop/orders');
     return setDetailOn(false);
   };
 
@@ -245,7 +245,9 @@ const Orders = () => {
               width: "100%",
               height: detailOn
                 ? "95svh"
-                : activeDataset?.length < 4
+                : 
+                datas.length === 0 ? '20svh' :
+                activeDataset?.length < 4
                 ? "24svh"
                 : activeDataset?.length < 7
                 ? "47svh"
@@ -320,12 +322,14 @@ const Orders = () => {
               </div>
             ) : null}
           </div>
-          {activeDataset?.length < 10 ? null : (<Pagination
-            count={Hero?.length}
-            page={pageActive + 1}
-            renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-            onChange={handleChangePage}
-          />)}
+          {datas?.length < 10 ? null : (
+            <Pagination
+              count={Hero?.length}
+              page={pageActive + 1}
+              renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
+              onChange={handleChangePage}
+            />
+          )}
         </React.Fragment>
       ) : (
         <Typography variant="h5" sx={{ ...H5style }}>

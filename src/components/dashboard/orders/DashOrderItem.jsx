@@ -1,5 +1,5 @@
 import { Avatar, Button, Card, Divider, Grow, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import {
   H5style,
   LabelStyle,
@@ -8,6 +8,8 @@ import {
 } from "../../../utils/constants";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import profi from "../../../assets/pagani.jpg";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
 
 const DashOrderItem = ({
   id,
@@ -21,7 +23,29 @@ const DashOrderItem = ({
   email,
   total,
   dibuat,
+  refresh
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { infoToast, updateToast } = useNotif();
+
+  const deleteType = async () => {
+    setIsLoading(true);
+    infoToast("menghapus data..");
+    try {
+      const delTy = await ApiClient.delete(`order/${id}`);
+      setIsLoading(false);
+      updateToast("Berhasil menghapus data", "success");
+      refresh();
+      return;
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
+
   return (
     <Grow timeout={ind * 100} in={true} unmountOnExit mountOnEnter>
       <Card
@@ -112,6 +136,8 @@ const DashOrderItem = ({
           <Button
             variant="text"
             sx={{ color: "#FF0000", ...LabelStyle, paddingRight: 0 }}
+            disabled={isLoading}
+            onClick={() => deleteType()}
           >
             Delete
           </Button>

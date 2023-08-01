@@ -88,11 +88,11 @@ import {
           sx={{
             display: "flex",
             width: "100%",
-            height: "14vh",
+            height: "150px",
             background: "#fff",
-            padding: "10px 1vw 10px 1vw",
+            padding: "1vw",
             justifyContent: "space-evenly",
-            flexGrow: 0
+            gap: '1vw'
           }}
         >
           <div

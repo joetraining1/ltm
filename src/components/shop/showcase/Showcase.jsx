@@ -82,7 +82,6 @@ const Showcase = () => {
     const product = await ApiClient.get(`showcase/${id}`).then((res) => {
       return res.data;
     });
-    console.log(product)
     setDatas([
       {
         dataValues: {
@@ -111,10 +110,12 @@ const Showcase = () => {
     const reqType = await ApiClient.get("showcase").then((res) => {
       return res.data;
     });
-    setFilters([
-      ...filter,
-      ...reqType.ctgs
-    ])
+    if(filter.length === 1){
+      setFilters([
+        ...filter,
+        ...reqType.ctgs
+      ])
+    }
     setDatas(reqType.dataset);
     setIsLoading(false);
     return;

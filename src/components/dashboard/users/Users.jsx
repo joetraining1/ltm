@@ -17,6 +17,7 @@ import UserCard from "./UserCard";
 import UserForm from "./UserForm";
 import NoData from "../../global/NoData";
 import ApiClient from "../../../services/ApiClient";
+import useNotif from "../../../hooks/useNotif";
 
 const Users = () => {
   const { id } = useParams();
@@ -26,6 +27,10 @@ const Users = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [types, setTypes] = useState([])
+  const [keywords, setKeywords] = useState("");
+
+  const { infoToast, updateToast } = useNotif();
+
 
   const getTypes = async () => {
     setIsLoading(true)
@@ -46,6 +51,36 @@ const Users = () => {
     setIsLoading(false);
     return;
   };
+
+  const sendQ = async () => {
+    setIsLoading(true);
+    infoToast("mencari user..");
+    try {
+      const payload = {
+        keyword: keywords,
+      };
+      const product = await ApiClient.post("user/search", payload).then((res) => {
+        return res.data;
+      });
+      setDatas(product.result);
+      setIsLoading(false);
+      updateToast("Berhasil", "success");
+      return;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      updateToast("Gagal.", "error");
+      return;
+    }
+  };
+
+  useEffect(() => {
+    if(keywords === ""){
+      getType()
+      return
+    }
+    return
+  }, [keywords])
 
   useEffect(() => {
     if (datas.length === 0) {
@@ -145,6 +180,8 @@ const Users = () => {
               width: "100%",
               height: "100%",
             }}
+            value={keywords}
+            onChange={(e) => setKeywords(e.target.value)}
             inputProps={{
               sx: {
                 fontFamily: "Signika Negative, sans-serif",
@@ -155,7 +192,7 @@ const Users = () => {
             placeholder="Temukan user.."
           />
           <Divider orientation="vertical" />
-          <Button variant="text">
+          <Button variant="text" onClick={() => sendQ()}>
             <SearchRoundedIcon />
           </Button>
         </Paper>
@@ -182,7 +219,7 @@ const Users = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 300px))",
               width: detailOn ? "52%" : "100%",
               height:
                 activeDataset?.length < 4

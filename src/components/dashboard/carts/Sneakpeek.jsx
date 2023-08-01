@@ -18,14 +18,57 @@ import {
 } from "../../../utils/constants";
 import Paganini from "../../../assets/pagani.jpg";
 import PeekItem from "./PeekItem";
+import useNotif from "../../../hooks/useNotif";
+import ApiClient from "../../../services/ApiClient";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Sneakpeek = () => {
   const [mode, setMode] = useState(false);
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(5)]);
+  const [datas, setDatas] = useState([]);
+  const [metas, setMetas] = useState({});
   const { id } = useParams();
+  const [states, setStates] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeId, setActiveId] = useState(id);
+
+  const user = useSelector((state) => state.auth.authState);
+  console.log(metas)
 
   const navigate = useNavigate();
+  const { infoToast, updateToast, toastInfo } = useNotif();
+
+  const getType = async () => {
+    setIsLoading(true);
+    const reqType = await ApiClient.get(`cart/quick/${id}`).then((res) => {
+      return res.data;
+    });
+    setMetas(reqType.result.metadata);
+    setDatas(reqType.result.dataset);
+    setIsLoading(false);
+    return;
+  };
+
+  const falseApi = async () => {
+    setActiveId(id);
+    setStates(false);
+    return;
+  };
+
+  id === activeId ? null : falseApi();
+  useEffect(() => {
+    if (user?.type !== "") {
+      if (!states) {
+        getType();
+        setStates(true);
+        return;
+      }
+      return;
+    }
+    return;
+  }, [states]);
+
 
   const handleChangePage = (event, value) => {
     setPageActive(value - 1);
@@ -173,7 +216,7 @@ const Sneakpeek = () => {
             gap: '1vw',
           }}
         >
-          {activeDataset.map((item, index) => {
+          {activeDataset?.map((item, index) => {
             return <PeekItem key={index} ind={index} />;
           })}
         </div>
@@ -184,19 +227,6 @@ const Sneakpeek = () => {
           onChange={handleChangePage}
           sx={{ marginTop: 'auto' }}
         />
-        <Button
-          variant="contained"
-          sx={{
-            fontFamily: "Signika Negative, sans-serif",
-            fontWeight: "600",
-            width: "150px",
-            marginTop: "auto",
-            marginLeft: "auto",
-          }}
-          onClick={() => setMode(!mode)}
-        >
-          {mode ? "cancel" : "edit"}
-        </Button>
       </Card>
     </Grow>
   );

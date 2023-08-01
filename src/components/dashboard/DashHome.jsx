@@ -53,8 +53,7 @@ const DashHome = () => {
           Kelola pesanan, user, keranjang, maupun data administrative.
         </Typography>
       </div>
-      <SideScroll title='Pesanan Baru' to='/dashboard/orders' ItemCard={HomeItem}/>
-      <SideScroll title='User Baru' to='/dashboard/users' ItemCard={UserCard}/>
+     
     </div>
   );
 };

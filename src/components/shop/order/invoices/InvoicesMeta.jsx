@@ -10,7 +10,20 @@ import {
 } from "../../../../utils/constants";
 import { Typography } from "@mui/material";
 
-const InvoicesMeta = ({ id }) => {
+const InvoicesMeta = ({
+  id,
+  dibuat,
+  metode,
+  bank,
+  norek,
+  cp,
+  alamat,
+  variant,
+  unit,
+  amount,
+  shipping,
+  total,
+}) => {
   return (
     <div
       style={{
@@ -32,7 +45,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            14 Juni 2023
+            {dibuat?.slice(0,10)}
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -45,7 +58,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            Bank Transfer
+            {metode}
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -58,7 +71,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            BCA - 3530696790
+            {bank} - {norek}
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -71,14 +84,16 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            081234567890
+            {cp}
           </Typography>
         </div>
-        <div style={{
-          display: 'flex',
-          width: '100%',
-          alignItems: 'start'
-        }}>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "start",
+          }}
+        >
           <div style={MetaStyle2}>
             <Typography variant="body" sx={LabelStyle2}>
               Alamat Penerima
@@ -88,7 +103,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            Jl. Suyudono Selatan, Tebet, Jakarta Utara, Jakarta
+            {alamat}
           </Typography>
         </div>
       </div>
@@ -103,7 +118,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            2 produk
+            {variant ? variant : 0} produk
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -116,7 +131,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            5 produk
+            {unit ? unit : 0} produk
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -129,7 +144,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            Rp 35,000
+            Rp {amount ? amount : 0},000
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -142,7 +157,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="body" sx={MetaValue}>
-            Rp 18,000
+            Rp {shipping ? shipping : 0},000
           </Typography>
         </div>
         <div style={MetaStyle3}>
@@ -155,7 +170,7 @@ const InvoicesMeta = ({ id }) => {
             </Typography>
           </div>
           <Typography variant="h6" sx={MetaValue}>
-            Rp 53,000
+            Rp {total ? total : 0},000
           </Typography>
         </div>
       </div>

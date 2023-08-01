@@ -128,9 +128,9 @@ const UserForm = ({
       onClose();
       return;
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       setIsLoading(false);
-      updateToast("Gagal.", "error");
+      updateToast(error.response.data.msg, "error");
       return;
     }
   };

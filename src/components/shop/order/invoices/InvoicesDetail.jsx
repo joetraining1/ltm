@@ -5,7 +5,7 @@ import resi1 from "../../../../assets/resi1.png";
 import { LabelStyle2 } from "../../../../utils/constants";
 import { Button, Modal, Typography } from "@mui/material";
 
-const InvoicesDetail = () => {
+const InvoicesDetail = ({ proof, ship }) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
@@ -21,8 +21,8 @@ const InvoicesDetail = () => {
         gap: "1vw",
       }}
     >
-      <PhotoViewer picurl={proof1} title="Bukti Pembayaran" />
-      <PhotoViewer picurl={resi1} title="Resi Pengiriman" />
+      <PhotoViewer picurl={proof} title="Bukti Pembayaran" />
+      <PhotoViewer picurl={ship} title="Resi Pengiriman" />
     </div>
   );
 };
