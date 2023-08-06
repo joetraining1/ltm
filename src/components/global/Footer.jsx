@@ -1,13 +1,13 @@
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import BGmilk from "../../assets/cows4.png";
 import { Logo } from "../../utils/constants";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import GoogleIcon from '@mui/icons-material/Google';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import GoogleIcon from "@mui/icons-material/Google";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 const Footer = () => {
   const HeadingStyle = {
@@ -201,8 +201,7 @@ const Footer = () => {
                   textShadow: "1px 1px 1px #000000",
                 }}
               >
-                Dukuh Getakrejo RT 04/RW 02 Desa Sukorejo, Kecamatan
-                Musuk,
+                Dukuh Getakrejo RT 04/RW 02 Desa Sukorejo, Kecamatan Musuk,
                 Kabupaten Boyolali
               </Typography>
             </div>
@@ -235,7 +234,7 @@ const Footer = () => {
                 flexDirection: "column",
                 gap: "10px",
                 padding: "1vw 0",
-                alignItems: 'center'
+                alignItems: "center",
               }}
             >
               <Typography
@@ -249,17 +248,39 @@ const Footer = () => {
               >
                 Follow Us On :
               </Typography>
-              <div style={{
-                display: "flex",
-                width: "50%",
-                height: "auto",
-                justifyContent: "center",
-                alignItems: "center",
-              }}>
-                <FacebookIcon style={{ color: '#fff', width: '100%' }}/>
-                <InstagramIcon style={{ color: '#fff',  width: '100%' }}/>
-                <GoogleIcon style={{ color: '#fff',  width: '100%'}}/>
-                <LinkedInIcon style={{ color: '#fff',  width: '100%'}}/>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "auto",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton
+                  aria-label="Facebook.com"
+                  onClick={() => window.open("https://www.facebook.com")}
+                >
+                  <FacebookIcon style={{ color: "#fff", width: "100%" }} />
+                </IconButton>
+                <IconButton
+                  aria-label="Instagram.com"
+                  onClick={() => window.open("https://www.instagram.com")}
+                >
+                  <InstagramIcon style={{ color: "#fff", width: "100%" }} />
+                </IconButton>
+                <IconButton
+                  aria-label="Google.com"
+                  onClick={() => window.open("https://www.google.com")}
+                >
+                  <GoogleIcon style={{ color: "#fff", width: "100%" }} />
+                </IconButton>
+                <IconButton
+                  aria-label="Linkedin.com"
+                  onClick={() => window.open("https://www.linkedin.com")}
+                >
+                  <LinkedInIcon style={{ color: "#fff", width: "100%" }} />
+                </IconButton>
               </div>
             </div>
           </div>

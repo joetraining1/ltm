@@ -53,6 +53,9 @@ const OrderForm = ({ onClose }) => {
   const [datas, setDatas] = useState([...Array(7)]);
 
   const handleChangePage = (event, value) => {
+    // make an array to fill with product data
+    // make an object to fill with metadata form
+
     setPageActive(value - 1);
   };
 

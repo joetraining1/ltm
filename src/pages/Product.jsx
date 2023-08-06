@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BGmilk from "../assets/cows4.png";
-import { Card, Typography } from "@mui/material";
+import { Button, Card, Typography } from "@mui/material";
 import Ivy from "../assets/ivy3.png";
 import { LabelStyle, LabelStyle2, PaymentItem } from "../utils/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,12 +9,20 @@ import Bottle from "../assets/milk2.png";
 import ProductSwiper from "../components/product/ProductSwiper";
 import { useEffect } from "react";
 import ApiClient from "../services/ApiClient";
+import useNotif from "../hooks/useNotif";
 
 const Product = () => {
   const [slides, setSlides] = useState(Array.from({ length: 5 }));
   const [datas, setDatas] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
+  const { toastSuccess } = useNotif()
+
+  const testApi = async() => {
+    const drive = await ApiClient.get("/").then((res) => res.data.message)
+    toastSuccess(drive)
+    return 
+  }
 
   const getType = async () => {
     setIsLoading(true);
@@ -77,6 +85,7 @@ const Product = () => {
             Marino's Products
           </Typography>
         </div>
+        <Button variant="contained" onClick={() => testApi()}>Click me to connect to api</Button>
         {datas.length === 0
           ? null
           : datas.map((item, index) => {
