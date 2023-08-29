@@ -133,7 +133,7 @@ const CartItem = ({ ind, price, url, id, amounts, qtys, produk, refresh }) => {
             justifyContent: "center",
           }}
         >
-          <img src={url} style={{ objectFit: "cover", width: "100%" }} />
+          <img src={url} style={{ objectFit: "cover", width: "70%" }} />
         </div>
         <Divider orientation="vertical" />
         <div
@@ -217,7 +217,7 @@ const CartItem = ({ ind, price, url, id, amounts, qtys, produk, refresh }) => {
               }}
               inputProps={{
                 sx: {
-                  "text-align": "center",
+                  textAlign: "center",
                 },
               }}
               value={qty}

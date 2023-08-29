@@ -79,10 +79,10 @@ const BankGridDisplayer = ({ judul, datasets, accounts, refresh, bankList }) => 
           padding: "1vw",
           height:
             activeDataset?.length < 4
-              ? "41svh"
+              ? "40svh"
               : activeDataset?.length < 7
-              ? "75svh"
-              : "100svh",
+              ? "80svh"
+              : "105svh",
         }}
       >
         {activeDataset?.map((item, index) => {

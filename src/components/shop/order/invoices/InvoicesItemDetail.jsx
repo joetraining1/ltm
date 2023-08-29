@@ -58,7 +58,7 @@ const InvoiceItemDetail = ({
             src={`${url}`}
             style={{
               objectFit: "cover",
-              width: "90%",
+              width: "50%",
             }}
           />
         </div>

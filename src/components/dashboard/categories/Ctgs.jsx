@@ -136,10 +136,10 @@ const Ctgs = () => {
           padding: "1vw",
           height:
             activeDataset?.length < 4
-              ? "24svh"
+              ? "28svh"
               : activeDataset?.length < 7
               ? "54svh"
-              : "68svh",
+              : "72svh",
         }}
       >
         {activeDataset?.map((item, index) => {

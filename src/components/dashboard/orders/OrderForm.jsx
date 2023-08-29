@@ -30,32 +30,63 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FmdGoodRoundedIcon from "@mui/icons-material/FmdGoodRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
-import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import PendingRoundedIcon from "@mui/icons-material/PendingRounded";
-import AtmRoundedIcon from "@mui/icons-material/AtmRounded";
-import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
-import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import SearchPopUser from "./OrderForm/SearchPopUser";
+import ProductSelection from "./OrderForm/ProductSelection";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import ApiClient from "../../../services/ApiClient";
+import StatusSelection from "./OrderForm/StatusSelection";
+import PaySelection from "./OrderForm/PaySelection";
+import NorekSelection from "./OrderForm/NorekSelection";
+import { addShipping } from "../../../redux/slices/adminOFSlice";
+import FormData from "form-data";
+import useNotif from "../../../hooks/useNotif";
 
-const OrderForm = ({ onClose }) => {
+const OrderForm = ({ onClose, refresh }) => {
+  const user = useSelector((state) => state.auth.authState);
+  const metas = useSelector((state) => state.aof.metadata);
+  const datasets = useSelector((state) => state.aof.dataset);
+  const stringShip = metas.shipping.toString()
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState({});
   const [userLogin, setUserLogin] = useState({
     type: "admin",
   });
   const [proofing, setProofing] = useState("");
+  const [proofImg, setProofImg] = useState("");
   const [shipments, setShipments] = useState("");
+  const [shipImg, setShipImg] = useState("");
   const [pageActive, setPageActive] = useState(0);
-  const [datas, setDatas] = useState([...Array(7)]);
+  // const [datas, setDatas] = useState([...Array(7)]);
+  const [scp, setScp] = useState("");
+  const [addr, setAddr] = useState("");
+  const [sname, setSname] = useState("");
+  const [snote, setSnote] = useState("");
+  const [shipping, setShipping] = useState(metas.shipping ? stringShip.concat('000') : "0");
+
+  const dispatch = useDispatch();
+  const { infoToast, updateToast } = useNotif()
+
+  console.log(metas);
+
+  // note to do tomorrow : async for type, norek, status, and product selection
+  // mutate redux metadata value
+  // mutate redux dataset value
+  // call the data and send to backend for process
+  // post body structure metadata, dataset, ship, proof
+
+  // useEffect(() => {
+  //     dispatch(addAddr(addr))
+  //   return;
+  // }, [addr]);
+
+  // post request should be here
+  // before making request should extract redux metadata and dataset
 
   const handleChangePage = (event, value) => {
-    // make an array to fill with product data
-    // make an object to fill with metadata form
-
     setPageActive(value - 1);
   };
 
@@ -79,16 +110,33 @@ const OrderForm = ({ onClose }) => {
     return SortedArr;
   };
 
-  const Hero = MultiArray(datas, 5);
+  // const Hero = MultiArray(datas, 5);
 
   let activeDataset;
 
-  const HeroItem = Hero.map((item, index) => {
-    if (pageActive === index) {
-      return (activeDataset = item.dataset);
+  const handleShipping = (qty) => {
+    if (qty === undefined || qty === null || qty === "") {
+      dispatch(addShipping(0));
+      return setShipping(qty);
     }
-    return null;
-  });
+    if(qty.length > 3){
+      const shipfee = qty.slice(0, -3)
+      const shippings = parseInt(shipfee);
+      dispatch(addShipping(shippings));
+      setShipping(qty);
+      return
+    }
+    dispatch(addShipping(0));
+    setShipping(qty);
+    return;
+  };
+
+  // const HeroItem = Hero.map((item, index) => {
+  //   if (pageActive === index) {
+  //     return (activeDataset = item.dataset);
+  //   }
+  //   return null;
+  // });
 
   const itemMap = TypeItem.map((i, ind) => {
     if (userLogin.type !== "admin") {
@@ -107,7 +155,6 @@ const OrderForm = ({ onClose }) => {
   };
 
   const FileExtractor = (submitted, type) => {
-    console.log(type);
     if (submitted) {
       if (submitted.size > 2000000) {
         return toastError("Ukuran file melebihi batas.");
@@ -118,18 +165,67 @@ const OrderForm = ({ onClose }) => {
         const fileName = name.substring(0, 10).concat("...");
         const ext = name.substring(lastExt + 1);
         if (type === "proofing") {
+          setProofImg(submitted)
           setProofing(fileName.concat(ext));
           return;
         }
+        setShipImg(submitted)
         return setShipments(fileName.concat(ext));
       }
       if (type === "proofing") {
+        setProofImg(submitted)
         setProofing(submitted?.name);
         return;
       }
+      setShipImg(submitted)
       return setShipments(submitted?.name);
     }
     return null;
+  };
+
+  const checkout = async () => {
+    infoToast("menambahkan pesanan..");
+    setIsLoading(true);
+    try {
+      const FormPayload = new FormData();
+      const payload = {
+        user_id: metas.user_id,
+        status_id: metas.status_id,
+        payment_id: metas.payment_id,
+        account_id: metas.account_id,
+        name: sname,
+        cp: scp,
+        address: addr,
+        note: snote,
+        variant: metas.variant,
+        unit: metas.unit,
+        amount: metas.amount,
+        shipping: metas.shipping,
+        total: metas.total,
+      }
+      FormPayload.append("metadata", JSON.stringify(payload))
+      FormPayload.append("dataset", JSON.stringify(datasets))
+      if(shipImg !== ""){
+        FormPayload.append("ship", shipImg);
+      }
+      if(proofImg !== ""){
+        FormPayload.append("proof", proofImg);
+      }
+      const checkout = await ApiClient.post(`order`, FormPayload).then(
+        (res) => {
+          return res.data;
+        }
+      );
+      setIsLoading(false);
+      updateToast("Berhasil.", "success");
+      refresh()
+      onClose()
+      return;
+    } catch (error) {
+      updateToast("Gagal.", "error");
+      setIsLoading(false);
+      return;
+    }
   };
 
   return (
@@ -154,178 +250,7 @@ const OrderForm = ({ onClose }) => {
           placeItems: "start",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "center",
-            gap: "10px",
-            height: "100%",
-          }}
-        >
-          <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <AddBoxOutlinedIcon sx={{ color: colorHex.iconColor }} />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="Pilih product"
-              sx={{
-                width: "100%",
-                minHeight: "5px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              size="small"
-              select
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  lineHeight: 0,
-                  marginTop: "1%",
-                  ...LabelStyle,
-                },
-              }}
-              defaultValue="Susu Pasteurisasi"
-              SelectProps={{
-                MenuProps: {
-                  sx: {
-                    "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                      height: TypeItem.length < 4 ? "auto" : "150px",
-                    },
-                  },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
-                  },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                  paddingBottom: 0,
-                },
-              }}
-            >
-              {CategoryItem.map((item, index) => {
-                return (
-                  <MenuItem key={item.id} value={item.title} sx={H5style}>
-                    {item.title}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          </Paper>
-          {activeDataset.map((item, index) => {
-            return (
-              <Paper
-                key={index}
-                sx={{
-                  width: "100%",
-                  height: "6svh",
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "0.75em 1vw",
-                }}
-              >
-                <Typography variant="body" sx={{ ...LabelStyle }}>
-                  Stawberry Variant
-                </Typography>
-                <Divider
-                  orientation="vertical"
-                  sx={{
-                    margin: "0 10px 0 auto",
-                  }}
-                />
-                <TextField
-                  type="number"
-                  label="jumlah.."
-                  sx={{
-                    width: "30%",
-                    minHeight: "5px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                  size="small"
-                  InputLabelProps={{
-                    sx: {
-                      ...LabelStyle,
-                      top: "10%",
-                      fontSize: "0.95em",
-                    },
-                  }}
-                  InputProps={{
-                    sx: {
-                      "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                        border: "none",
-                        outline: "none",
-                      },
-                      "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-                        {
-                          display: "none",
-                        },
-                    },
-                  }}
-                  inputProps={{
-                    sx: {
-                      ...H5style,
-                      padding: "1% auto",
-                      "text-align": "center",
-                    },
-                  }}
-                  helperText={errorMsg?.msg}
-                  FormHelperTextProps={{
-                    sx: {
-                      color: "#ff0000",
-                      opacity: "0.8",
-                      fontSize: "0.7em",
-                      marginTop: 0,
-                      lineHeight: 0,
-                      ...LabelStyle,
-                    },
-                  }}
-                />
-              </Paper>
-            );
-          })}
-          {datas.length < 6 ? null : (
-            <Pagination
-              count={Hero.length}
-              sx={{
-                marginTop: "auto",
-              }}
-              page={pageActive + 1}
-              renderItem={(item) => <PaginationItem sx={H5style} {...item} />}
-              onChange={handleChangePage}
-            />
-          )}
-        </div>
+        <ProductSelection />
         <div
           style={{
             display: "flex",
@@ -335,168 +260,8 @@ const OrderForm = ({ onClose }) => {
             gap: "10px",
           }}
         >
-          <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <HelpOutlineRoundedIcon sx={{ color: colorHex.iconColor }} />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="Pilih status pesanan"
-              sx={{
-                width: "100%",
-                minHeight: "5px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              size="small"
-              select
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  lineHeight: 0,
-                  marginTop: "1%",
-                  ...LabelStyle,
-                },
-              }}
-              defaultValue="ON PROSES"
-              SelectProps={{
-                MenuProps: {
-                  sx: {
-                    "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                      height: TypeItem.length < 4 ? "auto" : "150px",
-                    },
-                  },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
-                  },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                  paddingBottom: 0,
-                },
-              }}
-            >
-              {StatusPesanan.map((item, index) => {
-                return (
-                  <MenuItem key={item.id} value={item.title} sx={H5style}>
-                    {item.title}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          </Paper>
-          <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <PersonAddAltRoundedIcon sx={{ color: colorHex.iconColor }} />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="Cari user.."
-              sx={{
-                width: "100%",
-                minHeight: "5px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              size="small"
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  lineHeight: 0,
-                  marginTop: "1%",
-                  ...LabelStyle,
-                },
-              }}
-              SelectProps={{
-                MenuProps: {
-                  sx: {
-                    "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                      height: TypeItem.length < 4 ? "auto" : "150px",
-                    },
-                  },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
-                  },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                },
-              }}
-            />
-            <Divider
-              orientation="vertical"
-              sx={{
-                marginLeft: "1vw",
-              }}
-            />
-            <Button
-              variant="text"
-              sx={{ minWidth: "10px", marginLeft: "20px" }}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <PendingRoundedIcon />
-              ) : (
-                <SearchRoundedIcon sx={{ color: colorHex.iconColor }} />
-              )}
-            </Button>
-          </Paper>
+          <StatusSelection />
+          <SearchPopUser />
           <Paper
             sx={{
               width: "100%",
@@ -515,6 +280,8 @@ const OrderForm = ({ onClose }) => {
             />
             <TextField
               label="nama penerima.."
+              value={sname}
+              onChange={(e) => setSname(e.target.value)}
               sx={{
                 width: "100%",
                 minHeight: "5px",
@@ -579,6 +346,8 @@ const OrderForm = ({ onClose }) => {
             <TextField
               type="number"
               label="nomor penerima.."
+              value={scp}
+              onChange={(e) => setScp(e.target.value)}
               sx={{
                 width: "100%",
                 minHeight: "5px",
@@ -644,6 +413,8 @@ const OrderForm = ({ onClose }) => {
               multiline
               minRows={3}
               maxRows={3}
+              value={addr}
+              onChange={(e) => setAddr(e.target.value)}
               label="alamat.."
               sx={{
                 width: "100%",
@@ -710,6 +481,8 @@ const OrderForm = ({ onClose }) => {
               multiline
               minRows={3}
               maxRows={3}
+              value={snote}
+              onChange={(e) => setSnote(e.target.value)}
               label="catatan.."
               sx={{
                 width: "100%",
@@ -767,164 +540,8 @@ const OrderForm = ({ onClose }) => {
             height: "100%",
           }}
         >
-          <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <AtmRoundedIcon sx={{ color: colorHex.iconColor }} />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="Metode Pembayaran"
-              sx={{
-                width: "100%",
-                minHeight: "5px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              size="small"
-              select
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  lineHeight: 0,
-                  marginTop: "1%",
-                  ...LabelStyle,
-                },
-              }}
-              defaultValue="Transfer Bank"
-              SelectProps={{
-                MenuProps: {
-                  sx: {
-                    "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                      height: TypeItem.length < 4 ? "auto" : "150px",
-                    },
-                  },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
-                  },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                  paddingBottom: 0,
-                },
-              }}
-            >
-              {PaymentItem.map((item, index) => {
-                return (
-                  <MenuItem key={item.id} value={item.title} sx={H5style}>
-                    {item.title}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          </Paper>
-          <Paper
-            sx={{
-              width: "100%",
-              height: "6svh",
-              display: "flex",
-              alignItems: "center",
-              padding: "0.75em 1vw",
-            }}
-          >
-            <AccountBalanceWalletRoundedIcon
-              sx={{ color: colorHex.iconColor }}
-            />
-            <Divider
-              orientation="vertical"
-              sx={{
-                margin: "0 0.3vw 0 1vw",
-              }}
-            />
-            <TextField
-              label="Tujuan pembayaran"
-              sx={{
-                width: "100%",
-                minHeight: "5px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              size="small"
-              select
-              InputLabelProps={{
-                sx: {
-                  ...LabelStyle,
-                  top: "10%",
-                  fontSize: "0.95em",
-                },
-              }}
-              helperText={errorMsg?.msg}
-              FormHelperTextProps={{
-                sx: {
-                  color: "#ff0000",
-                  opacity: "0.8",
-                  fontSize: "0.7em",
-                  lineHeight: 0,
-                  marginTop: "1%",
-                  ...LabelStyle,
-                },
-              }}
-              defaultValue="BCA - 3530696790"
-              SelectProps={{
-                MenuProps: {
-                  sx: {
-                    "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-                      height: TypeItem.length < 4 ? "auto" : "150px",
-                    },
-                  },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                    outline: "none",
-                  },
-                },
-              }}
-              inputProps={{
-                sx: {
-                  ...H5style,
-                  paddingBottom: 0,
-                },
-              }}
-            >
-              {NoRek.map((item, index) => {
-                return (
-                  <MenuItem key={item.id} value={item.value} sx={H5style}>
-                    {item.value}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          </Paper>
+          <PaySelection />
+          <NorekSelection />
           <Paper
             sx={{
               width: "100%",
@@ -1051,6 +668,8 @@ const OrderForm = ({ onClose }) => {
             />
             <TextField
               type="number"
+              value={shipping}
+              onChange={(e) => handleShipping(e.target.value)}
               label="biaya pengiriman.."
               sx={{
                 width: "100%",
@@ -1114,7 +733,7 @@ const OrderForm = ({ onClose }) => {
               variant="h5"
               sx={{ width: "100%", ...H5style, textAlign: "right" }}
             >
-              Rp. 53,000
+              Rp. {metas.total},000
             </Typography>
           </div>
         </div>
@@ -1135,7 +754,7 @@ const OrderForm = ({ onClose }) => {
         >
           cancel
         </Button>
-        <Button variant="contained" sx={LabelStyle}>
+        <Button variant="contained" sx={LabelStyle} onClick={() => checkout()}>
           simpan
         </Button>
       </div>

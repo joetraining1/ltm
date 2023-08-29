@@ -208,7 +208,7 @@ const Carts = () => {
           ? "24svh"
           : activeDataset?.length < 7
           ? "54svh"
-          : "68svh",
+          : "75svh",
           gap: "1vw",
           transition: "height 0.4s ease-in-out",
         }}
@@ -224,7 +224,7 @@ const Carts = () => {
               ? "24svh"
               : activeDataset?.length < 7
               ? "54svh"
-              : "68svh",
+              : "75svh",
             gap: "1vw",
             overflow: "auto",
             alignContent: "start",

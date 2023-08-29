@@ -33,9 +33,9 @@ const Cart = ({ mode }) => {
   const [metas, setMetas] = useState({});
 
   const user = useSelector((state) => state.auth.authState);
-  const { infoToast, updateToast} = useNotif()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const { infoToast, updateToast } = useNotif();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const checkout = async () => {
     infoToast("mengirimkan pesanan..");
@@ -73,7 +73,7 @@ const Cart = ({ mode }) => {
   };
 
   useEffect(() => {
-    if (isOpen !== isOpen) {
+    if (user.type !== "") {
       getType();
       return;
     }
@@ -81,13 +81,23 @@ const Cart = ({ mode }) => {
   }, [isOpen]);
 
   const handleOpen = () => {
-    getType();
+    if (user.type !== "") {
+      setIsOpen(!isOpen);
+
+      getType();
+      return;
+    }
     setIsOpen(!isOpen);
     return;
   };
 
   const handleClose = () => {
-    getType();
+    if (user.type !== "") {
+      setIsOpen(!isOpen);
+
+      getType();
+      return;
+    }
     return setIsOpen(!isOpen);
   };
 
@@ -183,8 +193,10 @@ const Cart = ({ mode }) => {
           }}
         >
           {user?.type === "" ? (
-            <Typography variant="h6" sx={{...H5style, textAlign: 'center'}}>Silahkan login terlebih dahulu.</Typography>
-          ) : (datas?.length === 0 ? (
+            <Typography variant="h6" sx={{ ...H5style, textAlign: "center" }}>
+              Silahkan login terlebih dahulu.
+            </Typography>
+          ) : datas?.length === 0 ? (
             <NoData prop={"produk di keranjangmu."} />
           ) : (
             activeDataset?.map((item, index) => {
@@ -202,7 +214,7 @@ const Cart = ({ mode }) => {
                 />
               );
             })
-          ))}
+          )}
         </div>
         <Pagination
           count={Hero.length}

@@ -82,7 +82,7 @@ const About = () => {
           murni.
           <br />
           Kami memiliki visi untuk dapat menyediakan produk berkualitas dan gizi
-          yang dapat dan lebih dari olahan susu sapi perah ke masyarakat
+          yang dapat diberikan dari olahan susu sapi perah ke masyarakat
           Indonesia.
           <br />
         </Typography>

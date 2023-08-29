@@ -10,24 +10,33 @@ import { login } from "../../redux/slices/authSlice";
 
 const MainLayout = () => {
   const rToken = Cookies.get("refreshToken");
+  const aToken = Cookies.get("accessToken");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.authState)
   const navigate = useNavigate()
 
   const getRtoken = async() =>{
     if(rToken){
+      console.log(rToken)
+      axios.defaults.withCredentials = true;
       const tryLog = await axios.get('http://localhost:3030/newAccess', {
         withCredentials: true,
+        // headers: {
+        //   Cookie: `refreshToken=${rToken}; accessToken=${aToken}`
+        // }
       }).then((res) => {
         return res.data?.access_token
       })
+      console.log(tryLog)
       Cookies.set("accessToken", tryLog);
 
       // comeback scene
-      const acToken = Cookies.get("accessToken");
-      if(acToken){
-        const userRefresh = await ApiClient.get('user/me', {
+      if(tryLog){
+        const userRefresh = await axios.get('http://localhost:3030/user/me', {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${tryLog}`
+          }
         }).then((res) => {
           return res.data
         }).catch((err) => console.log(err))

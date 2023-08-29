@@ -235,23 +235,21 @@ const DashOrders = () => {
             })}
           </TextField>
         </Paper>
-      {  
-        // <Button
-        //   variant="contained"
-        //   sx={{
-        //     width: "12vw",
-        //     height: "53px",
-        //     fontFamily: "Signika Negative, sans-serif",
-        //     alignItems: "center",
-        //     display: "flex",
-        //     justifyContent: "space-between",
-        //   }}
-        //   onClick={() => handleOpen()}
-        // >
-        //   <PlusOneRoundedIcon />
-        //   Tambah Pesanan
-        // </Button>
-      }
+        <Button
+          variant="contained"
+          sx={{
+            width: "12vw",
+            height: "53px",
+            fontFamily: "Signika Negative, sans-serif",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+          onClick={() => handleOpen()}
+        >
+          <PlusOneRoundedIcon />
+          Tambah Pesanan
+        </Button>
       </div>
       <div
         style={{
@@ -287,7 +285,7 @@ const DashOrders = () => {
                   ? "24svh"
                   : activeDataset?.length < 7
                   ? "46svh"
-                  : "70svh",
+                  : "75svh",
                 gap: "1vw",
                 overflow: "auto",
                 alignContent: "start",
@@ -376,7 +374,7 @@ const DashOrders = () => {
             gap: "0.5vw",
           }}
         >
-          <OrderForm onClose={() => handleClose()} />
+          <OrderForm onClose={() => handleClose()} refresh={() => getType()}/>
         </Paper>
       </Modal>
     </div>

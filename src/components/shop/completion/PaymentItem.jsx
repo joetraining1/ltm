@@ -41,7 +41,7 @@ const PaymentItem = ({ ind, kategori, url, produk, price, unit, amount }) => {
           src={`${url}`}
           style={{
             objectFit: "cover",
-            width: "30%",
+            width: "18%",
           }}
         />
         <div

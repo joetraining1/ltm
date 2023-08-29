@@ -81,7 +81,8 @@ const ProductSwiper = ({ titleCtg, dataset, ctgId }) => {
                     <img
                       src={item.url}
                       style={{
-                        width: "70%",
+                        width: "60%",
+                        objectFit: 'contain'
                       }}
                     />
                   </div>

@@ -85,7 +85,9 @@ const Product = () => {
             Marino's Products
           </Typography>
         </div>
-        <Button variant="contained" onClick={() => testApi()}>Click me to connect to api</Button>
+        {
+          // <Button variant="contained" onClick={() => testApi()}>Click me to connect to api</Button>
+        }
         {datas.length === 0
           ? null
           : datas.map((item, index) => {

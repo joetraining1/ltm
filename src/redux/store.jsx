@@ -3,6 +3,7 @@ import itemReducer from './slices/ItemSlice';
 import authReducer from './slices/authSlice'
 import showcaseReducer from './slices/ShowSlice'
 import ofReducer from './slices/orderFormSlice'
+import aofReducer from './slices/adminOFSlice'
 
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
         item: itemReducer,
         auth: authReducer,
         showcase: showcaseReducer,
-        of: ofReducer
+        of: ofReducer,
+        aof: aofReducer
     }
 });

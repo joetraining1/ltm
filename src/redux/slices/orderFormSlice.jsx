@@ -5,11 +5,11 @@ const initialState = {
 };
 
 export const ofSlice = createSlice({
-  name: "auth",
+  name: "of",
   initialState,
   reducers: {
     co: (state, action) => {
-      state.value = action.payload
+      state.value = action.payload;
     },
     logout: (state, action) => {
       state.authState = action.payload;

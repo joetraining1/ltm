@@ -75,7 +75,6 @@ const InvoicesItem = ({ dataset }) => {
         }}
       >
         {activeDataset?.map((item, index) => {
-          console.log(item);
           return (
             <InvoiceItemDetail
               key={index}

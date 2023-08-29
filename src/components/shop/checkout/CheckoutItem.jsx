@@ -146,7 +146,7 @@ const CheckoutItem = ({
       >
         <img
           src={`${url}`}
-          style={{ objectFit: "cover", width: "25%", height: "100%" }}
+          style={{ objectFit: "cover", width: "20%", height: "100%" }}
         />
         <div
           style={{

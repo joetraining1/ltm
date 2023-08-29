@@ -21,6 +21,7 @@ const Completion = () => {
 
   const user = useSelector((state) => state.auth.authState);
   const co = useSelector((state) => state.of.value);
+  console.log(co)
 
   const getType = async () => {
     setIsLoading(true);
